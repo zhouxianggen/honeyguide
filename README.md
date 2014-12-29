@@ -96,3 +96,10 @@
 4. 连接开发者提供的服务器在收到连接请求后提供用户连接界面
 		请求包括发布者信息，用户信息
 5. 连接开发者提供的服务器收到的各种请求统计（发布请求，放弃请求，连接请求）以平台统计为标准，这些统计将展现给用户并用于计费
+
+
+## 参考
++ [tornado template](https://github.com/tornadoweb/tornado/blob/master/tornado/template.py)
+### HTML5
++ [tutorial](http://www.html-5-tutorial.com/nav-element.htm)
++ [table](http://colintoh.com/blog/display-table-anti-hero)
