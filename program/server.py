@@ -12,50 +12,54 @@ import tornado.web
 import tornado.template
 
 
-class EntryModule(tornado.web.UIModule):
-    def render(self, entry):
-        return self.render_string("modules/entry.html", entry=entry)
-
-
 class Application(tornado.web.Application):
-    def __init__(self, cfg):
-        self.cfg = cfg
-        handlers = [
-            (r"/", MainHandler),
-            (r"/category/edit", CategoryEditHandler),
-        ]
-        settings = dict(
-            site_title=u"神马APP数据平台",
-            template_path=os.path.join(os.path.dirname(__file__), "templates"),
-            static_path=os.path.join(os.path.dirname(__file__), "static"),
-            ui_modules={"Entry": EntryModule},
-            xsrf_cookies=True,
-            cookie_secret="__SHENMA_APP_PLATFORM__",
-            login_url="/login",
-            debug=True,
-        )
-        tornado.web.Application.__init__(self, handlers, **settings)
+	def __init__(self, cfg):
+		handlers = [
+			(r"/", MainPageHandler),
+			#(r"/login", LoginHandler),
+			(r"/taste/view_card", TasteViewCardHandler),
+		]
+		settings = dict(
+			cfg = cfg,
+			template_path=os.path.join(os.path.dirname(__file__), "templates"),
+			static_path=os.path.join(os.path.dirname(__file__), "static"),
+			#login_url="/login",
+			debug=True,
+		)
+		tornado.web.Application.__init__(self, handlers, **settings)
 
 
-class MainHandler(tornado.web.RequestHandler):
-    def get(self):
-        self.write("hello")
+class MainPageHandler(tornado.web.RequestHandler):
+	def get(self):
+		self.write("MainPageHandler")
+		self.write(self.application.settings['cfg'])
 
 
-class CategoryEditHandler(tornado.web.RequestHandler):
-    @tornado.web.authenticated
-    def get(self):
-        self.post()
+class LoginHandler(tornado.web.RequestHandler):
+	def get(self):
+		self.redirect(self.get_argument("next", "/"))
 
-    @tornado.web.authenticated
-    def post(self):
-        id = self.get_argument("id", "0")
-        self.render("category/edit.html", id=id)
+		
+class TasteViewCardHandler(tornado.web.RequestHandler):
+	#@tornado.web.authenticated
+	def get(self):
+		self.post()
+
+	#@tornado.web.authenticated
+	def post(self):
+		self.write("TasteViewCardHandler")
+		comb_id = self.get_argument("comb_id", "")
+		share_id = self.get_argument("share_id", "")
+		sort_by = self.get_argument("sort_by", "default")
+		
+		cfg = self.application.settings['cfg']
+		comb = get_comb(cfg, comb_id)
+		shares = get_shares(cfg, comb_id)
+		self.render("taste_view_card.html")
 
 
 if __name__ == "__main__":
-    cfg = sys.argv[1]
-    server = tornado.httpserver.HTTPServer(Application(cfg))
-    server.listen(8890)
-    tornado.ioloop.IOLoop.instance().start()
-
+	cfg = sys.argv[1]
+	server = tornado.httpserver.HTTPServer(Application(cfg))
+	server.listen(8890)
+	tornado.ioloop.IOLoop.instance().start()

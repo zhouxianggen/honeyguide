@@ -54,7 +54,8 @@
 | id | `分享`ID |
 | sharer_id | `分享者`ID |
 | comb_id | `蜂窝`ID |
-| desc_id | `描述`ID |
+| date | 日期 |
+| position | 位置 |
 | likes | 被赞的次数 |
 | daily_refer_count | 最近一天参考人数 |
 | weekly_refer_count | 最近一周参考人数 |
@@ -65,9 +66,9 @@
 | Property | Desc |
 |:-------------|:-------------|
 | id | `描述`ID |
+| share_id | `分享`ID |
+| type | 类型（图片，视频等） |
 | content | `描述`的内容 |
-| date | 发生日期 |
-| position | 发生位置 |
 
 
 [example](D:/honeyguide/pic/desc_example.jpg)
@@ -97,6 +98,15 @@
 		请求包括发布者信息，用户信息
 5. 连接开发者提供的服务器收到的各种请求统计（发布请求，放弃请求，连接请求）以平台统计为标准，这些统计将展现给用户并用于计费
 
+### 请求浏览comb信息
+请求参数
++ comb_id
++ share_id
++ rank_style
++ client_info
+
+返回数据
++ 
 
 ## 参考
 

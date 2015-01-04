@@ -3,7 +3,9 @@
 	<head>
 		<title>title</title>
 		<meta charset="utf-8">
-		<link rel="stylesheet" type="text/css" href="{{ static_url("css/taste_view_card.css") }}" />
+		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+		<link rel="stylesheet" type="text/css" href="css/taste_view_card.css" />
+		<script src="js/taste_view_card.js"></script>
 	</head>
 	<body>
 		<div class="card" style="width: 400px; height: 640px;">
@@ -18,14 +20,18 @@
 			
 			<div class="share_gallary">
 				<div class="gallary_overview">
-					gallary overview
+					gallary
 				</div>
+				<script>
+				</script>
 				<div class="focus_share">
-					focus share
+					<canvas id="focus_share_canvas_1" class="focus_share_canvas" width="584" height="796">
+					</canvas>
 				</div>
 			</div>
 			
 			<div class="links">links</div>
 		</div>
+		<script>on_focus_share_load("img/veromoda.jpg")</script>
 	</body>
 </html>
