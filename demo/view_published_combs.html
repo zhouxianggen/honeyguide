@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>title</title>
+		<meta charset="utf-8">
+		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+		<link rel="stylesheet" type="text/css" href="css/view_published_combs.css" />
+		<script src="js/view_published_combs.js"></script>
+	</head>
+	<script>
+		combs = {["id":"comb1", "title":"VEROMODA", "position":"网络上", \
+			"linkers":[ \
+				{"id":"linker1", "title":"电话", "icon":"img/call1.jpg", "fee":0.1, "taste_count":15} \
+			], \
+			"share_count":10, "view_count":150 \
+		};
+	</script>
+	<body>
+		<div id="card" style="width: 400px; height: 640px;">
+			<div id="publisher_info"></div>
+			<script>set_publisher_info()</script>
+			
+			<div id="combs_info"></div>
+			<script>set_combs_info()</script>
+		</div>
+	</body>
+</html>

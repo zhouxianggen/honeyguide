@@ -7,31 +7,49 @@
 		<link rel="stylesheet" type="text/css" href="css/taste_view_card.css" />
 		<script src="js/taste_view_card.js"></script>
 	</head>
+	<script>
+		comb = {"title":"VEROMODA"};
+		linkers = [{"url":"http://m.sm.cn", "title":"安全电话", "icon":"img/call1.jpg", "taste_count":12}];
+		shares = [{"img":"img/veromoda.jpg"}];
+		selected_share = 0;
+	</script>
 	<body>
-		<div class="card" style="width: 400px; height: 640px;">
-			<div class="main_menu">
-				<div class="action">
-					action
+		<div id="card" style="width: 400px; height: 640px;">
+			<div id="comb_info"></div>
+			<script>set_comb_info()</script>
+			
+			<div id="share_info">
+				<div id="gallary">
 				</div>
-				<div class="comb_info">
-					comb.title
+				<div id="selected_share">
+					<canvas id="selected_share_canvas" data-img-src="img/veromoda.jpg"></canvas>
 				</div>
 			</div>
 			
-			<div class="share_gallary">
-				<div class="gallary_overview">
-					gallary
+			<div id="linker_info">
+				<div class="linker" id="linker1">
+					<canvas class='linker_canvas' id="linker_canvas1">
+					</canvas>
 				</div>
-				<script>
-				</script>
-				<div class="focus_share">
-					<canvas id="focus_share_canvas_1" class="focus_share_canvas" width="584" height="796">
+				<div class="linker" id="linker2">
+					<canvas class='linker_canvas' id="linker_canvas2">
+					</canvas>
+				</div>
+				<div class="linker" id="linker3">
+					<canvas class='linker_canvas' id="linker_canvas3">
+					</canvas>
+				</div>
+				<div class="linker" id="linker4">
+					<canvas class='linker_canvas' id="linker_canvas4">
+					</canvas>
+				</div>
+				<div class="linker" id="linker5">
+					<canvas class='linker_canvas' id="linker_canvas5">
 					</canvas>
 				</div>
 			</div>
-			
-			<div class="links">links</div>
+			<script>set_linker_info()</script>
 		</div>
-		<script>on_focus_share_load("img/veromoda.jpg")</script>
+		<script>set_share_info()</script>
 	</body>
 </html>

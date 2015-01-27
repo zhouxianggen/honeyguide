@@ -1,0 +1,32 @@
+/* Basic Style*/
+
+body {
+	font-size: 100%;	
+}
+
+#card {
+	display: flex;
+	flex-flow: column;
+	width: 100%;
+	height: 100%;
+	background: #000000;
+}
+
+#publisher_info {
+	display: flex;
+	flex-flow: row;
+	align-items: center;
+	width: 100%;
+	height: 8%;
+	font-family: "微软雅黑";
+	font-size: 1.2em;
+	color: white;
+	background: rgba(236, 148, 0, 1);
+}
+
+#combs_info {
+	display: flex;
+	position: relative;
+	width: 100%;
+	height: 92%;
+}
