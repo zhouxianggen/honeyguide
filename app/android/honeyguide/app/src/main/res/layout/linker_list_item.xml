@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal"
+    android:gravity="center_vertical" >
+
+    <RelativeLayout
+        android:layout_width="0dip"
+        android:layout_height="fill_parent"
+        android:layout_weight="0.25">
+        <ImageView
+            android:id="@+id/linker_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_launcher" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="0dip"
+        android:layout_height="match_parent"
+        android:layout_weight="0.6">
+        <LinearLayout
+            android:id="@+id/linker_info"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+            <TextView
+                android:id="@+id/linker_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="去淘宝" />
+            <TextView
+                android:id="@+id/linker_price"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="前1000次免费，0.1元每次点击" />
+            <TextView
+                android:id="@+id/linker_customers"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="100次添加，278次使用" />
+            <TextView
+                android:id="@+id/linker_description"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="安全快速访问您的网页，支持微信内访问淘宝" />
+        </LinearLayout>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="0dip"
+        android:layout_height="match_parent"
+        android:layout_weight="0.15">
+        <Button
+            android:id="@+id/add_linker_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="添加" />
+    </RelativeLayout>
+
+</LinearLayout>

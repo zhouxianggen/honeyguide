@@ -50,7 +50,7 @@ public class WizardActivity extends Activity implements ViewPager.OnPageChangeLi
                 startActivity(intent);
                 SharedPreferences settings = getSharedPreferences(getString(R.string.global_preference_file_key), MODE_PRIVATE);
                 settings.edit().putBoolean(getString(R.string.settings_wizard_finished), true);
-                settings.edit().apply();
+                settings.edit().commit();
                 finish();
             }
         });

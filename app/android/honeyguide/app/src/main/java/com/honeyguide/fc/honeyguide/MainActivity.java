@@ -11,35 +11,34 @@ import android.view.View;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.honeyguide.fc.honeyguide.localmanager.AccountManager;
+
 
 public class MainActivity extends Activity {
+    private SharedPreferences mSettings;
+    private AccountManager mAccountManager;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        SharedPreferences settings = getSharedPreferences(getString(R.string.global_preference_file_key), MODE_PRIVATE);
-
-        if (!settings.getBoolean(getString(R.string.settings_wizard_finished), false)) {
-            Intent intent = new Intent(MainActivity.this, WizardActivity.class);
-            startActivity(intent);
-        }
-
-        String userName = settings.getString(getString(R.string.settings_user_name), "");
-        String password = settings.getString(getString(R.string.settings_password), "");
-        if (!userName.isEmpty() && !password.isEmpty()) {
-        }
-        else {
-
-        }
+        mSettings = getSharedPreferences(getString(R.string.global_preference_file_key), MODE_PRIVATE);
+        mAccountManager = new AccountManager(this);
     }
 
     @Override
     public void onResume() {
         super.onResume();
-    }
 
-    private boolean readUserInfo() {
-        return true;
+        if (!mSettings.getBoolean(getString(R.string.settings_wizard_finished), false)) {
+            Intent intent = new Intent(MainActivity.this, WizardActivity.class);
+            startActivity(intent);
+        }
+
+        if (mAccountManager.getCurrentAccount() == null) {
+            Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+            startActivity(intent);
+        }
     }
 
     @Override

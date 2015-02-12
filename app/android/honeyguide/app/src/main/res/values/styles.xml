@@ -10,4 +10,9 @@
         <item name="android:background">#EC9400</item>
     </style>
 
+    <style name="EditTextHintFont" parent="@android:style/TextAppearance.Medium">
+        <item name="android:textColor">#BBBBBB</item>
+        <item name="android:typeface">monospace</item>
+    </style>
+
 </resources>

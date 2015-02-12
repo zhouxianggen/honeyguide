@@ -4,19 +4,37 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Administrator on 2015/1/21.
  */
 public class Account {
+    public static final String STATUS_OK = "ok";
+    public static final String STATUS_GET = "get";
+    public static final String STATUS_REGISTER = "register";
+
     public String mId;
+    public String mPassword;
     public String mName;
     public String mAvatar;
     public String mEmail;
     public String mTel;
+    public Map<Folder, List<Comb>> mFolderCombs;
+    public String mStatus;
+    public Date mUpdateTime;
 
     public boolean isEmpty() {
         return mId.isEmpty();
+    }
+
+    public List<Folder> getFolders() {
+        List<Folder> folders = new ArrayList<>();
+        folders.addAll(mFolderCombs.keySet());
+        return folders;
     }
 
     public String makeStorageKey() {

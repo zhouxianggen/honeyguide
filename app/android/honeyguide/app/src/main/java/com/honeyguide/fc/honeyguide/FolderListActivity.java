@@ -2,6 +2,7 @@ package com.honeyguide.fc.honeyguide;
 
 import android.app.ActionBar;
 import android.app.ListActivity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -18,6 +19,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.honeyguide.fc.honeyguide.localmanager.AccountManager;
+import com.honeyguide.fc.honeyguide.localmanager.FolderManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,11 +29,13 @@ import android.os.Handler;
  * Created by Administrator on 2015/1/27.
  */
 public class FolderListActivity extends ListActivity {
+    private Context mContext;
     private LayoutInflater mLayoutInflater;
     private ActionBar mActionBar;
     private TextView mActionBarTitle;
     private ListView mFolderList;
     private Account mAccount;
+    private AccountManager mAccountManager;
     private FolderListAdapter mAdapter;
     private FolderListHandler mHandler = new FolderListHandler();
 
@@ -53,13 +57,14 @@ public class FolderListActivity extends ListActivity {
         initializeActionBar();
         setContentView(R.layout.folder_list);
 
-        mFolderList = (ListView) findViewById(R.id.folder_list);
+        mFolderList = getListView();
         mFolderList.setScrollBarStyle(View.SCROLLBARS_INSIDE_OVERLAY);
         mFolderList.setLongClickable(true);
         mFolderList.setFastScrollEnabled(true);
         mFolderList.setScrollingCacheEnabled(false);
 
         mLayoutInflater = getLayoutInflater();
+        mContext = this;
     }
 
     @Override
@@ -75,15 +80,23 @@ public class FolderListActivity extends ListActivity {
 
     private void initializeAdapter() {
         mAdapter = new FolderListAdapter();
-        restorePreviousAdapterData();
-
+        //restorePreviousAdapterData();
+        if (mAccountManager == null) {
+            initializeAccountManager();
+        }
+        mAccount = mAccountManager.getCurrentAccount();
+        mAdapter.mFolders = mAccount.getFolders();
         setListAdapter(mAdapter);
+    }
+
+    private void initializeAccountManager() {
+        mAccountManager = new AccountManager(mContext);
     }
 
     private void restorePreviousAdapterData() {
         final Object previousData = getLastNonConfigurationInstance();
         if (previousData != null) {
-            mAdapter.mFolders = (ArrayList<FolderInfoHolder>) previousData;
+            mAdapter.mFolders = (ArrayList<Folder>) previousData;
         }
     }
 
@@ -117,7 +130,7 @@ public class FolderListActivity extends ListActivity {
     }
 
     class FolderListAdapter extends BaseAdapter {
-        private List<FolderInfoHolder> mFolders = new ArrayList<FolderInfoHolder>();
+        private List<Folder> mFolders = new ArrayList<Folder>();
 
         @Override
         public int getCount() {

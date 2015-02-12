@@ -62,7 +62,7 @@
                 android:singleLine="true"
                 android:password="true"/>
             <!-- Login button -->
-            <Button android:id="@+id/btnLogin"
+            <Button android:id="@+id/btn_login"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dip"
@@ -73,7 +73,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="40dip"
                 android:layout_marginBottom="40dip"
-                android:text="New to Twitter? Register here"
+                android:text="New to HoneyGuider? Register here"
                 android:gravity="center"
                 android:textSize="20dip"
                 android:textColor="#0b84aa"/>

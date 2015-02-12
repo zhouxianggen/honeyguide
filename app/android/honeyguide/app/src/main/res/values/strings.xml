@@ -5,18 +5,21 @@
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
 
-    <string name="account_storage_preference_file_key">
-        com.fc.honeyguide.ACCOUNT_STORAGE_PREFERENCE_FILE_KEY
-    </string>
+    <string name="account_storage_preference_file_key">com.fc.honeyguide.ACCOUNT_STORAGE_PREFERENCE_FILE_KEY</string>
 
-    <string name="account_manager_preference_file_key">
-        com.fc.honeyguide.account_manager_preference_file_key
-    </string>
-    <string name="account_manager_remote_server_url">
-        http://10.99.20.96:8089
-    </string>
+    <!-- preference file keys -->
+    <string name="account_manager_preference_file_key">account_manager_preference_file_key</string>
+    <string name="linker_manager_preference_file_key">linker_manager_preference_file_key</string>
+
+    <!-- remote server addresses -->
+    <string name="account_manager_remote_server_url">http://10.99.20.96:8089</string>
+    <string name="linker_manager_remote_server_url">http://10.99.20.96:8089</string>
+
     <string name="account_manager_current_account_id">
         com.fc.honeyguide.account_manager_current_account_id
+    </string>
+    <string name="account_manager_current_account_password">
+        com.fc.honeyguide.account_manager_current_account_password
     </string>
     <string name="global_preference_file_key">
         com.fc.honeyguide.global_preference_file_key
@@ -34,6 +37,48 @@
     </string>
     <string name="settings_password">
         com.fc.honeyguide.settings_password
+    </string>
+
+    <string name="add_linker_actionbar_title">
+        添加新连接
+    </string>
+    <string name="add_linker_actionbar_action">
+        完成
+    </string>
+
+    <string name="new_comb_actionbar_title">
+        新蜜
+    </string>
+    <string name="new_comb_actionbar_action_finish">
+        完成
+    </string>
+    <string name="new_comb_actionbar_action_help">
+        帮助
+    </string>
+
+    <string name="EXTRA_LINKER_URL">
+        com.fc.honeyguide.extra_linker_url
+    </string>
+    <string name="EXTRA_USER_ID">
+        com.fc.honeyguide.extra_user_id
+    </string>
+
+    <string name="linker_option_register">
+        com.fc.honeyguide.linker_option_register
+    </string>
+    <string name="linker_option_call">
+        com.fc.honeyguide.linker_option_call
+    </string>
+
+    <string name="linker_url_param_option">
+        option
+    </string>
+    <string name="linker_url_param_user_id">
+        user_id
+    </string>
+
+    <string name="add_comb_select_linker_hint">
+        选择访问方法
     </string>
 
 </resources>
