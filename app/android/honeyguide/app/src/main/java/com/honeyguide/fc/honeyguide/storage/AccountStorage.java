@@ -28,6 +28,6 @@ public class AccountStorage {
     }
 
     public void setAccount(Account account) {
-        mRef.edit().putString(account.mId, account.serializeToString());
+        mRef.edit().putString(account.id, account.serializeToString());
     }
 }

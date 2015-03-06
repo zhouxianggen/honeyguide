@@ -16,14 +16,12 @@ import com.honeyguide.fc.honeyguide.localmanager.AccountManager;
 
 public class MainActivity extends Activity {
     private SharedPreferences mSettings;
-    private AccountManager mAccountManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         mSettings = getSharedPreferences(getString(R.string.global_preference_file_key), MODE_PRIVATE);
-        mAccountManager = new AccountManager(this);
     }
 
     @Override
@@ -35,7 +33,8 @@ public class MainActivity extends Activity {
             startActivity(intent);
         }
 
-        if (mAccountManager.getCurrentAccount() == null) {
+        if (((MyApplication)getApplicationContext()).getAccountManager().
+                getCurrentAccount() == null) {
             Intent intent = new Intent(MainActivity.this, LoginActivity.class);
             startActivity(intent);
         }

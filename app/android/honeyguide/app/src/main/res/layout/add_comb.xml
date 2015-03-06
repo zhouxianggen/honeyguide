@@ -4,23 +4,42 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <EditText
-        android:id="@+id/title"
-        style="@style/EditTextHintFont"
+    <LinearLayout
+        android:id="@+id/step1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="蜜名"/>
+        android:orientation="vertical"
+        android:layout_marginTop="8dip">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/GuideText"
+            android:text="@string/add_comb_step1"/>
+        <EditText
+            android:id="@+id/title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dip"/>
+    </LinearLayout>
 
-    <TextView
-        android:id="@+id/hint"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/add_comb_select_linker_hint"/>
-
-    <ListView
-        android:id="@android:id/list"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        />
+    <LinearLayout
+        android:id="@+id/step2"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_marginTop="8dip">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/GuideText"
+            android:text="@string/add_comb_step2"/>
+        <ListView
+            android:id="@+id/list"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:dividerHeight = "2.0dip"
+            android:layout_marginTop="5dip"
+            />
+    </LinearLayout>
 
 </LinearLayout>

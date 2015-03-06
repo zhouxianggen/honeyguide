@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@drawable/image_bg"
+    android:padding="3dip">
+
+    <ImageView
+        android:id="@+id/icon"
+        android:layout_width="40dip"
+        android:layout_height="40dip"
+        android:layout_marginRight="15dip"
+        android:src="@drawable/ic_launcher"/>
+
+</LinearLayout>

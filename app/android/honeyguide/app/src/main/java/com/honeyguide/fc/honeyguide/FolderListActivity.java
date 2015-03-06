@@ -80,17 +80,9 @@ public class FolderListActivity extends ListActivity {
 
     private void initializeAdapter() {
         mAdapter = new FolderListAdapter();
-        //restorePreviousAdapterData();
-        if (mAccountManager == null) {
-            initializeAccountManager();
-        }
-        mAccount = mAccountManager.getCurrentAccount();
-        mAdapter.mFolders = mAccount.getFolders();
+        mAdapter.mFolders = ((MyApplication)getApplicationContext()).getAccountManager().
+                getCurrentAccount().getFolders();
         setListAdapter(mAdapter);
-    }
-
-    private void initializeAccountManager() {
-        mAccountManager = new AccountManager(mContext);
     }
 
     private void restorePreviousAdapterData() {

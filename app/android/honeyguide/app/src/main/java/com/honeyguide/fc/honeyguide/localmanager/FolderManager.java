@@ -29,7 +29,7 @@ public class FolderManager {
     }
 
     public List<Folder> getAccountFolders(Account account) {
-        List<Folder> folders = mMapAccountFolders.get(account.mName);
+        List<Folder> folders = mMapAccountFolders.get(account.name);
         if (folders == null) {
             folders = new ArrayList<Folder>();
         }

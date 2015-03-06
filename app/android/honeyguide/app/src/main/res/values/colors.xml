@@ -1,8 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="linker_grid_item_unselected_background">#eeeeee</color>
-    <color name="linker_grid_item_selected_background">#FF8800</color>
+    <color name="linker_list_item_unselected_background">#eeeeee</color>
+    <color name="linker_list_item_selected_background">#FF8800</color>
     <color name="openpgp_red">#CC0000</color>
     <color name="openpgp_green">#669900</color>
     <color name="openpgp_blue">#336699</color>
+    <color name="add_comb_bg">#669900</color>
+    <color name="add_comb_bg2">#336699</color>
+    <color name="gray">#dddddd</color>
+    <color name="white">#ffffff</color>
 </resources>

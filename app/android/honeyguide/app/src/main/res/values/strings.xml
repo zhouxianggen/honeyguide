@@ -46,15 +46,25 @@
         完成
     </string>
 
-    <string name="new_comb_actionbar_title">
-        新蜜
-    </string>
-    <string name="new_comb_actionbar_action_finish">
-        完成
-    </string>
-    <string name="new_comb_actionbar_action_help">
-        帮助
-    </string>
+    <string name="action_help">帮助</string>
+    <string name="action_finish">完成</string>
+
+    <string name="actionbar_title_generate_qr_code">蜜码</string>
+    <string name="actionbar_title_add_comb">新蜜</string>
+
+    <string name="add_comb_actionbar_action_finish">完成</string>
+    <string name="add_comb_actionbar_action_help">帮助</string>
+    <string name="add_comb_linker_item_action_add">添加</string>
+    <string name="add_comb_linker_item_action_delete">删除</string>
+    <string name="add_comb_step1">1：填写密名</string>
+    <string name="add_comb_step2">2：选择访问方法</string>
+    <string name="add_comb_title_tip">蜜名</string>
+
+    <string name="set_linker_actionbar_title">设置访问方法</string>
+    <string name="set_linker_actionbar_action_help">帮助</string>
+    <string name="set_linker_actionbar_action_finish">完成</string>
+    <string name="set_linker_promotion_plan_head">用户每次推广激励</string>
+    <string name="set_linker_promotion_plan_tail">元</string>
 
     <string name="EXTRA_LINKER_URL">
         com.fc.honeyguide.extra_linker_url
@@ -80,5 +90,32 @@
     <string name="add_comb_select_linker_hint">
         选择访问方法
     </string>
+
+    <string name="extras_comb_title">comb_title</string>
+    <string name="extras_comb_url">comb_url</string>
+    <string name="extras_linker_url">linker_url</string>
+    <string name="extras_linker_id">linker_id</string>
+    <string name="extras_linker_position">linker_position</string>
+    <string name="extras_account_id">account_id</string>
+
+    <string name="error_generate_qr_code_failed">抱歉..出错了</string>
+    <string name="error_comb_title_is_empty">还没有标题哦</string>
+    <string name="error_comb_linkers_is_empty">还没选择访问方法哦</string>
+    <string name="error_comb_server_stopped">抱歉..出错了</string>
+    <string name="error_save_screen_shoot">抱歉..出错了</string>
+
+    <string name="button_shoot_screen">截屏保存图像</string>
+
+    <string name="toast_save_screen_shoot">已保存到：</string>
+
+    <string name="hint_select_linkers">选择访问方法</string>
+
+    <string name="shared_preferences_linker_manager">shared_preferences_linker_manager</string>
+    <string name="shared_preferences_account_manager">shared_preferences_account_manager</string>
+
+    <string name="key_current_account_id">key_current_account_id</string>
+    <string name="key_current_account_password">key_current_account_password</string>
+
+    <string name="remote_server_url">localhost</string>
 
 </resources>

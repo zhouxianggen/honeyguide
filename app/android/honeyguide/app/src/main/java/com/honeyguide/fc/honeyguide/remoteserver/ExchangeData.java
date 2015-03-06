@@ -7,9 +7,9 @@ import java.util.List;
 /**
  * Created by Administrator on 2015/2/11.
  */
-public class ExchangeContext {
+public class ExchangeData {
     public String timestamp;
-    List<Linker> timestampLinkers;
+    List<Linker> byTimestampLinkers;
 
     public String serializeToString() {
         return "";

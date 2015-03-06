@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:background="@drawable/list_selector"
+    android:padding="5dip">
+
+    <LinearLayout
+        android:id="@+id/thumbnail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:padding="3dip"
+        android:layout_marginRight="5dip"
+        android:background="@drawable/image_bg">
+
+        <ImageView
+            android:id="@+id/icon"
+            android:layout_width="58dip"
+            android:layout_height="58dip"
+            android:src="@drawable/ic_launcher"/>
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="wrap_content"
+        android:layout_height="18dip"
+        android:layout_alignTop="@+id/thumbnail"
+        android:layout_toRightOf="@id/thumbnail"
+        android:layout_toLeftOf="@id/action"
+        android:text="去淘宝"
+        android:textColor="#040404"
+        android:typeface="sans"
+        android:textSize="16dip"
+        android:textStyle="bold"/>
+
+    <TextView
+        android:id="@+id/description"
+        android:layout_width="wrap_content"
+        android:layout_height="20dip"
+        android:layout_below="@id/title"
+        android:layout_toRightOf="@id/thumbnail"
+        android:layout_toLeftOf="@id/action"
+        android:layout_marginTop="1dip"
+        android:ellipsize="end"
+        android:lineSpacingMultiplier="0.9"
+        android:textColor="#343434"
+        android:textSize="9dip"
+        android:text="最受欢迎的淘宝访问工具，安全快速访问您的网页，支持微信内访问淘宝"/>
+
+    <TextView
+        android:id="@+id/popularity"
+        android:layout_width="wrap_content"
+        android:layout_height="10dip"
+        android:layout_below="@id/description"
+        android:layout_toRightOf="@id/thumbnail"
+        android:layout_toLeftOf="@id/action"
+        android:layout_marginTop="2dip"
+        android:textColor="#ff9900"
+        android:textSize="8dip"
+        android:text="1000"/>
+
+    <TextView
+        android:id="@+id/price"
+        android:layout_width="wrap_content"
+        android:layout_height="10dip"
+        android:layout_below="@id/popularity"
+        android:layout_toRightOf="@id/thumbnail"
+        android:layout_toLeftOf="@id/action"
+        android:layout_marginTop="2dip"
+        android:textColor="#2ad2c9"
+        android:textSize="8dip"
+        android:text="前1000次免费，0.1元每次点击"/>
+
+    <Button
+        android:id="@+id/action"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="4dip"/>
+
+</RelativeLayout>

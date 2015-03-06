@@ -17,36 +17,36 @@ public class Account {
     public static final String STATUS_GET = "get";
     public static final String STATUS_REGISTER = "register";
 
-    public String mId;
-    public String mPassword;
-    public String mName;
-    public String mAvatar;
-    public String mEmail;
-    public String mTel;
-    public Map<Folder, List<Comb>> mFolderCombs;
-    public String mStatus;
-    public Date mUpdateTime;
+    public String id = "2e34587f";
+    public String password = "123456";
+    public String name = "tang";
+    public String avatar = "path to icon";
+    public String email = "tang@gmail.com";
+    public String tel = "13926277206";
+    public Map<Folder, List<Comb>> folderCombs;
+    public String status;
+    public Date updateTime;
 
     public boolean isEmpty() {
-        return mId.isEmpty();
+        return id.isEmpty();
     }
 
     public List<Folder> getFolders() {
         List<Folder> folders = new ArrayList<>();
-        folders.addAll(mFolderCombs.keySet());
+        folders.addAll(folderCombs.keySet());
         return folders;
     }
 
     public String makeStorageKey() {
-        return "\1" + mId;
+        return "\1" + id;
     }
 
     public String getId() {
-        return mId;
+        return id;
     }
 
     public boolean parseFromString(String str) {
-        String[] tuple = str.split("\1");
+        /*String[] tuple = str.split("\1");
         if (tuple.length == 5) {
             mId = tuple[0];
             mName = tuple[1];
@@ -54,7 +54,7 @@ public class Account {
             mEmail = tuple[3];
             mTel = tuple[4];
             return true;
-        }
+        }*/
         return false;
     }
 
@@ -69,6 +69,6 @@ public class Account {
     }
 
     public String serializeToString(){
-        return mId + "\1" + mName + "\1" + mAvatar + "\1" + mEmail + "\1" + mTel;
+        return id + "\1" + name + "\1" + avatar + "\1" + email + "\1" + tel;
     }
 }

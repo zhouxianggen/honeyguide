@@ -4,60 +4,47 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 import com.honeyguide.fc.honeyguide.Account;
+import com.honeyguide.fc.honeyguide.MyApplication;
 import com.honeyguide.fc.honeyguide.R;
 import com.honeyguide.fc.honeyguide.remoteserver.AccountServer;
-
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * 管理用户账户信息
  */
 public class AccountManager {
-    private Context mContext;
-    private SharedPreferences mRef;
-    private AccountServer mAccountServer;
-    private Map<String, Account> mIdAccountMap;
+    private MyApplication context;
+    private SharedPreferences preferences;
+    private AccountServer server;
+    private Account currentAccount;
 
-    public AccountManager(Context context) {
-        mContext = context;
-        mRef = context.getSharedPreferences(
-                context.getString(R.string.account_manager_preference_file_key), Context.MODE_PRIVATE);
-
-        mAccountServer = new AccountServer();
-        mAccountServer.setRemoteServerAddress(context.getString(R.string.account_manager_remote_server_url));
-
-        mIdAccountMap = new HashMap<>();
-    }
-
-    public Account getAccount(String id, String password) {
-        Account account = mIdAccountMap.get(id);
-        if (account == null) {
-            account = mAccountServer.getAccount(id, password);
-        }
-        if (account.mStatus != Account.STATUS_OK) {
-            return null;
-        }
-        mIdAccountMap.put(id, account);
-        return account;
-    }
-
-    public Account getCurrentAccount() {
-        String id = mRef.getString(mContext.getString(R.string.account_manager_current_account_id), "");
-        String passWord = mRef.getString(mContext.getString(R.string.account_manager_current_account_password), "");
-        if (!id.isEmpty() && !passWord.isEmpty()) {
-            return getAccount(id, passWord);
-        }
-        return null;
+    public AccountManager(MyApplication context) {
+        this.context = context;
+        preferences = context.getSharedPreferences(
+                context.getString(R.string.shared_preferences_account_manager),
+                Context.MODE_PRIVATE);
+        server = new AccountServer(context.getString(R.string.remote_server_url));
     }
 
     public void setCurrentAccount(Account account) {
-        mRef.edit().putString(mContext.getString(R.string.account_manager_current_account_id), account.mId);
-        mRef.edit().putString(mContext.getString(R.string.account_manager_current_account_password), account.mPassword);
-        mRef.edit().commit();
+        preferences.edit().putString(
+                context.getString(R.string.key_current_account_id), account.id);
+        preferences.edit().putString(
+                context.getString(R.string.key_current_account_password), account.password);
+        preferences.edit().commit();
+        currentAccount = account;
     }
 
-    public Account registerAccount(String id, String password) {
-        return mAccountServer.registerAccount(id, password);
+    public Account getCurrentAccount() {
+        if (currentAccount == null) {
+            String id = preferences.getString(
+                    context.getString(R.string.key_current_account_id), "");
+            String password = preferences.getString(
+                    context.getString(R.string.key_current_account_password), "");
+            if (!id.isEmpty() && !password.isEmpty()) {
+                currentAccount = server.getAccount(id, password);
+            }
+        }
+        return new Account();
+        //return mCurrentAccount;
     }
 }
