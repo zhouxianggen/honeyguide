@@ -4,10 +4,10 @@
 
 ### 1. 角色
 
-1. `发布者(publisher)`
-2. `体验者(taster)`
-3. `分享者(sharer)`
-4. `接引者(guider)`
+1. `发布者(publisher)` 发布蜂窝的人
+2. `体验者(taster)` 体验蜂蜜的人
+3. `分享者(sharer)` 分享蜂蜜的人
+4. `接引者(guider)` 指引体验者到达蜂窝的人
 
 ------
 
@@ -86,25 +86,7 @@
 | taste_count | 使用该链接的taste数量 |
 
 
-## 协议
-
-	**note** 不包括相互认证的说明 
-
-1. 开发者注册，获取ID；
-2. 开发者提供linker服务器地址，title，描述，图标；
-3. 平台验证linker；
-4. linker在收到发布者的请求后提供发布交互；
-5. linker在收到体验者的请求后提供体验交互；
-
-### 请求浏览comb信息
-请求参数
-+ comb_id
-+ share_id
-+ rank_style
-+ client_info
-
-返回数据
-+ 
+## 协议...
 
 ## 参考
 
