@@ -41,9 +41,9 @@ public class GenerateQRCodeActivity extends ActionbarActivity {
         setContentView(R.layout.generate_qrcode);
         mImageView = (ImageView) findViewById(R.id.qr_code);
 
-        mActionBarTitle.setText(getString(R.string.actionbar_title_generate_qr_code));
-        mActionBarAction.setText(getString(R.string.action_finish));
-        mActionBarAction.setOnClickListener(new View.OnClickListener() {
+        actionBarTitle.setText(getString(R.string.actionbar_title_generate_qr_code));
+        actionBarAction.setText(getString(R.string.action_finish));
+        actionBarAction.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 finish();
             }

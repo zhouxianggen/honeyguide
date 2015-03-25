@@ -1,0 +1,116 @@
+package com.honeyguide.fc.honeyguide;
+
+import android.app.ProgressDialog;
+import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.View;
+import android.webkit.JavascriptInterface;
+import android.webkit.WebSettings;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
+import android.widget.EditText;
+import android.widget.LinearLayout;
+
+/**
+ * Created by Administrator on 2015/2/27.
+ */
+public class SetLinkerActivity extends ActionbarActivity {
+    private Context mContext;
+    private WebView mWebView;
+    private LinearLayout mPromotion;
+    private EditText mPromotionPrice;
+    private ProgressDialog mProgressBar;
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        setContentView(R.layout.set_linker);
+
+        mActionBarTitle.setText(getString(R.string.set_linker_actionbar_title));
+        mActionBarAction.setText(getString(R.string.set_linker_actionbar_action_finish));
+        mActionBarAction.setClickable(false);
+        mActionBarAction.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                String price = mPromotionPrice.getText().toString();
+                Intent intent = new Intent();
+                intent.putExtra("promotion_price", "price");
+                setResult(RESULT_OK, intent);
+                finish();
+            }
+        });
+
+        mPromotion = (LinearLayout) findViewById(R.id.promotion);
+        mPromotion.setVisibility(View.GONE);
+        mPromotionPrice = (EditText) findViewById(R.id.price);
+
+        mProgressBar = ProgressDialog.show(SetLinkerActivity.this, "foo", "Loading...");
+
+        mWebView = (WebView) findViewById(R.id.webview);
+        WebSettings webSettings = mWebView.getSettings();
+        webSettings.setJavaScriptEnabled(true);
+        mWebView.addJavascriptInterface(new WebAppInterface(this), "Android");
+        mWebView.setScrollBarStyle(WebView.SCROLLBARS_OUTSIDE_OVERLAY);
+        mWebView.setWebViewClient(new WebViewClient() {
+            public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                view.loadUrl(url);
+                return true;
+            }
+
+            public void onPageFinished(WebView view, String url) {
+                if (mProgressBar.isShowing()) {
+                    mProgressBar.dismiss();
+                }
+            }
+
+            public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
+            }
+        });
+
+        Bundle extras = getIntent().getExtras();
+        if (extras != null) {
+            String accountId = extras.getString("account_id");
+            String combId = extras.getString("comb_id");
+            String linker_url = extras.getString("linker_url");
+            //String url = String.format("%s/?action=set&account_id=%s&comb_id=%s", accountId, combId);
+            String url = "http://www.baidu.com";
+            mWebView.loadUrl(url);
+        } else {
+            Intent intent = new Intent();
+            setResult(RESULT_CANCELED, intent);
+            finish();
+        }
+
+        mContext = this;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+    }
+
+    @Override
+    public void onStop() {
+        mProgressBar.dismiss();
+    }
+
+    @Override
+    public void onDestroy() {
+        mProgressBar.dismiss();
+    }
+
+    public class WebAppInterface {
+        Context mContext;
+
+        WebAppInterface(Context c) {
+            mContext = c;
+        }
+
+        @JavascriptInterface
+        public void onFinish(String toast) {
+            mActionBarAction.setClickable(true);
+            mPromotion.setVisibility(View.VISIBLE);
+        }
+    }
+}

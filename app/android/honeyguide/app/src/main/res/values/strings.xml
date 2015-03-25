@@ -48,9 +48,13 @@
 
     <string name="action_help">帮助</string>
     <string name="action_finish">完成</string>
+    <string name="action_add">添加</string>
+    <string name="action_add_folder">添加</string>
 
     <string name="actionbar_title_generate_qr_code">蜜码</string>
     <string name="actionbar_title_add_comb">新蜜</string>
+    <string name="actionbar_title_comb_list">蜜集</string>
+    <string name="actionbar_title_folder_list">蜜册</string>
 
     <string name="add_comb_actionbar_action_finish">完成</string>
     <string name="add_comb_actionbar_action_help">帮助</string>
@@ -97,6 +101,9 @@
     <string name="extras_linker_id">linker_id</string>
     <string name="extras_linker_position">linker_position</string>
     <string name="extras_account_id">account_id</string>
+    <string name="extras_folder_name">folder_name</string>
+    <string name="extras_folder_title">folder_title</string>
+    <string name="extras_folder_update_time">folder_update_time</string>
 
     <string name="error_generate_qr_code_failed">抱歉..出错了</string>
     <string name="error_comb_title_is_empty">还没有标题哦</string>

@@ -1,7 +1,5 @@
 package com.honeyguide.fc.honeyguide;
 
-import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -9,9 +7,6 @@ import android.view.View;
 import android.webkit.JavascriptInterface;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
-import android.webkit.WebViewClient;
-import android.widget.EditText;
-import android.widget.LinearLayout;
 
 /**
  * Created by Administrator on 2015/2/27.
@@ -27,8 +22,8 @@ public class SetLinkerActivity extends ActionbarActivity {
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    mActionBarAction.setText(getString(R.string.set_linker_actionbar_action_finish));
-                    mActionBarAction.setOnClickListener(new View.OnClickListener() {
+                    actionBarAction.setText(getString(R.string.set_linker_actionbar_action_finish));
+                    actionBarAction.setOnClickListener(new View.OnClickListener() {
                         public void onClick(View v) {
                             Intent intent = new Intent();
                             intent.putExtra(getString(R.string.extras_linker_position), mPosition);
@@ -48,9 +43,9 @@ public class SetLinkerActivity extends ActionbarActivity {
 
         setContentView(R.layout.set_linker);
 
-        mActionBarTitle.setText(getString(R.string.set_linker_actionbar_title));
-        mActionBarAction.setText(getString(R.string.set_linker_actionbar_action_help));
-        mActionBarAction.setOnClickListener(new View.OnClickListener() {
+        actionBarTitle.setText(getString(R.string.set_linker_actionbar_title));
+        actionBarAction.setText(getString(R.string.set_linker_actionbar_action_help));
+        actionBarAction.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 // display help info
             }

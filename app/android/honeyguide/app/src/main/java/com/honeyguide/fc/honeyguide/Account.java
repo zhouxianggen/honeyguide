@@ -33,7 +33,11 @@ public class Account {
 
     public List<Folder> getFolders() {
         List<Folder> folders = new ArrayList<>();
-        folders.addAll(folderCombs.keySet());
+        //folders.addAll(folderCombs.keySet());
+        Folder folder = new Folder();
+        folder.title = "我创建的";
+        folder.combCount = "1";
+        folders.add(folder);
         return folders;
     }
 

@@ -76,9 +76,9 @@ public class AddCombActivity extends ActionbarActivity {
         selectedLinkersLayout = (LinearLayout) findViewById(R.id.selected_linkers);
         hintTextView = (TextView) findViewById(R.id.hint);
 
-        mActionBarTitle.setText(getString(R.string.actionbar_title_add_comb));
-        mActionBarAction.setText(getString(R.string.action_finish));
-        mActionBarAction.setOnClickListener(new View.OnClickListener() {
+        actionBarTitle.setText(getString(R.string.actionbar_title_add_comb));
+        actionBarAction.setText(getString(R.string.action_finish));
+        actionBarAction.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 EditText editText = (EditText) findViewById(R.id.title);
                 newComb.title = editText.getText().toString();

@@ -1,12 +1,9 @@
 package com.honeyguide.fc.honeyguide;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
-import android.widget.TextView;
 
 import com.honeyguide.fc.honeyguide.util.CommonUtils;
 
@@ -34,8 +31,8 @@ public class AddLinkerActivity extends ActionbarActivity {
         params.add(new BasicNameValuePair(getString(R.string.linker_url_param_user_id), user_id));
         linker_url = CommonUtils.setUrlParams(linker_url, params);
 
-        mActionBarTitle.setText(getString(R.string.add_linker_actionbar_title));
-        mActionBarAction.setText(getString(R.string.add_linker_actionbar_action));
+        actionBarTitle.setText(getString(R.string.add_linker_actionbar_title));
+        actionBarAction.setText(getString(R.string.add_linker_actionbar_action));
         setContentView(R.layout.add_linker);
 
         WebView webView = (WebView) findViewById(R.id.linker_web_page);

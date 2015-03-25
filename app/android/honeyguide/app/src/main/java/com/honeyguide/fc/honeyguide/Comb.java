@@ -16,4 +16,5 @@ public class Comb {
     public List<Linker> linkers;
     public PVTable<Integer> pv;
     public String url;
+    public String newShareCount;
 }
