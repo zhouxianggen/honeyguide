@@ -1,7 +1,12 @@
 /* Basic Style*/
 
+* {
+  -webkit-box-sizing: border-box;
+     -moz-box-sizing: border-box;
+          box-sizing: border-box;
+}
+
 body {
-	font-size: 100%;
 	position: absolute;
 	width: 100%;
 	height: 100%;
@@ -18,7 +23,7 @@ body > div {
 	width: 100%;
 	height: 100%;
 	overflow: hidden;
-	background: #DDDDDD;
+	background: #000000;
 }
 
 #div_gallary #div_page_list {
@@ -94,7 +99,7 @@ body > div {
 	font-size: 0px;
 	float: left;
 	padding: 2px;
-	bottom: 0px;
+	top: 0px;
 	left: 50%;
 	z-index: 5;
 }
@@ -145,8 +150,69 @@ body > div {
 	height: 100%;
 }
 
+#div_linker_panel {
+	position: absolute;
+	bottom: 0px;
+	width: 100%;
+	height: 50px;
+	z-index: 5;
+}
+
+#div_linker_panel #div_linker_menu {
+	width: 50px;
+	height: 50px;
+	opacity: 0.8;
+}
+
+#div_linker_panel #div_linker_menu #a_linker_menu {
+	display: block;
+	width: 100%;
+	height: 100%;
+	background-image: url(../img/arrows.png);
+	background-position-x: 100%;
+	background-position-y: 0%;
+	background-size: initial;
+	background-repeat-x: initial;
+	background-repeat-y: initial;
+	background-attachment: initial;
+	background-origin: initial;
+	background-clip: initial;
+	background-color: initial;
+	color: transparent;
+}
+
+#div_linker_panel #div_linker_menu #a_linker_menu.pressed_menu {
+	background-position-y: 100%;
+}
+
+#div_linker_panel #div_linker_list {
+	display: none;
+	position: absolute;
+	width: 1000%;
+	height: 100%;
+	top: 0px;
+	left: 55px;
+	background: #e66000;
+	opacity: 0.8;
+	overflow: hidden;
+}
+
+#div_linker_panel #div_linker_list a {
+	display: block;
+	position: relative;
+	width: 50px;
+	height: 50px;
+	margin-left: 10px;
+	float: left;
+}
+
+#div_linker_panel #div_linker_list .linker_image {
+	width: 100%;
+	height: 100%;
+}
+
 #div_panel {
-	display: flex;
+	display: none;
 	flex-flow: row;
 	width: 400px;
 	height: 100px;

@@ -1,0 +1,53 @@
+
+* {
+  -webkit-box-sizing: border-box;
+     -moz-box-sizing: border-box;
+          box-sizing: border-box;
+}
+
+body {
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	margin: 0;
+	padding: 0;
+}
+
+#div_body {
+	display: flex;
+	flex-flow: column;
+	position: absolute;
+	background: #5b9a68;
+}
+
+#div_body > #div_phone_number {
+	color: #eeeeee;
+	font-size: 30px;
+	margin-top: 40%;
+	font-weight: bold;
+	align-self: center;
+}
+
+#div_body #div_area {
+	color: #dddddd;
+	font-size: 10px;
+	align-self: center;
+}
+
+#div_body #div_call {
+	display: flex;
+	flex-flow: row;
+	background: #f4b400;
+	align-self: center;
+	width: 100%;
+	margin-top: auto;
+	padding: 2px;
+	justify-content: center;
+}
+
+#div_body #div_call a {
+	color: #eeeeee;
+	font-size: 40px;
+	font-weight: bold;
+	text-decoration: none;
+}

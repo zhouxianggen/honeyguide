@@ -173,8 +173,32 @@ var LauncherEventHandler = {
 	}
 }
 
+var LinkerMenuEventHandler = {
+	touchId: undefined,
+	aMenu: undefined,
+	
+	onTouchStart: function(e) {
+		if (linkerMenuEventHandler.touchId == undefined) {
+			linkerMenuEventHandler.touchId = e.touches[0].identifier;
+			linkerMenuEventHandler.aMenu.setAttribute("class", "pressed_menu");
+		}
+	},
+	
+	onTouchEnd: function(e) {
+		e.preventDefault();
+		for (var i = 0; i < e.changedTouches.length; i++) {
+			if (e.changedTouches[i].identifier == linkerMenuEventHandler.touchId) {
+				linkerMenuEventHandler.aMenu.setAttribute("class", "");
+				linkerMenuEventHandler.touchId = undefined;
+				break;
+			}
+		}
+	}
+}
+
 var launcherEventHandler;
 var galleryEventHandler;
+var linkerMenuEventHandler;
 
 function init() {
 	launcherEventHandler = Object.create(LauncherEventHandler);
@@ -202,4 +226,10 @@ function init() {
 	panel.innerHTML += ' innerHeight:' + window.innerHeight;
 	panel.innerHTML += ' screenWidth:' + screen.width;
 	panel.innerHTML += ' screenHeight:' + screen.height;
+	
+	linkerMenuEventHandler = Object.create(LinkerMenuEventHandler); 
+	var linkerMenu = document.getElementById("div_linker_menu");
+	linkerMenuEventHandler.aMenu = document.getElementById("a_linker_menu");
+	linkerMenu.addEventListener("touchstart", linkerMenuEventHandler.onTouchStart, false);
+	linkerMenu.addEventListener("touchend", linkerMenuEventHandler.onTouchEnd, false);
 }
