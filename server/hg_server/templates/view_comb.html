@@ -1,77 +1,20 @@
-<!DOCTYPE html>
-<html>
-	<head>
-		<title>view comb</title>
-		<meta charset="utf-8">
-		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-		<link rel="stylesheet" type="text/css" href="css/view_comb.css" />
-		<script src="js/view_comb.js"></script>
-	</head>
-	
-	<body onload="init()">
-		<div id="div_gallary" style="width: 400px; height: 640px;">
-			<div id="div_page_list">
-				<div class="div_swip_page" style="left: -10%;">
-					<img class="page_image" src="img/page5.jpg"/>
-				</div>
-				<ul id="ul_page_list">
-					<li>
-						<div class="div_page">
-							<img class="page_image" src="img/page1.jpg"/>
-						</div>
-					</li>
-					<li>
-						<div class="div_page">
-							<img class="page_image" src="img/page2.jpg"/>
-						</div>
-					</li>
-					<li>
-						<div class="div_page">
-							<img class="page_image" src="img/page3.jpg"/>
-						</div>
-					</li>
-					<li>
-						<div class="div_page">
-							<img class="page_image" src="img/page4.jpg"/>
-						</div>
-					</li>
-					<li>
-						<div class="div_page">
-							<img class="page_image" src="img/page5.jpg"/>
-						</div>
-					</li>
-				</ul>
-				<div class="div_swip_page" style="left: 50%;">
-					<img class="page_image" src="img/page1.jpg"/>
-				</div>
-			</div>
-			<div id="div_page_indicator">
-				<div>
-					<a class="selected_indicator">1</a>
-					<a >2</a>
-					<a >3</a>
-					<a >4</a>
-					<a >5</a>
-				</div>
-			</div>
-		</div>
-    	<div id="div_launcher">
-    		<img id="img_launcher" src="img/ic_launcher.png"/>
-    		<img id="img_launcher_pressed" src="img/ic_launcher_pressed.png"/>
-    	</div>
-    	<div id="div_panel"></div>
-    	<div id="div_linker_panel">
-    		<div id="div_linker_menu">
-    			<a id="a_linker_menu"></a>
-    		</div>
-    		<div id="div_linker_list">
-    			<a href="">
-    				<img class="linker_image" src="img/call1.jpg">
-    			</a>
-    			<a href="">
-    				<img class="linker_image" src="img/express3.png">
-    			</a>
-    		</div>
-    	</div>
-	</body>
-</html>
+
+{% extends "view_comb_base.html" %}
+
+{% block page_left %}
+	<img class="page_image" src="{{ pages[-1].image }}"/>
+{% end %}
+
+{% block page %}
+	<img class="page_image" src="{{ page.image }}"/>
+{% end %}
+
+{% block page_right %}
+	<img class="page_image" src="{{ pages[0].image }}"/>
+{% end %}
+
+{% block linker %}
+	<a href="">
+		<img class="linker_image" src="{{ linker.icon }}">
+	</a>
+{% end %}

@@ -3,8 +3,8 @@
 #!/usr/bin/env python
 
 __auth__ = "xianggen.zhou"
-__date__ = "2015-03-26"
-__info__ = "samle linker server for open taobao url"
+__date__ = "2015-03-27"
+__info__ = "server for hg"
 
 import os,sys
 import json
@@ -12,22 +12,11 @@ import tornado.httpserver
 import tornado.ioloop
 import tornado.web
 import tornado.template
+CWD = os.path.dirname(os.path.abspath(__file__))
+sys.path.append(CWD)
+from data_provider import DataProvider
 
-ACTION_SET = 'set'
-ACTION_USE = 'use'
-
-class DataProvider(object):
-    def __init__(self):
-        pass
-    
-    def get_source_data(self, source_id):
-        source = {}
-        source['url'] = u'http://a.m.taobao.com/i44108014217.htm?spm=0.0.0.0&rn=78857c0c03427aae366bed32337c5332'
-        source['title'] = u'veromoda'
-        return source
-
-    def get_user_data(self, user_id):
-        return ''
+ACTION_VIEW_COMB = 'view_comb'
 
 class MyApplication(tornado.web.Application):
     def __init__(self):
@@ -48,44 +37,21 @@ class RequestHandler(tornado.web.RequestHandler):
 
     #@tornado.web.authenticated
     def post(self):
-        # get post content
-        content = self.request.body
+		action = self.get_argument('action')
+		if action == ACTION_VIEW_COMB:
+			self.handle_action_view_comb()
+		
+	def handle_action_view_comb(self):
+		comb_id = self.get_argument('comb_id')
+		sharer_id = self.get_argument('sharer_id')		
+		comb = g_data_provider.get_comb(comb_id)
+		pages = comb.get_pages(sharer_id)
+		linkers = comb.get_linkers()
+		self.render('view_comb.html', title=comb.title, pages=pages, linkers=linkers)
 
-        # decrypt the content
-        content = self.decrypt(content)
-
-        # handle the intent
-        intent = json.loads(content)
-        self.handle_intent(intent)
-    
-    def decrypt(self, content):
-        return content
-
-    def handle_intent(self, intent):
-        action = intent['action']
-        extras = intent['extras']
-        if action == ACTION_SET:
-            pass
-        elif action == ACTION_USE:
-            source_id = extras['source_id']
-            user_id = extras['user_id']
-            self.handle_action_use(source_id, user_id)
-        else:
-            pass
-
-    def handle_action_use(self, source_id, user_id):
-        # get source data
-        data_provider = DataProvider()
-        source = data_provider.get_source_data(source_id)
-
-        # get user data
-        user = data_provider.get_user_data(user_id)
-
-        # make result
-        self.render('gotaobao.html', title=source['title'], url=source['url']);
+g_data_provider = DataProvider()
 
 if __name__ == "__main__":
     server = tornado.httpserver.HTTPServer(MyApplication())
-    server.listen(8890)
+    server.listen(80)
     tornado.ioloop.IOLoop.instance().start()
-
