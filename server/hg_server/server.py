@@ -37,17 +37,17 @@ class RequestHandler(tornado.web.RequestHandler):
 
     #@tornado.web.authenticated
     def post(self):
-		action = self.get_argument('action')
-		if action == ACTION_VIEW_COMB:
-			self.handle_action_view_comb()
-		
-	def handle_action_view_comb(self):
-		comb_id = self.get_argument('comb_id')
-		sharer_id = self.get_argument('sharer_id')		
-		comb = g_data_provider.get_comb(comb_id)
-		pages = comb.get_pages(sharer_id)
-		linkers = comb.get_linkers()
-		self.render('view_comb.html', title=comb.title, pages=pages, linkers=linkers)
+        action = self.get_argument('action')
+        if action == ACTION_VIEW_COMB:
+            self.handle_action_view_comb()
+        
+    def handle_action_view_comb(self):
+        comb_id = self.get_argument('comb_id')
+        sharer_id = self.get_argument('sharer_id')        
+        comb = g_data_provider.get_comb(comb_id)
+        pages = comb.get_pages(sharer_id)
+        linkers = comb.get_linkers()
+        self.render('view_comb.html', title=comb.title, pages=pages, linkers=linkers)
 
 g_data_provider = DataProvider()
 

@@ -17,5 +17,5 @@ class DataProvider(object):
         pass
     
     def get_comb(self, comb_id):
-		comb = Comb()
-		return comb
+        comb = Comb()
+        return comb

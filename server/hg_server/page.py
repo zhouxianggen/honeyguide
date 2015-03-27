@@ -9,4 +9,4 @@ __info__ = "page"
 
 class Page(object):
     def __init__(self):
-		self.image = ''
+        self.image = ''
