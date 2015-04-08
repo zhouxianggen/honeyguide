@@ -136,20 +136,6 @@ body > div {
 	background-position-y: 100%;
 }
 
-#div_launcher {
-	display: flex;
-	top: 200px;
-	width: 54px;
-	height: 54px;
-	z-index: 3;
-}
-
-#div_launcher > img {
-	position: absolute;
-	width: 100%;
-	height: 100%;
-}
-
 #div_linker_panel {
 	position: absolute;
 	bottom: 0px;
@@ -209,24 +195,4 @@ body > div {
 #div_linker_panel #div_linker_list .linker_image {
 	width: 100%;
 	height: 100%;
-}
-
-#div_panel {
-	display: none;
-	flex-flow: row;
-	width: 400px;
-	height: 100px;
-	top: 450px;
-	background: #222222;
-	opacity: 0.9;
-	z-index: 3;
-}
-
-#img_launcher {
-	opacity: 0.5;
-}
-
-#img_launcher_pressed {
-	display: none;
-	opacity: 0.8;
 }
