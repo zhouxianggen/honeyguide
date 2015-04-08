@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>{{ title }}</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+        <link rel="stylesheet" type="text/css" href="{{ static_url('css/add_share.css') }}" />
+        <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.0/jquery.min.js"></script>
+        <script src="{{ static_url('js/add_share.js') }}"></script>
+    </head>
+    
+    <body onload="init()">
+        <input type="file" id="input_files" multiple accept="image/*"/>
+        <a href="#" id="fileSelect">Select some files</a>
+    </body>
+</html>

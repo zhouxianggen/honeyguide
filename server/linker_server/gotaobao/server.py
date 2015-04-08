@@ -23,6 +23,7 @@ class DataProvider(object):
     def get_source_data(self, source_id):
         source = {}
         source['url'] = u'http://a.m.taobao.com/i44108014217.htm?spm=0.0.0.0&rn=78857c0c03427aae366bed32337c5332'
+        #source['url'] = u'http://www.goalhi.com'
         source['title'] = u'veromoda'
         return source
 
@@ -48,27 +49,12 @@ class RequestHandler(tornado.web.RequestHandler):
 
     #@tornado.web.authenticated
     def post(self):
-        # get post content
-        content = self.request.body
-
-        # decrypt the content
-        content = self.decrypt(content)
-
-        # handle the intent
-        intent = json.loads(content)
-        self.handle_intent(intent)
-    
-    def decrypt(self, content):
-        return content
-
-    def handle_intent(self, intent):
-        action = intent['action']
-        extras = intent['extras']
+        action = self.get_argument('action')
         if action == ACTION_SET:
             pass
         elif action == ACTION_USE:
-            source_id = extras['source_id']
-            user_id = extras['user_id']
+            source_id = self.get_argument('source_id')
+            user_id = self.get_argument('user_id')
             self.handle_action_use(source_id, user_id)
         else:
             pass
@@ -86,6 +72,6 @@ class RequestHandler(tornado.web.RequestHandler):
 
 if __name__ == "__main__":
     server = tornado.httpserver.HTTPServer(MyApplication())
-    server.listen(8890)
+    server.listen(80)
     tornado.ioloop.IOLoop.instance().start()
 

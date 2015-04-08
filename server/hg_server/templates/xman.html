@@ -1,0 +1,24 @@
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>test</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+        <link rel="stylesheet" type="text/css" href="{{ static_url('css/test.css') }}" />
+    </head>
+    <body>
+        <div id="mycontainer" style="width: 400px; height: 500px">
+            <canvas id="mycanvas" width="400px" height="500px"></canvas>
+        </div>
+     <script src="{{ static_url('js/note_canvas.js') }}"></script>
+    <script src="js/note_canvas.js"></script>
+    <script>
+        var noteCanvas = new NoteCanvas({
+            root: document.getElementById('mycontainer'), 
+            canvas: document.getElementById('mycanvas'), 
+            path: "{{ static_url('img/page1.jpg') }}"
+            });
+    </script>
+    </body>
+</html>

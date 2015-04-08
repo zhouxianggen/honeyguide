@@ -1,49 +1,49 @@
 <!DOCTYPE html>
 <html>
-	<head>
-		<title>{{ title }}</title>
-		<meta charset="utf-8">
-		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-		<link rel="stylesheet" type="text/css" href="{{ static_url('css/view_comb.css') }}" />
-		<script src="{{ static_url('js/view_comb.js') }}"></script>
-	</head>
-	
-	<body onload="init()">
-		<div id="div_gallary" style="width: 400px; height: 640px;">
-			<div id="div_page_list">
-				<div class="div_swip_page" style="left: -10%;">
-					{% block page_left %}{% end %}
-				</div>
-				<ul id="ul_page_list">
-					{% for page in pages %}
-						<li>
-							<div class="div_page">
-								{% block page %}{% end %}
-							</div>
-						</li>
-					{% end %}
-				</ul>
-				<div class="div_swip_page" style="left: {{ len(pages) }}0%;">
-					{% block page_right %}{% end %}
-				</div>
-			</div>
-			<div id="div_page_indicator">
-				<div>
-					{% for i in range(len(pages)) %}
-						<a class="{{ 'selected_indicator' if i==0 else '' }}"></a>
-					{% end %}
-				</div>
-			</div>
-		</div>
-    	<div id="div_linker_panel">
-    		<div id="div_linker_menu">
-    			<a id="a_linker_menu"></a>
-    		</div>
-    		<div id="div_linker_list">
-				{% for linker in linkers %}
-					{% block linker %}{% end %}
-				{% end %}
-    		</div>
-    	</div>
-	</body>
+    <head>
+        <title>{{ title }}</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+        <link rel="stylesheet" type="text/css" href="{{ static_url('css/view_comb.css') }}" />
+        <script src="{{ static_url('js/view_comb.js') }}"></script>
+    </head>
+    
+    <body onload="init()">
+        <div id="div_gallary" style="width: 400px; height: 640px;">
+            <div id="div_page_list">
+                <div class="div_swip_page" style="left: -10%;">
+                    {% block page_left %}{% end %}
+                </div>
+                <ul id="ul_page_list">
+                    {% for page in pages %}
+                        <li>
+                            <div class="div_page">
+                                {% block page %}{% end %}
+                            </div>
+                        </li>
+                    {% end %}
+                </ul>
+                <div class="div_swip_page" style="left: {{ len(pages) }}0%;">
+                    {% block page_right %}{% end %}
+                </div>
+            </div>
+            <div id="div_page_indicator">
+                <div>
+                    {% for i in range(len(pages)) %}
+                        <a class="{{ 'selected_indicator' if i==0 else '' }}"></a>
+                    {% end %}
+                </div>
+            </div>
+        </div>
+        <div id="div_linker_panel">
+            <div id="div_linker_menu">
+                <a id="a_linker_menu"></a>
+            </div>
+            <div id="div_linker_list">
+                {% for linker in linkers %}
+                    {% block linker %}{% end %}
+                {% end %}
+            </div>
+        </div>
+    </body>
 </html>

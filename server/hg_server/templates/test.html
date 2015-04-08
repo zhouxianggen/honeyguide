@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>test</title>
+                <meta charset="utf-8">
+                <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+                <link rel="stylesheet" type="text/css" href="{{ static_url('css/test.css') }}" />
+                <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.0/jquery.min.js"></script>
+                <script src="{{ static_url('js/view_group.js') }}"></script>
+                <script src="{{ static_url('js/note_canvas.js') }}"></script>
+                <script src="{{ static_url('js/test.js') }}"></script>
+  </head>
+  <body onload="init()">
+
+ <div id="view_read" class="view" data-title="VEROMODA 西城广场店">
+                 <input type="file" id="input_files" multiple accept="image/*"/>
+                 <a href="#" id="a_share">分享</a>
+        </div>
+        
+        <div id="view_share" class="view" data-title="进行分享">
+        </div>
+        
+    <div id="view_add_text_note" class="view" data-title="你想写点什么">
+        <textarea id="textarea_note"></textarea>
+        <button id="button_ok">
+                        OK
+                </button id>
+    </div>
+    
+    <div id="view_add_audio_note" class="view" data-title="你想说些什么">
+        view_add_audio_note
+    </div>
+    
+  </body>
+</html>
