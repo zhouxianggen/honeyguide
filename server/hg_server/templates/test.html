@@ -11,18 +11,32 @@
                 <script src="{{ static_url('js/test.js') }}"></script>
   </head>
   <body onload="init()">
-
- <div id="view_read" class="view" data-title="VEROMODA 西城广场店">
+<div id="view_read" class="view" data-title="VEROMODA 西城广场店">
                  <input type="file" id="input_files" multiple accept="image/*"/>
                  <a href="#" id="a_share">分享</a>
         </div>
         
         <div id="view_share" class="view" data-title="进行分享">
+                <div id="div_page">
+                        <canvas id="canvas_page">
+                        </canvas>
+                </div>
+                <div id="div_footer">
+                        <button id="btn_note_text" type="submit">
+                                <img src="{{ static_url('img/note_tool_text.png') }}"/>
+                        </button>
+                        <button id="btn_note_voice" type="submit">
+                                <img src="{{ static_url('img/note_tool_voice.png') }}"/>
+                        </button>
+                </div>
+                <button id="btn_ok" type="submit">
+                        OK
+                </button>
         </div>
         
     <div id="view_add_text_note" class="view" data-title="你想写点什么">
-        <textarea id="textarea_note"></textarea>
-        <button id="button_ok">
+        <textarea id="view_add_text_note_textarea_note"></textarea>
+        <button id="view_add_text_note_button_ok">
                         OK
                 </button id>
     </div>
@@ -30,6 +44,6 @@
     <div id="view_add_audio_note" class="view" data-title="你想说些什么">
         view_add_audio_note
     </div>
-    
+   
   </body>
 </html>

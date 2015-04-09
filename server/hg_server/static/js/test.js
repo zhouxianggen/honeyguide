@@ -4,20 +4,36 @@
 
         var ViewAddTextNote = function(options) {
                 this.view = document.getElementById('view_add_text_note');
-                this.button = document.getElementById('button_ok');
-                this.textarea = document.getElementById('textarea_note');
+                this.btnOk = document.getElementById('view_add_text_note_button_ok');
+                this.textareaNote = document.getElementById('view_add_text_note_textarea_note');
+                this.handlers = {
+                        'display': this.display.bind(this)
+                };
                 this.setEventListeners();
         };
 
     ViewAddTextNote.prototype = {
-        getText: function() {
-                return this.textarea.value;
+        display: function(e) {
+                this.position = e.detail.position;
         },
         
         setEventListeners: function() {
-            this.button.addEventListener('click', function(e) {
-                alert(this.getText());
-                        viewGroup.setTopView(document.getElementById("view_share"));
+                this.view.addEventListener('active', function(e) {
+                        e.stopPropagation();
+                        e.preventDefault();
+                        var handler = this.handlers && this.handlers[e.detail.handler];
+                        if (handler) {
+                                handler(e);
+                        }
+                }.bind(this));
+                
+                this.btnOk.addEventListener('click', function(e) {
+                        var note = null;
+                        if (this.textareaNote.value) {
+                                note = {'type':'text', 'data':this.textareaNote.value, 'position':this.position};
+                        }
+                        viewGroup.activeView(document.getElementById('view_share'),
+                                {'handler': 'addNote', 'note': note});
             }.bind(this));
         }
     };
@@ -60,8 +76,8 @@
                                 return function(e) {
                                         obj.images.push(e.target.result);
                                         if (obj.images.length == obj.inputElement.files.length) {
-                                                viewGroup.setTopView(document.getElementById("view_share"));
-                                                viewShare.init(obj.images);
+                                                viewGroup.activeView(document.getElementById("view_share"), 
+                                                        {'handler': 'display', 'images': obj.images});
                                         }
                                 };
                         })(this);
@@ -76,116 +92,71 @@
 
 (function() {
     var root = this;
+    var STATUS_ADD_TEXT_NOTE = 1;
 
         var ViewShare = function(options) {
                 this.view = document.getElementById('view_share');
-                this.divPageList = null;
-                this.pages = new Array();
-                this.lastX = null;
-                this.left = 0;
-                this.inited = false;
+                this.divPage = document.getElementById('div_page');
+                this.canvasPage = document.getElementById('canvas_page');
+                this.divFooter = document.getElementById('div_footer');
+                this.btnNoteText = document.getElementById('btn_note_text');
+                this.btnNoteVoice = document.getElementById('btn_note_voice');
+                this.btnOk = document.getElementById('btn_ok');
+                this.noteCanvas = null;
+                this.handlers = {
+                        'display': this.display.bind(this), 
+                        'addNote': this.addNote.bind(this)
+                };
+                this.setEventListeners();
         };
 
     ViewShare.prototype = {
-        init: function(images) {
-                this.view.innerHTML = this.generateInnerHtml(images);
-                this.divPageList = document.getElementById('div_page_list');
-                        var pages = this.view.getElementsByClassName('div_page');
-                        for (var i = 0; i < pages.length; i++) {
-                                var canvas = pages[i].getElementsByClassName('canvas_page')[0];
-                                canvas.width = pages[i].clientWidth;
-                                canvas.height = pages[i].clientHeight;
-                                var noteCanvas = new NoteCanvas({root:pages[i], canvas:canvas, path:images[i]});
-                                this.pages.push(noteCanvas);
-                        }
-                        this.setEventListeners();
-                        this.inited = true;
+        display: function(e) {
+                this.divPage = document.getElementById('div_page');
+                        this.canvasPage = document.getElementById('canvas_page');
+                        this.canvasPage.width = this.divPage.clientWidth;
+                        this.canvasPage.height = this.divPage.clientHeight;
+                        this.noteCanvas = new NoteCanvas({
+                                root:this.divPage, canvas:this.canvasPage, path:e.detail.images[0]});
         },
         
-        generatePageInnerHtml: function(image) {
-                var html = '<canvas class="canvas_page"></canvas>';
-                return html;
-        },
-        
-        generateInnerHtml: function(images) {
-                var cnt = images.length;
-                var html = '<div id="div_page_list">';
-                html += '<div class="div_swip_page" style="left: -10%;">';
-                html += this.generatePageInnerHtml((cnt==1)? null : images[0]);
-                html += '</div>';
-                html += '<ul>';
-                for (var i = 0; i < cnt; i++) {
-                        html += '<li><div class="div_page">';
-                        html += this.generatePageInnerHtml(images[0]);
-                        html += '</div></li>';
+        addNote: function(e) {
+                var note = e.detail.note;
+                if (!note) return;
+                
+                if (note.type == 'text') {
+                        this.noteCanvas.addTextNote(note.position, note.data);
                 }
-                html += '</ul>';
-                html += '<div class="div_swip_page" style="left: ' + cnt + '0%;">';
-                html += this.generatePageInnerHtml((cnt==1)? null : images[cnt-1]);
-                html += '</div>';
-                html += '</div>';
-                return html;
-        },
-        
-        doMove: function(relativeX, relativeY) {
-            if(this.lastX) {
-                var deltaX = relativeX - this.lastX;
-                                this.left += deltaX;
-            }
-            this.lastX = relativeX;
         },
         
         setEventListeners: function() {
-                this.divPageList.addEventListener('touchstart', function(e) {
+                this.view.addEventListener('active', function(e) {
+                        e.stopPropagation();
                         e.preventDefault();
-                this.lastX  = null;
-            }.bind(this));
-
-            this.divPageList.addEventListener('touchmove', function(e) {
-                e.preventDefault();
-                if(e.targetTouches.length == 1) {
-                    var relativeX = e.targetTouches[0].pageX - this.divPageList.getBoundingClientRect().left;
-                    var relativeY = e.targetTouches[0].pageY - this.divPageList.getBoundingClientRect().top;                
-                    this.doMove(relativeX, relativeY);
-                }
+                        var handler = this.handlers && this.handlers[e.detail.handler];
+                        if (handler) {
+                                handler(e);
+                        }
+                }.bind(this));
+                
+                this.btnOk.addEventListener('click', function(e) {
+                        e.stopPropagation();
+                        viewGroup.activeView(document.getElementById("view_read"));
             }.bind(this));
             
-            this.divPageList.addEventListener('touchend', function(e) {
-                        e.preventDefault();
+                this.btnNoteText.addEventListener('click', function(e) {
+                        e.stopPropagation();
+                this.status = STATUS_ADD_TEXT_NOTE;
             }.bind(this));
-        },
-        
-        animate: function() {
-                if (this.inited) {
-                        this.divPageList.style.left = this.left + 'px';
-                requestAnimationFrame(this.animate.bind(this));
-                }
-        },
-
-        checkRequestAnimationFrame: function() {
-            var lastTime = 0;
-            var vendors = ['ms', 'moz', 'webkit', 'o'];
-            for(var x = 0; x < vendors.length && !window.requestAnimationFrame; ++x) {
-                window.requestAnimationFrame = window[vendors[x]+'RequestAnimationFrame'];
-                window.cancelAnimationFrame = 
-                        window[vendors[x]+'CancelAnimationFrame'] || window[vendors[x]+'CancelRequestAnimationFrame'];
-            }
-
-            if (!window.requestAnimationFrame) {
-                window.requestAnimationFrame = function(callback, element) {
-                    var currTime = new Date().getTime();
-                    var timeToCall = Math.max(0, 16 - (currTime - lastTime));
-                    var id = window.setTimeout(function() { callback(currTime + timeToCall); }, timeToCall);
-                    lastTime = currTime + timeToCall;
-                    return id;
-                };
-            }
-
-            if (!window.cancelAnimationFrame) {
-                window.cancelAnimationFrame = function(id) {
-                    clearTimeout(id);
-                };
-            }
+            
+                        this.view.addEventListener('click', function(e) {
+                                if (this.status == STATUS_ADD_TEXT_NOTE) {
+                                        this.status = null;
+                                        var position = {x: e.pageX, y: e.pageY};
+                                        viewGroup.activeView(document.getElementById("view_add_text_note"),
+                                                {'handler': 'display', 'position': position});
+                                }
+            }.bind(this));
         }
     };
 
@@ -197,7 +168,6 @@ function init() {
         viewAddTextNote = new ViewAddTextNote();
         viewShare = new ViewShare();
         viewRead = new ViewRead();
-        
-        viewGroup.setTopView(document.getElementById("view_read"));
+        viewGroup.activeView(document.getElementById("view_read"));
 }
 

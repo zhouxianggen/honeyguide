@@ -3,26 +3,28 @@
     var root = this; //global object
     
     var TextNote = function(options) {
-        this.parent = options.parent;
-        this.xPercent = options.xPercent;
-        this.yPercent = options.yPercent;
+        this.container = options.container;
+        this.percentX = options.percentX;
+        this.percentY = options.percentY;
         this.text = options.text;
         this.element = document.createElement('div');
         this.element.className = 'text_note';
         this.element.innerHTML = this.text;
-        this.parent.root.appendChild(this.element);
+        this.parentView = this.container.getView();
+        this.parentView.appendChild(this.element);
         this.init = false;
     };
     
     TextNote.prototype = {
         animate: function() {
                 if (this.init) {
-                        var container_position = this.parent.getPosition();
-                        var container_area = this.parent.getArea();
-                    var left = container_position.x + container_area.width * this.xPercent;
-                    var top = container_position.y + container_area.height * this.yPercent;
+                        var p = this.container.getPosition();
+                        var area = this.container.getArea();
+                    var left = p.x + area.width * this.percentX;
+                    var top = p.y + area.height * this.percentY;
                     this.element.style.left = left + 'px';
                     this.element.style.top = top + 'px';
+                    this.init = true;
                 } else {
                         var canvas = document.createElement('canvas');
                         var ctx = canvas.getContext('2d');
@@ -192,21 +194,33 @@
     };
     
     var NoteCanvas = function(options) {
-        if( !options || !options.root || !options.canvas || !options.path) {
-            throw 'ImgZoom constructor: missing arguments canvas or path';
-        }
-
                 this.root = options.root;
                 this.imageTouchCanvas = new ImageTouchCanvas(options);
                 this.notes = new Array();
-                var parent = document.getElementById('mycontainer');
-                var note = new TextNote({parent:this, xPercent:0.2, yPercent:0.5, text:'马凯特嘎嘎啊'});
-                this.notes.push(note);
         this.checkRequestAnimationFrame();
         requestAnimationFrame(this.animate.bind(this));
     };
 
     NoteCanvas.prototype = {
+        addTextNote: function(position, text) {
+                var p = this.imageTouchCanvas.position;
+                var w = this.imageTouchCanvas.imgTexture.width * this.imageTouchCanvas.scale;
+                var h = this.imageTouchCanvas.imgTexture.height * this.imageTouchCanvas.scale;
+//          alert(position.x + ', ' + position.y);
+//          alert(p.x + ', ' + p.y);
+//          alert(w + ', ' + h);
+                        var percentX = (position.x - p.x) / w;
+                        var percentY = (position.y - p.y) / h;
+//          alert(percentX + ', ' + percentY);
+                        var options = {'container': this, 'percentX': percentX, 'percentY': percentY, 'text': text};    
+                var note = new TextNote(options);
+                this.notes.push(note);
+        },
+        
+        getView: function() {
+                return this.root;   
+        },
+        
         getPosition: function() {
                 return this.imageTouchCanvas.position;
         },
