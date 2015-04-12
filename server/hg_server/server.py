@@ -38,6 +38,7 @@ class RequestHandler(tornado.web.RequestHandler):
 
     #@tornado.web.authenticated
     def post(self):
+        print 'here'
         self.render('test.html')
         return
         action = self.get_argument('action')

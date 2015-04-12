@@ -172,6 +172,10 @@
 
         setEventListeners: function() {
             this.canvas.addEventListener('touchstart', function(e) {
+                if(this.scale > this.scaleRange.min) {
+                        e.stopPropagation();
+                }
+                
                 this.lastX          = null;
                 this.lastY          = null;
                 this.lastZoomScale  = null;
@@ -179,15 +183,26 @@
             }.bind(this));
 
             this.canvas.addEventListener('touchmove', function(e) {
+                if(this.scale > this.scaleRange.min) {
+                        e.stopPropagation();
+                }
+                
                 e.preventDefault();
                 
                 if(e.targetTouches.length == 2) {
                     this.doZoom(this.gesturePinchZoom(e));
                 }
-                else if(e.targetTouches.length == 1) {
+                else if(e.targetTouches.length == 1 && this.scale > this.scaleRange.min) {
+                        e.stopPropagation();
                     var relativeX = e.targetTouches[0].pageX - this.canvas.getBoundingClientRect().left;
                     var relativeY = e.targetTouches[0].pageY - this.canvas.getBoundingClientRect().top;                
                     this.doMove(relativeX, relativeY);
+                }
+            }.bind(this));
+            
+            this.canvas.addEventListener('touchend', function(e) {
+                if(this.scale > this.scaleRange.min) {
+                        e.stopPropagation();
                 }
             }.bind(this));
         }

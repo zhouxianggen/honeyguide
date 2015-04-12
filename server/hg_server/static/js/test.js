@@ -49,9 +49,27 @@
                         alert('file api not valid');
                 }
                 this.view = document.getElementById('view_read');
-                this.inputElement = document.getElementById("input_files");
-                this.aElement = document.getElementById('a_share');
-                this.images = new Array();
+                this.eInputFiles = document.getElementById("input_files");
+                this.eAddShare = document.getElementById('a_add_share');
+                this.eOpenLinkers = document.getElementById('btn_open_linkers');
+                this.eLinkers = document.getElementById('div_linkers');
+                this.eGallery = document.getElementById('div_gallary');
+                this.ePageList = document.getElementById('div_page_list');
+                this.ePages = null;
+                this.noteCanvas = null;
+                this.touchId = null;
+                this.lastTouchX = null;
+                this.pageIndex = 0;
+                this.pageWidth = 0;
+                this.moveTouchId = null;
+                this.touchStartXs = {};
+                this.touchStartTimes = {};
+                
+                this.inputImages = new Array();
+                this.handlers = {
+                        'display': this.display.bind(this), 
+                        'addShare': this.addShare.bind(this)
+                };
                 this.setEventListeners();
         };
 
@@ -61,29 +79,135 @@
         },
         
         setEventListeners: function() {
-                this.aElement.addEventListener('click', function(e) {
-                        this.inputElement.click();
+                this.view.addEventListener('active', function(e) {
+                        e.stopPropagation();
+                        e.preventDefault();
+                        var handler = this.handlers && this.handlers[e.detail.handler] || this.display.bind(this);
+                        handler(e);
+                }.bind(this));
+                
+                this.view.addEventListener('click', function(e) {
+                        if (this.eGallery.className == 'blur') {
+                                $(this.eLinkers).fadeOut('fast');
+                                $(this.eOpenLinkers).fadeIn('fast');
+                                this.eGallery.className = 'active';
+                        }
+            }.bind(this));
+            
+                this.eOpenLinkers.addEventListener('click', function(e) {
+                        e.stopPropagation();
+                        $(this.eOpenLinkers).fadeOut('fast');
+                        $(this.eLinkers).fadeIn('fast');
+                        this.eLinkers.style.display = 'flex';
+                        this.eGallery.className = 'blur';
+            }.bind(this));
+            
+                this.eAddShare.addEventListener('click', function(e) {
+                        this.eInputFiles.click();
                 e.preventDefault();
             }.bind(this));
             
-            this.inputElement.addEventListener('change', function(e) {
+            this.eInputFiles.addEventListener('change', function(e) {
                 e.stopPropagation();
                 e.preventDefault();
-                var urls = new Array();
                 for (var i = 0, f; f = this.inputElement.files[i]; i++) {
                         var reader = new FileReader();
                         reader.onload = (function(obj) {
                                 return function(e) {
-                                        obj.images.push(e.target.result);
-                                        if (obj.images.length == obj.inputElement.files.length) {
+                                        obj.inputImages.push(e.target.result);
+                                        if (obj.inputImages.length == obj.inputElement.files.length) {
                                                 viewGroup.activeView(document.getElementById("view_share"), 
-                                                        {'handler': 'display', 'images': obj.images});
+                                                        {'handler': 'display', 'images': obj.inputImages});
                                         }
                                 };
                         })(this);
                         reader.readAsDataURL(f);
                 }
             }.bind(this));
+            
+            this.ePageList.addEventListener('touchstart', function(e) {
+                if (e.touches.length == 1 && !this.moveTouchId) {
+                        this.moveTouchId = e.touches[0].identifier;
+                        this.touchStartXs[this.moveTouchId] = e.touches[0].pageX;
+                        this.touchStartTimes[this.moveTouchId] = new Date().getTime();
+                }
+            }.bind(this));
+
+            this.ePageList.addEventListener('touchmove', function(e) {
+                e.preventDefault();
+                for (var i = 0; i < e.touches.length; i++) {
+                        if(e.touches[0].identifier == this.moveTouchId) { // do move
+                            var deltaX = e.touches[0].pageX - this.touchStartXs[this.moveTouchId];
+                            var left = -(this.pageIndex * this.pageWidth) + deltaX;
+                            this.ePageList.style.left = left + 'px';
+                            document.getElementById('div_debug').innerHTML = 'pageIndex: '+this.pageIndex+' left: '+this.ePageList.style.left;
+                        }
+                }
+            }.bind(this));
+            
+            this.ePageList.addEventListener('touchend', function(e) {
+                e.preventDefault();
+                                for (var i = 0; i < e.changedTouches.length; i++) {
+                                        if (e.changedTouches[i].identifier == this.moveTouchId) {
+                                                var deltaX = e.changedTouches[0].pageX - this.touchStartXs[this.moveTouchId];
+                                                var absX = Math.abs(deltaX);
+                                                var endTime = new Date().getTime();
+                                                var speed = absX / (endTime - this.touchStartTimes[this.moveTouchId]);
+                                                if (absX*3 > this.pageWidth || speed > 0.2) {
+                                                        var duration = (this.pageWidth - absX)/this.pageWidth * 0.001;
+                                                        this.pageIndex += (deltaX < 0)? 1 : -1;
+                                                        this.setNoteCanvas(this.pageIndex);
+                                                } else {
+                                                        var duration = (absX)/this.pageWidth * 0.001;
+                                                }
+                                                this.ePageList.style.WebkitTransition = 'left ' + duration + 's easy-out';
+                            this.ePageList.style.left = -(this.pageIndex * this.pageWidth) + 'px';
+                            this.ePageList.style.WebkitTransition = 'ease-out';
+                            delete this.touchStartTimes[this.moveTouchId];
+                            delete this.touchStartXs[this.moveTouchId];
+                            this.moveTouchId = null;
+                                                document.getElementById('div_debug').innerHTML = 'pageIndex: '+this.pageIndex +' deltaX: '+deltaX+' speed: '+speed;
+                                        }
+                                }
+            }.bind(this));
+        },
+        
+        display: function(e) {
+                this.ePages = $(this.ePageList).find('.div_page');
+                for (var i = 0, e; e = this.ePages[i]; i++) {
+                        var divCanvas = $(e).find('.canvas_page')[0];
+                        divCanvas.width = e.clientWidth;
+                                divCanvas.height = e.clientHeight;
+                                this.pageWidth = e.clientWidth;
+                                this.setNoteCanvas(i);
+                }
+                this.ePageList.style.left = -(this.pageIndex * this.pageWidth) + 'px';
+                this.setNoteCanvas(this.pageIndex);
+        },
+        
+        setNoteCanvas: function(i) {
+                var root = this.ePages[i];
+                var canvas = $(root).find('.canvas_page')[0];
+                this.noteCanvas = new NoteCanvas({
+                                root:root, canvas:canvas, path:canvas.dataset.img});
+                        var divNotes = $(root).find('.div_note');
+                        for (var j = 0, n; n = divNotes[j]; j++) {
+                                if (n.dataset.type == 'text') {
+                                        var position = {x: n.dataset.x, y: n.dataset.y};
+                                        //noteCanvas.addTextNote(position, n.dataset.data);
+                                }
+                        }
+        },
+        
+        addShare: function(e) {
+        },
+        
+        animate: function(duration, tf) {
+                tf = typeof tf !== 'undefined' ? tf : 'linear';
+                this.ePageList.style.WebkitTransition = 'left ' + duration + 's ' + tf;
+                this.ePageList.style.MozTransition = 'left ' + duration + 's ' + tf;
+                this.ePageList.style.msTransition = 'left ' + duration + 's ' + tf;
+                this.ePageList.style.transition = 'left ' + duration + 's ' + tf;
         }
     };
 
@@ -168,6 +292,7 @@ function init() {
         viewAddTextNote = new ViewAddTextNote();
         viewShare = new ViewShare();
         viewRead = new ViewRead();
+        
         viewGroup.activeView(document.getElementById("view_read"));
 }
 

@@ -5,17 +5,51 @@
                 <meta charset="utf-8">
                 <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
                 <link rel="stylesheet" type="text/css" href="{{ static_url('css/test.css') }}" />
-                <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.0/jquery.min.js"></script>
+                <script type="text/javascript" src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.8.0.js"></script>
                 <script src="{{ static_url('js/view_group.js') }}"></script>
                 <script src="{{ static_url('js/note_canvas.js') }}"></script>
                 <script src="{{ static_url('js/test.js') }}"></script>
   </head>
   <body onload="init()">
-<div id="view_read" class="view" data-title="VEROMODA 西城广场店">
-                 <input type="file" id="input_files" multiple accept="image/*"/>
-                 <a href="#" id="a_share">分享</a>
-        </div>
-        
+       <div id="view_read" class="view" data-title="VEROMODA 西城广场店">
+<div id="div_debug" style="position: absolute; width: 200px; height: 60px; background: #E66000; z-index: 100;"></div>
+            <input type="file" id="input_files" multiple accept="image/*"/>
+                <a href="#" id="a_add_share"></a>
+                <button id="btn_open_linkers" type="submit">
+                </button>
+                <div id="div_linkers">
+                        <button id="btn_linker_gotaobao" type="submit" style="background-image: url({{ static_url('img/taobao.png') }});"></button>
+                        <button id="btn_linker_gotaobao" type="submit" style="background-image: url({{ static_url('img/call1.jpg') }});"></button>
+                        <button id="btn_linker_gotaobao" type="submit" style="background-image: url({{ static_url('img/express1.png') }});"></button>
+                </div>
+<div id="div_gallary">
+                        <div id="div_page_list">
+                                <div class="div_page">
+                                        <canvas class="canvas_page" data-img="{{ static_url('img/page1.jpg') }}">
+                                        </canvas>
+                                        <div class="div_note" data-type="text" data-x="100" y="200" data-data="我在西城广场">
+                                        </div>
+                                </div>
+                                <div class="div_page">
+                                        <canvas class="canvas_page" data-img="{{ static_url('img/page2.jpg') }}">
+                                        </canvas>
+                                </div>
+                                <div class="div_page">
+                                        <canvas class="canvas_page" data-img="{{ static_url('img/page3.jpg') }}">
+                                        </canvas>
+                                </div>
+                                <div class="div_page">
+                                        <canvas class="canvas_page" data-img="{{ static_url('img/page4.jpg') }}">
+                                        </canvas>
+                                </div>
+                                <div class="div_page">
+                                        <canvas class="canvas_page" data-img="{{ static_url('img/page5.jpg') }}">
+                                        </canvas>
+                                </div>
+                        </div>
+                </div>
+        </div> 
+
         <div id="view_share" class="view" data-title="进行分享">
                 <div id="div_page">
                         <canvas id="canvas_page">
