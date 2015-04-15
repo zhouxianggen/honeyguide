@@ -2,74 +2,64 @@
 (function() {
     var root = this; //global object
     
-    var TextNote = function(options) {
-        this.container = options.container;
-        this.percentX = options.percentX;
-        this.percentY = options.percentY;
-        this.text = options.text;
-        this.element = document.createElement('div');
-        this.element.className = 'text_note';
-        this.element.innerHTML = this.text;
-        this.parentView = this.container.getView();
-        this.parentView.appendChild(this.element);
+    var TextNote = function(parent, position, text) {
+        this.parent = parent;
+        this.position = position;
+        this.text = text;
+        this.eNote = document.createElement('div');
+        this.eNote.className = 'div_text_note shadow';
+        this.eNote.innerHTML = this.text;
+        this.parentView = this.parent.getView();
+        this.eNote.style.display = 'none';
+        this.parentView.appendChild(this.eNote);
         this.init = false;
+        this.once = true;
     };
     
     TextNote.prototype = {
         animate: function() {
-                if (this.init) {
-                        var p = this.container.getPosition();
-                        var area = this.container.getArea();
-                    var left = p.x + area.width * this.percentX;
-                    var top = p.y + area.height * this.percentY;
-                    this.element.style.left = left + 'px';
-                    this.element.style.top = top + 'px';
+            if (this.init) {
+                var p = this.parent.getPosition();
+                var a = this.parent.getArea();
+                var left = p.x + a.width * this.position.x;
+                var top = p.y + a.height * this.position.y;
+                this.eNote.style.left = left + 'px';
+                this.eNote.style.top = top + 'px';
+                this.eNote.style.display = 'block';
+            } else {
+                var a = this.parent.getArea();
+                if (a.width > 0 && a.height > 0) {
                     this.init = true;
-                } else {
-                        var canvas = document.createElement('canvas');
-                        var ctx = canvas.getContext('2d');
-                        this.element.appendChild(canvas);
-                        
-                        var width = canvas.width;
-                            var height = canvas.height;
-                            var mid = Math.min(width*0.3, height*0.3);      
-                            ctx.beginPath();
-                            ctx.moveTo(0, 0);
-                            ctx.lineTo(0, height-mid);
-                            ctx.quadraticCurveTo(0, height, mid, height);
-                            ctx.lineTo(width, height);
-                            ctx.lineTo(width, mid);
-                            ctx.quadraticCurveTo(width, 0, width-mid, 0);
-                            ctx.lineTo(0, 0);
-                        ctx.fillStyle = "rgba(14, 14, 14, 0.75)";
-                        ctx.fill();
-  
-                        this.init = true;
                 }
+            }
         }
     };
     
-        var ImageTouchCanvas = function(options) {
+    var ImageTouchCanvas = function(options) {
         this.canvas = options.canvas;
         this.context = this.canvas.getContext('2d');
+        this.context.shadowOffsetX = 0;
+        this.context.shadowOffsetY = 0;
+        this.context.shadowBlur = 4;
+        this.context.shadowColor = "#000000";
 
-                this.init = false;
-                this.position = {x: 0, y: 0};
+        this.init = false;
+        this.position = {x: 0, y: 0};
         this.scale = 1.0;
         this.scaleCenter = {x: 0, y: 0};
         this.scaleRange = {min: 0, max: 0};
         
-                this.imgTexture = new Image();
+        this.imgTexture = new Image();
         this.imgTexture.src = options.path;
         this.imgTexture.onload = function() {
-                        var cw = this.canvas.clientWidth, ch = this.canvas.clientHeight;
-                var iw = this.imgTexture.width, ih = this.imgTexture.height;
+            var cw = this.canvas.clientWidth, ch = this.canvas.clientHeight;
+            var iw = this.imgTexture.width, ih = this.imgTexture.height;
             this.scale = Math.min(cw/iw, ch/ih);
             this.scaleRange = {min: this.scale, max: 4};
-                        this.position.x= (cw - this.scale * iw) / 2;
-                        this.position.y = (ch - this.scale * ih) / 2;
-                        this.init = true;
-                }.bind(this);
+            this.position.x= (cw - this.scale * iw) / 2;
+            this.position.y = (ch - this.scale * ih) / 2;
+            this.init = true;
+        }.bind(this);
 
         this.lastZoomScale = null;
         this.lastX = null;
@@ -79,14 +69,14 @@
 
     ImageTouchCanvas.prototype = {
         animate: function() {
-                if (this.init) {
-                    this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);  
-                    this.context.drawImage(
-                        this.imgTexture, 
-                        this.position.x, this.position.y, 
-                        this.scale * this.imgTexture.width, 
-                        this.scale * this.imgTexture.height);
-                }
+            if (this.init) {
+                this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);  
+                this.context.drawImage(
+                    this.imgTexture, 
+                    this.position.x, this.position.y, 
+                    this.scale * this.imgTexture.width, 
+                    this.scale * this.imgTexture.height);
+            }
         },
 
         gesturePinchZoom: function(event) {
@@ -100,7 +90,7 @@
                 if( this.lastZoomScale ) {
                     zoom = (zoomScale - this.lastZoomScale) / 100;
                 } else {
-                        this.scaleCenter = {x: (p1.pageX + p2.pageX)/2, y: (p1.pageY + p2.pageY)/2}
+                    this.scaleCenter = {x: (p1.pageX + p2.pageX)/2, y: (p1.pageY + p2.pageY)/2}
                 }
 
                 this.lastZoomScale = zoomScale;
@@ -136,9 +126,9 @@
         doMove: function(relativeX, relativeY) {
             if(this.lastX && this.lastY) {
                 var deltaX = relativeX - this.lastX;
-                                var deltaY = relativeY - this.lastY;
-                                this.position.x += deltaX;
-                                this.position.y += deltaY;
+                var deltaY = relativeY - this.lastY;
+                this.position.x += deltaX;
+                this.position.y += deltaY;
                 this.alignEdge();
             }
             this.lastX = relativeX;
@@ -146,26 +136,26 @@
         },
         
         alignEdge: function() {
-                var cw = this.canvas.clientWidth, ch = this.canvas.clientHeight;
-                var iw = this.imgTexture.width * this.scale, ih = this.imgTexture.height * this.scale;
+            var cw = this.canvas.clientWidth, ch = this.canvas.clientHeight;
+            var iw = this.imgTexture.width * this.scale, ih = this.imgTexture.height * this.scale;
             if (iw < cw) {
                 this.position.x= (cw - iw) / 2;
             } else {
                 if (this.position.x > 0) {
-                        this.position.x = 0;
+                    this.position.x = 0;
                 }
                 if (this.position.x + iw < cw) {
-                        this.position.x = cw - iw;
+                    this.position.x = cw - iw;
                 }
             }
             if (ih < ch) {
-                                this.position.y = (ch - ih) / 2;
+                this.position.y = (ch - ih) / 2;
             } else {
                 if (this.position.y > 0) {
-                        this.position.y = 0;
+                    this.position.y = 0;
                 }
                 if (this.position.y + ih < ch) {
-                        this.position.y = ch - ih;
+                    this.position.y = ch - ih;
                 }
             }
         },
@@ -173,18 +163,18 @@
         setEventListeners: function() {
             this.canvas.addEventListener('touchstart', function(e) {
                 if(this.scale > this.scaleRange.min) {
-                        e.stopPropagation();
+                    e.stopPropagation();
                 }
                 
                 this.lastX          = null;
                 this.lastY          = null;
                 this.lastZoomScale  = null;
                 this.scaleCenter    = null;
-            }.bind(this));
+            }.bind(this), false);
 
             this.canvas.addEventListener('touchmove', function(e) {
                 if(this.scale > this.scaleRange.min) {
-                        e.stopPropagation();
+                    e.stopPropagation();
                 }
                 
                 e.preventDefault();
@@ -193,65 +183,55 @@
                     this.doZoom(this.gesturePinchZoom(e));
                 }
                 else if(e.targetTouches.length == 1 && this.scale > this.scaleRange.min) {
-                        e.stopPropagation();
+                    e.stopPropagation();
                     var relativeX = e.targetTouches[0].pageX - this.canvas.getBoundingClientRect().left;
                     var relativeY = e.targetTouches[0].pageY - this.canvas.getBoundingClientRect().top;                
                     this.doMove(relativeX, relativeY);
                 }
-            }.bind(this));
+            }.bind(this), false);
             
             this.canvas.addEventListener('touchend', function(e) {
                 if(this.scale > this.scaleRange.min) {
-                        e.stopPropagation();
+                    e.stopPropagation();
                 }
-            }.bind(this));
+            }.bind(this), false);
         }
     };
     
     var NoteCanvas = function(options) {
-                this.root = options.root;
-                this.imageTouchCanvas = new ImageTouchCanvas(options);
-                this.notes = new Array();
+        this.root = options.root;
+        this.imageTouchCanvas = new ImageTouchCanvas(options);
+        this.notes = new Array();
         this.checkRequestAnimationFrame();
         requestAnimationFrame(this.animate.bind(this));
     };
 
     NoteCanvas.prototype = {
         addTextNote: function(position, text) {
-                var p = this.imageTouchCanvas.position;
-                var w = this.imageTouchCanvas.imgTexture.width * this.imageTouchCanvas.scale;
-                var h = this.imageTouchCanvas.imgTexture.height * this.imageTouchCanvas.scale;
-//          alert(position.x + ', ' + position.y);
-//          alert(p.x + ', ' + p.y);
-//          alert(w + ', ' + h);
-                        var percentX = (position.x - p.x) / w;
-                        var percentY = (position.y - p.y) / h;
-//          alert(percentX + ', ' + percentY);
-                        var options = {'container': this, 'percentX': percentX, 'percentY': percentY, 'text': text};    
-                var note = new TextNote(options);
-                this.notes.push(note);
+            var note = new TextNote(this, position, text);
+            this.notes.push(note);
         },
         
         getView: function() {
-                return this.root;   
+            return this.root;   
         },
         
         getPosition: function() {
-                return this.imageTouchCanvas.position;
+            return this.imageTouchCanvas.position;
         },
         
         getArea: function() {
-                var iw = this.imageTouchCanvas.imgTexture.width;
-                var ih = this.imageTouchCanvas.imgTexture.height;
-                var scale = this.imageTouchCanvas.scale;
-                return {width: iw * scale, height: ih * scale};
+            var iw = this.imageTouchCanvas.imgTexture.width;
+            var ih = this.imageTouchCanvas.imgTexture.height;
+            var scale = this.imageTouchCanvas.scale;
+            return {width: iw * scale, height: ih * scale};
         },
         
         animate: function() {
-                this.imageTouchCanvas.animate();
-                for (var i = 0, note; note = this.notes[i]; i++) {
-                        note.animate();
-                }
+            this.imageTouchCanvas.animate();
+            for (var i = 0, note; note = this.notes[i]; i++) {
+                note.animate();
+            }
             requestAnimationFrame(this.animate.bind(this));
         },
 
@@ -261,7 +241,7 @@
             for(var x = 0; x < vendors.length && !window.requestAnimationFrame; ++x) {
                 window.requestAnimationFrame = window[vendors[x]+'RequestAnimationFrame'];
                 window.cancelAnimationFrame = 
-                        window[vendors[x]+'CancelAnimationFrame'] || window[vendors[x]+'CancelRequestAnimationFrame'];
+                    window[vendors[x]+'CancelAnimationFrame'] || window[vendors[x]+'CancelRequestAnimationFrame'];
             }
 
             if (!window.requestAnimationFrame) {

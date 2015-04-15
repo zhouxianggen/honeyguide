@@ -12,27 +12,47 @@
   </head>
   <body onload="init()">
        <div id="view_read" class="view" data-title="VEROMODA 西城广场店">
-<div id="div_debug" style="position: absolute; width: 200px; height: 60px; background: #E66000; z-index: 100;"></div>
+<div id="div_debug" style="display: none; position: absolute; width: 200px; height: 60px; background: #E66000; z-index: 100;"></div>
             <input type="file" id="input_files" multiple accept="image/*"/>
                 <a href="#" id="a_add_share"></a>
                 <button id="btn_open_linkers" type="submit">
                 </button>
                 <div id="div_linkers">
-                        <button id="btn_linker_gotaobao" type="submit" style="background-image: url({{ static_url('img/taobao.png') }});"></button>
-                        <button id="btn_linker_gotaobao" type="submit" style="background-image: url({{ static_url('img/call1.jpg') }});"></button>
-                        <button id="btn_linker_gotaobao" type="submit" style="background-image: url({{ static_url('img/express1.png') }});"></button>
-                </div>
+<div class="div_linker">
+                                <button type="submit" data-url="" style="background-image: url({{ static_url('img/taobao.png') }});">       
+                                </button>
+                                <div id="title">
+                                        去淘宝
+                                </div>
+                        </div>
+                        <div class="div_linker">
+                                <button type="submit" data-url="" style="background-image: url({{ static_url('img/call1.jpg') }});">       
+                                </button>
+                                <div id="title">
+                                        免费电话
+                                </div>
+                        </div>
+                        <div class="div_linker">
+                                <button type="submit" data-url="" style="background-image: url({{ static_url('img/express1.png') }});">       
+                                </button>
+                                <div id="title">
+                                        同城快递
+                                </div>
+                        </div>                
+</div>
 <div id="div_gallary">
                         <div id="div_page_list">
                                 <div class="div_page">
                                         <canvas class="canvas_page" data-img="{{ static_url('img/page1.jpg') }}">
                                         </canvas>
-                                        <div class="div_note" data-type="text" data-x="100" y="200" data-data="我在西城广场">
-                                        </div>
+<div class="div_note" data-type="text" data-x="0.5" data-y="0.6" data-data="我在西城广场">                                        
+</div>
                                 </div>
                                 <div class="div_page">
                                         <canvas class="canvas_page" data-img="{{ static_url('img/page2.jpg') }}">
                                         </canvas>
+<div class="div_note" data-type="text" data-x="0.8" data-y="0.2" data-data="jack do you still love me">
+                    </div>
                                 </div>
                                 <div class="div_page">
                                         <canvas class="canvas_page" data-img="{{ static_url('img/page3.jpg') }}">
