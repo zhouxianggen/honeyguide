@@ -1,45 +1,6 @@
 
-(function() {
-    var root = this;
-
-    var ViewAddTextNote = function(options) {
-        this.view = document.getElementById('view_add_text_note');
-        this.btnOk = document.getElementById('view_add_text_note_button_ok');
-        this.textareaNote = document.getElementById('view_add_text_note_textarea_note');
-        this.handlers = {
-            'display': this.display.bind(this)
-        };
-        this.setEventListeners();
-    };
-
-    ViewAddTextNote.prototype = {
-        display: function(e) {
-            this.position = e.detail.position;
-        },
-        
-        setEventListeners: function() {
-            this.view.addEventListener('active', function(e) {
-                e.stopPropagation();
-                e.preventDefault();
-                var handler = this.handlers && this.handlers[e.detail.handler];
-                if (handler) {
-                    handler(e);
-                }
-            }.bind(this));
-            
-            this.btnOk.addEventListener('click', function(e) {
-                var note = null;
-                if (this.textareaNote.value) {
-                    note = {'type':'text', 'data':this.textareaNote.value, 'position':this.position};
-                }
-                viewGroup.activeView(document.getElementById('view_share'),
-                    {'handler': 'addNote', 'note': note});
-            }.bind(this));
-        }
-    };
-
-    root.ViewAddTextNote = ViewAddTextNote;
-}).call(this);
+window.URL = window.URL || window.webkitURL;
+navigator.getUserMedia  = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia;
 
 (function() {
     var root = this;
@@ -68,7 +29,7 @@
         this.pageListTouchId = null;
         this.pageListPosition = {x: 0, y: 0};
         
-        this.inputImages = new Array();
+        this.selectedImages = new Array();
         this.handlers = {
             'display': this.display.bind(this), 
             'addShare': this.addShare.bind(this)
@@ -185,14 +146,14 @@
             }.bind(this), false);
             
             this.eInputFiles.addEventListener('change', function(e) {
-                for (var i = 0, f; f = this.inputElement.files[i]; i++) {
+                for (var i = 0, f; f = this.eInputFiles.files[i]; i++) {
                     var reader = new FileReader();
                     reader.onload = (function(obj) {
                         return function(e) {
-                            obj.inputImages.push(e.target.result);
-                            if (obj.inputImages.length == obj.inputElement.files.length) {
+                            obj.selectedImages.push(e.target.result);
+                            if (obj.selectedImages.length == obj.eInputFiles.files.length) {
                                 viewGroup.activeView(document.getElementById("view_share"), 
-                                    {'handler': 'display', 'images': obj.inputImages});
+                                    {'handler': 'display', 'images': obj.selectedImages});
                             }
                         };
                     })(this);
@@ -319,37 +280,37 @@
 
     var ViewShare = function(options) {
         this.view = document.getElementById('view_share');
-        this.divPage = document.getElementById('div_page');
-        this.canvasPage = document.getElementById('canvas_page');
-        this.divFooter = document.getElementById('div_footer');
-        this.btnNoteText = document.getElementById('btn_note_text');
-        this.btnNoteVoice = document.getElementById('btn_note_voice');
-        this.btnOk = document.getElementById('btn_ok');
+        this.eSelectedPage = $(this.view).find('#div_selected_page')[0];
+        this.ePageCanvas = $(this.eSelectedPage).find('#canvas_page')[0];
+        this.eNoteTools = $(this.view).find('#div_note_tools')[0];
+        this.eOpenNoteText = $(this.eNoteTools).find('#btn_note_text')[0];
+        this.eOpenNoteAudio = $(this.eNoteTools).find('#btn_note_audio')[0];
+        this.eNoteText = $(this.view).find('#frame_note_text')[0];
+        this.eNoteTextarea = $(this.eNoteText).find('#textarea_note')[0];
+        this.eFinishNoteText = $(this.eNoteText).find('#btn_finish_note_text')[0];
+        this.eNoteAudio = $(this.view).find('#frame_note_audio')[0];
+        this.eFinishNoteAudio = $(this.eNoteAudio).find('#btn_finish_note_audio')[0];
+        this.eOk = $(this.view).find('#btn_ok')[0];
+        this.eClickAnimate = $(this.view).find('#div_click_animate')[0];
+        this.notePosition = {x: 0, y: 0};
+        this.AudioRecorder = null;
         this.noteCanvas = null;
         this.handlers = {
-            'display': this.display.bind(this), 
-            'addNote': this.addNote.bind(this)
+            'display': this.display.bind(this)
         };
         this.setEventListeners();
     };
 
     ViewShare.prototype = {
         display: function(e) {
-            this.divPage = document.getElementById('div_page');
-            this.canvasPage = document.getElementById('canvas_page');
-            this.canvasPage.width = this.divPage.clientWidth;
-            this.canvasPage.height = this.divPage.clientHeight;
+            this.ePageCanvas.width = this.eSelectedPage.clientWidth;
+            this.ePageCanvas.height = this.eSelectedPage.clientHeight;
             this.noteCanvas = new NoteCanvas({
-                root:this.divPage, canvas:this.canvasPage, path:e.detail.images[0]});
-        },
-        
-        addNote: function(e) {
-            var note = e.detail.note;
-            if (!note) return;
-            
-            if (note.type == 'text') {
-                this.noteCanvas.addTextNote(note.position, note.data);
-            }
+                root:this.eSelectedPage, canvas:this.ePageCanvas, path:e.detail.images[0]});
+            this.eSelectedPage.className = 'normal';
+            this.eOk.className = 'normal';
+            this.eOpenNoteText.className = 'normal';
+            this.eOpenNoteText.className = 'normal';
         },
         
         setEventListeners: function() {
@@ -361,25 +322,74 @@
                     handler(e);
                 }
             }.bind(this));
-            
-            this.btnOk.addEventListener('click', function(e) {
+        
+            this.eOk.addEventListener('click', function(e) {
+                this.eOk.className = 'pressed';
                 e.stopPropagation();
+                e.preventDefault();
                 viewGroup.activeView(document.getElementById("view_read"));
-            }.bind(this));
+            }.bind(this), false);
             
-            this.btnNoteText.addEventListener('click', function(e) {
+            this.eOpenNoteText.addEventListener('click', function(e) {
+                this.eOpenNoteText.className = 'pressed';
+                $(this.eOk).fadeOut('fast');
+                $(this.eNoteTools).fadeOut('fast');
+                $(this.eNoteText).fadeIn('fast');
+                this.eSelectedPage.className = 'blur';
                 e.stopPropagation();
-                this.status = STATUS_ADD_TEXT_NOTE;
-            }.bind(this));
+                e.preventDefault();
+            }.bind(this), false);
+            
+            this.eOpenNoteAudio.addEventListener('click', function(e) {
+                this.eOpenNoteText.className = 'pressed';
+                $(this.eOk).fadeOut('fast');
+                $(this.eNoteTools).fadeOut('fast');
+                $(this.eNoteAudio).fadeIn('fast');
+                this.eSelectedPage.className = 'blur';
+                e.stopPropagation();
+                e.preventDefault();
+                navigator.getUserMedia({audio: true}, function(s) {
+                        var url = window.URL.createObjectURL(s);
+                    }.bind(this), function(e) {
+                        this.AudioRecorder = null;
+                    }.bind(this));
+            }.bind(this), false);
+            
+            this.eFinishNoteAudio.addEventListener('click', function(e) {
+                e.stopPropagation();
+                $(this.eOk).fadeIn('fast');
+                $(this.eNoteAudio).fadeOut('fast');
+                this.eSelectedPage.className = 'normal';
+                //this.AudioRecorder.stop();
+                this.noteCanvas.addAudioNote(this.notePosition, this.AudioRecorder);
+            }.bind(this), false);
+            
+            this.eNoteText.addEventListener('click', function(e) {
+                e.stopPropagation();
+            }.bind(this), false);
+            
+            this.eFinishNoteText.addEventListener('click', function(e) {
+                e.stopPropagation();
+                if (this.eNoteTextarea.value) {
+                    this.noteCanvas.addTextNote(this.notePosition, this.eNoteTextarea.value);
+                    this.eNoteTextarea.value = '';
+                }
+                $(this.eOk).fadeIn('fast');
+                $(this.eNoteText).fadeOut('fast');
+                this.eSelectedPage.className = 'normal';
+            }.bind(this), false);
             
             this.view.addEventListener('click', function(e) {
-                if (this.status == STATUS_ADD_TEXT_NOTE) {
-                    this.status = null;
-                    var position = {x: e.pageX, y: e.pageY};
-                    viewGroup.activeView(document.getElementById("view_add_text_note"),
-                        {'handler': 'display', 'position': position});
+                if (this.eSelectedPage.className == 'normal') {
+                    $(this.eNoteTools).fadeIn('fast');
+                    var p = this.noteCanvas.getPosition();
+                    var a = this.noteCanvas.getArea();
+                    this.notePosition = {x: (e.pageX-p.x)/a.width, y: (e.pageY-p.y)/a.height};
+                    setTimeout(function() {
+                        $(this.eNoteTools).fadeOut('fast');
+                    }.bind(this), 2000);
                 }
-            }.bind(this));
+            }.bind(this), false);
         }
     };
 
@@ -388,10 +398,10 @@
 
 function init() {
     viewGroup = new ViewGroup();
-    viewAddTextNote = new ViewAddTextNote();
     viewShare = new ViewShare();
     viewRead = new ViewRead();
     
-    viewGroup.activeView(document.getElementById("view_read"));
+    //viewGroup.activeView(document.getElementById("view_read"));
+    viewGroup.activeView(document.getElementById("view_share"), {'handler': 'display', 'images': ['./img/page2.jpg']});
 }
 

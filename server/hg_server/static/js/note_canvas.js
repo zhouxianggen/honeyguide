@@ -2,12 +2,44 @@
 (function() {
     var root = this; //global object
     
+    var AudioNote = function(parent, position, text) {
+        this.parent = parent;
+        this.position = position;
+        this.text = text;
+        this.eNote = document.createElement('div');
+        this.eNote.className = 'div_audio_note';
+        this.parentView = this.parent.getView();
+        this.eNote.style.display = 'none';
+        this.parentView.appendChild(this.eNote);
+        this.init = false;
+        this.once = true;
+    };
+    
+    AudioNote.prototype = {
+        animate: function() {
+            if (this.init) {
+                var p = this.parent.getPosition();
+                var a = this.parent.getArea();
+                var left = p.x + a.width * this.position.x;
+                var top = p.y + a.height * this.position.y;
+                this.eNote.style.left = left + 'px';
+                this.eNote.style.top = top + 'px';
+                this.eNote.style.display = 'block';
+            } else {
+                var a = this.parent.getArea();
+                if (a.width > 0 && a.height > 0) {
+                    this.init = true;
+                }
+            }
+        }
+    };
+    
     var TextNote = function(parent, position, text) {
         this.parent = parent;
         this.position = position;
         this.text = text;
         this.eNote = document.createElement('div');
-        this.eNote.className = 'div_text_note shadow';
+        this.eNote.className = 'div_text_note';
         this.eNote.innerHTML = this.text;
         this.parentView = this.parent.getView();
         this.eNote.style.display = 'none';
@@ -209,6 +241,11 @@
     NoteCanvas.prototype = {
         addTextNote: function(position, text) {
             var note = new TextNote(this, position, text);
+            this.notes.push(note);
+        },
+        
+        addAudioNote: function(position, audio) {
+            var note = new AudioNote(this, position, audio);
             this.notes.push(note);
         },
         
