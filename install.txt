@@ -1,0 +1,11 @@
+
+mysql -uzhouxg -pjustaguest -hhg2.c7dsdrfy4wfo.us-west-2.rds.amazonaws.com
+
+
+sudo yum install mysql-devel
+
+wget https://pypi.python.org/packages/source/M/MySQL-python/MySQL-python-1.2.5.zip#md5=654f75b302db6ed8dc5a898c625e030c
+unzip MySQL-python-1.2.5.zip
+cd MySQL-python-1.2.5
+sudo python setup.py build
+sudo python setup.py install
