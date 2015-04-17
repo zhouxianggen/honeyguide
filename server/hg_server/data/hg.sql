@@ -35,6 +35,16 @@ CREATE TABLE `action_link` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
+-- Dumping data for table `action_link`
+--
+
+LOCK TABLES `action_link` WRITE;
+/*!40000 ALTER TABLE `action_link` DISABLE KEYS */;
+INSERT INTO `action_link` VALUES ('1','1','1','2015-04-09 00:00:00','');
+/*!40000 ALTER TABLE `action_link` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `action_taste`
 --
 
@@ -55,6 +65,16 @@ CREATE TABLE `action_taste` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
+-- Dumping data for table `action_taste`
+--
+
+LOCK TABLES `action_taste` WRITE;
+/*!40000 ALTER TABLE `action_taste` DISABLE KEYS */;
+INSERT INTO `action_taste` VALUES ('1','1','1','1','1','2015-04-30 00:00:00','');
+/*!40000 ALTER TABLE `action_taste` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `meta_bee`
 --
 
@@ -68,6 +88,16 @@ CREATE TABLE `meta_bee` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `meta_bee`
+--
+
+LOCK TABLES `meta_bee` WRITE;
+/*!40000 ALTER TABLE `meta_bee` DISABLE KEYS */;
+INSERT INTO `meta_bee` VALUES ('1','zxg','');
+/*!40000 ALTER TABLE `meta_bee` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
 -- Table structure for table `meta_comb`
@@ -85,6 +115,16 @@ CREATE TABLE `meta_comb` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `meta_comb`
+--
+
+LOCK TABLES `meta_comb` WRITE;
+/*!40000 ALTER TABLE `meta_comb` DISABLE KEYS */;
+INSERT INTO `meta_comb` VALUES ('1','1','VERO MODA 西城广场店','',1);
+/*!40000 ALTER TABLE `meta_comb` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
 -- Table structure for table `meta_linker`
@@ -106,6 +146,16 @@ CREATE TABLE `meta_linker` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
+-- Dumping data for table `meta_linker`
+--
+
+LOCK TABLES `meta_linker` WRITE;
+/*!40000 ALTER TABLE `meta_linker` DISABLE KEYS */;
+INSERT INTO `meta_linker` VALUES ('1','1','http://54.69.50.170/?bee=1&comb=1','去淘宝','从微信快速访问你的淘宝店','taobao.png','0'),('2','2','http://54.69.50.170/?bee=1&comb=1','免费电话','免费电话','call1.jpg','0'),('3','3','http://54.69.50.170/?bee=1&comb=1','风先生','同城速递','express1.png','0');
+/*!40000 ALTER TABLE `meta_linker` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `meta_waggle`
 --
 
@@ -123,6 +173,16 @@ CREATE TABLE `meta_waggle` (
   KEY `bee_id` (`bee_id`,`comb_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `meta_waggle`
+--
+
+LOCK TABLES `meta_waggle` WRITE;
+/*!40000 ALTER TABLE `meta_waggle` DISABLE KEYS */;
+INSERT INTO `meta_waggle` VALUES ('1','1','1','0000-00-00 00:00:00','','{\"image\": \"page1.jpg\", \"notes\":[{\"type\":\"text\", \"position_x\": 0.2, \"position_y\": 0.6, \"content\": \"ding in the sun\"}]}'),('2','1','1','0000-00-00 00:00:00','','{\"image\": \"page2.jpg\", \"notes\": []}'),('3','1','1','0000-00-00 00:00:00','','{\"image\": \"page3.jpg\", \"notes\": []}'),('4','1','1','0000-00-00 00:00:00','','{\"image\": \"page4.jpg\", \"notes\": []}'),('5','1','1','0000-00-00 00:00:00','','{\"image\": \"page5.jpg\", \"notes\": []}');
+/*!40000 ALTER TABLE `meta_waggle` ENABLE KEYS */;
+UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -133,4 +193,4 @@ CREATE TABLE `meta_waggle` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-04-17 18:51:02
+-- Dump completed on 2015-04-17 20:36:16
