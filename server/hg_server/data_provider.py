@@ -19,3 +19,6 @@ class DataProvider(object):
     def get_comb(self, comb_id):
         comb = Comb()
         return comb
+	
+	def get_tastes(self, comb_id, bee_id):
+		pass

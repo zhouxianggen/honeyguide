@@ -16,13 +16,16 @@ CWD = os.path.dirname(os.path.abspath(__file__))
 sys.path.append(CWD)
 from data_provider import DataProvider
 
-ACTION_VIEW_COMB = 'view_comb'
-ACTION_ADD_SHARE = 'add_share'
-
 class MyApplication(tornado.web.Application):
     def __init__(self):
         handlers = [
-            (r"/", RequestHandler),
+            (r"/", DefaultRequestHandler),
+			(r"/add_comb?", AddCombRequestHandler),
+			(r"/edit_comb?", EditCombRequestHandler),
+			(r"/visit_comb?", VisitCombRequestHandler),
+			(r"/add_taste?", AddTasteRequestHandler),
+			(r"/register?", RegisterRequestHandler),
+			(r"/enroll?", EnrollRequestHandler)
         ]
         settings = dict(
             template_path=os.path.join(os.path.dirname(__file__), "templates"),
@@ -30,35 +33,22 @@ class MyApplication(tornado.web.Application):
             debug=True,
         )
         tornado.web.Application.__init__(self, handlers, **settings)
-        
-class RequestHandler(tornado.web.RequestHandler):
+
+class DefaultRequestHandler(tornado.web.RequestHandler):
     #@tornado.web.authenticated
     def get(self):
-        self.post()
-
+		self.write('Hello, world')
+			
+class VisitCombRequestHandler(tornado.web.RequestHandler):
     #@tornado.web.authenticated
-    def post(self):
-        print 'here'
-        self.render('test.html')
-        return
-        action = self.get_argument('action')
-        if action == ACTION_VIEW_COMB:
-            self.handle_action_view_comb()
-        elif action == ACTION_ADD_SHARE:
-            self.handle_action_add_share()
-        
-    def handle_action_view_comb(self):
-        comb_id = self.get_argument('comb_id')
-        sharer_id = self.get_argument('sharer_id')        
-        comb = g_data_provider.get_comb(comb_id)
-        pages = comb.get_pages(sharer_id)
-        linkers = comb.get_linkers()
-        self.render('view_comb.html', title=comb.title, pages=pages, linkers=linkers)
+    def get(self):
+		comb_id = self.get_argument('comb')
+		bee_id = self.get_argument('bee')
+		comb = data_provider.get_comb(comb_id)
+		tastes = data_provider.get_tastes(comb_id, bee_id)
+        self.render('visit_comb.html')
 
-    def handle_action_add_share(self):
-        self.render('add_share.html', title=u'share')
-
-g_data_provider = DataProvider()
+data_provider = DataProvider()
 
 if __name__ == "__main__":
     server = tornado.httpserver.HTTPServer(MyApplication())

@@ -2,15 +2,14 @@
 (function() {
     var root = this;
 
-	var ViewRead = function(options) {
-		this.view = document.getElementById('view_read');
+	var ViewVisitComb = function(options) {
+		this.view = document.getElementById('view_visit_comb');
 		this.eInputFiles = document.getElementById("input_files");
-		this.eAddShare = document.getElementById('a_add_share');
+		this.eAddWaggle = document.getElementById('a_add_waggle');
 		this.eOpenLinkers = document.getElementById('btn_open_linkers');
 		this.eLinkers = document.getElementById('div_linkers');
 		this.eGallery = document.getElementById('div_gallary');
-		this.ePageList = document.getElementById('div_page_list');
-		this.ePages = null;
+		this.eWaggleList = document.getElementById('div_waggle_list');
 		this.handlers = {
 			'display': this.display.bind(this), 
 			'addShare': this.addShare.bind(this)
@@ -18,21 +17,22 @@
 		this.setEventListeners();
 	};
 
-    ViewRead.prototype = {
+    ViewVisitComb.prototype = {
     	reset: function() {
     		if (!isFileAPIValid()) {
 				alert('file api not valid');
 			}
     		this.noteCanvasList = new Array();
-			this.pageIndex = 0;
+			this.waggleIndex = 0;
 			this.touchStarts = {};
 			this.touchMoves = {};
 			this.touchTimes = {};
 			this.openLinkersTouchId = null;
 			this.openLinkersPosition = {x: 0, y: 0};
-			this.pageListTouchId = null;
+			this.waggleListTouchId = null;
 			this.pageListPosition = {x: 0, y: 0};
 			this.selectedImages = new Array();
+			this.waggleCount = 0;
     	},
     	
     	setEventListeners: function() {
@@ -48,7 +48,7 @@
     			if (this.eGallery.className == 'blur') {
     				e.stopPropagation();
 	    			$(this.eLinkers).fadeOut('fast');
-	    			$(this.eAddShare).fadeIn('fast');
+	    			$(this.eAddWaggle).fadeIn('fast');
 	    			$(this.eOpenLinkers).fadeIn('fast');
 	    			this.eGallery.className = 'active';
     			}
@@ -58,7 +58,7 @@
     			e.preventDefault();
     			e.stopPropagation();
     			$(this.eOpenLinkers).fadeOut('fast');
-    			$(this.eAddShare).fadeOut('fast');
+    			$(this.eAddWaggle).fadeOut('fast');
     			$(this.eLinkers).fadeIn('fast');
     			this.eGallery.className = 'blur';
             }.bind(this), true);
@@ -84,49 +84,49 @@
 				}
             }.bind(this), true);
             
-            this.ePageList.addEventListener('touchstart', function(e) {
-            	if (e.touches.length == 1 && this.pageListTouchId == null) {
-            		this.pageListTouchId = e.touches[0].identifier;
+            this.eWaggleList.addEventListener('touchstart', function(e) {
+            	if (e.touches.length == 1 && this.waggleListTouchId == null) {
+            		this.waggleListTouchId = e.touches[0].identifier;
             		var rec1 = this.view.getBoundingClientRect();
-            		var rec2 = this.ePageList.getBoundingClientRect();
+            		var rec2 = this.eWaggleList.getBoundingClientRect();
             		this.pageListPosition.x = rec2.left - rec1.left;
             		this.pageListPosition.y = rec2.top - rec1.top;
             		requestAnimationFrame(this.animate.bind(this));
             	}
             }.bind(this), true);
             
-            this.ePageList.addEventListener('touchend', function(e) {
+            this.eWaggleList.addEventListener('touchend', function(e) {
 				for (var i = 0; i < e.changedTouches.length; i++) {
-					if (e.changedTouches[i].identifier == this.pageListTouchId) {
-						var sp = this.touchStarts[this.pageListTouchId];
-    					var mp = this.touchMoves[this.pageListTouchId];
+					if (e.changedTouches[i].identifier == this.waggleListTouchId) {
+						var sp = this.touchStarts[this.waggleListTouchId];
+    					var mp = this.touchMoves[this.waggleListTouchId];
     					var deltaX = (mp && sp)? mp.x - sp.x : 0;
 						var absX = Math.abs(deltaX);
 						var endTime = new Date().getTime();
-						var speed = absX / (endTime - this.touchTimes[this.pageListTouchId]);
-						if (absX*3 > this.pageWidth || speed > 0.2) {
-							var duration = (this.pageWidth - absX)/this.pageWidth * 0.002;
-							this.pageIndex += (deltaX < 0)? 1 : -1;
-							if (this.pageIndex < 0) {
-								this.pageIndex = 0;
+						var speed = absX / (endTime - this.touchTimes[this.waggleListTouchId]);
+						if (absX*3 > this.waggleWidth || speed > 0.2) {
+							var duration = (this.waggleWidth - absX)/this.waggleWidth * 0.002;
+							this.waggleIndex += (deltaX < 0)? 1 : -1;
+							if (this.waggleIndex < 0) {
+								this.waggleIndex = 0;
 							}
-							if (this.pageIndex >= this.ePages.length) {
-								this.pageIndex = this.ePages.length - 1;
+							if (this.waggleIndex >= this.waggleCount) {
+								this.waggleIndex = this.waggleCount - 1;
 							}
 						} else {
-							var duration = (absX)/this.pageWidth * 0.002;
+							var duration = (absX)/this.waggleWidth * 0.002;
 						}
-						this.ePageList.style.WebkitTransition = 'left ' + duration + 's easy-out';
-						this.pageListPosition.x = -(this.pageIndex * this.pageWidth);
-	                    this.ePageList.style.left = this.pageListPosition.x + 'px';
-	                    this.ePageList.style.WebkitTransition = 'ease-out';
-						this.pageListTouchId = null;
+						this.eWaggleList.style.WebkitTransition = 'left ' + duration + 's easy-out';
+						this.pageListPosition.x = -(this.waggleIndex * this.waggleWidth);
+	                    this.eWaggleList.style.left = this.pageListPosition.x + 'px';
+	                    this.eWaggleList.style.WebkitTransition = 'ease-out';
+						this.waggleListTouchId = null;
 					}
 				}
             }.bind(this), true);
             
-    		this.eAddShare.addEventListener('click', function(e) {
-    			this.eAddShare.className = 'pressed';
+    		this.eAddWaggle.addEventListener('click', function(e) {
+    			this.eAddWaggle.className = 'pressed';
     			this.eInputFiles.click();
     			e.preventDefault();
     			e.stopPropagation();
@@ -178,20 +178,20 @@
         
     	display: function(e) {
     		this.reset();
-    		this.ePages = $(this.ePageList).find('.div_page');
-    		for (var i = 0, e; e = this.ePages[i]; i++) {
-    			var divCanvas = $(e).find('.canvas_page')[0];
+    		var waggles = $(this.eWaggleList).find('.div_waggle').length;
+			this.waggleCount = waggles.length;
+    		for (var i = 0, e; e = waggles[i]; i++) {
+    			var divCanvas = $(e).find('.canvas_waggle')[0];
     			divCanvas.width = e.clientWidth;
 				divCanvas.height = e.clientHeight;
-				this.pageWidth = e.clientWidth;
-				this.addNoteCanvas(i);
+				this.waggleWidth = e.clientWidth;
+				this.addNoteCanvas(e);
     		}
-    		this.ePageList.style.left = -(this.pageIndex * this.pageWidth) + 'px';
+    		this.eWaggleList.style.left = -(this.waggleIndex * this.waggleWidth) + 'px';
     	},
     	
-    	addNoteCanvas: function(i) {
-    		var root = this.ePages[i];
-    		var canvas = $(root).find('.canvas_page')[0];
+    	addNoteCanvas: function(root) {
+    		var canvas = $(root).find('.canvas_waggle')[0];
     		var noteCanvas = new NoteCanvas({
 				root:root, canvas:canvas, path:canvas.dataset.img});
 			var divNotes = $(root).find('.div_note');
@@ -208,12 +208,12 @@
     	},
     	
     	animate: function() {
-    		if (this.pageListTouchId != null) {
-    			var sp = this.touchStarts[this.pageListTouchId];
-    			var mp = this.touchMoves[this.pageListTouchId];
+    		if (this.waggleListTouchId != null) {
+    			var sp = this.touchStarts[this.waggleListTouchId];
+    			var mp = this.touchMoves[this.waggleListTouchId];
     			if (sp && mp) {
     				var deltaX = mp.x - sp.x;
-    				this.ePageList.style.left = (this.pageListPosition.x + deltaX) + 'px';
+    				this.eWaggleList.style.left = (this.pageListPosition.x + deltaX) + 'px';
     			}
     			requestAnimationFrame(this.animate.bind(this));
     		}
@@ -233,16 +233,16 @@
 		}
     };
 
-    root.ViewRead = ViewRead;
+    root.ViewVisitComb = ViewVisitComb;
 }).call(this);
 
 (function() {
     var root = this;
 
-	var ViewShare = function(options) {
-		this.view = document.getElementById('view_share');
-		this.eSelectedPage = $(this.view).find('#div_selected_page')[0];
-		this.ePageCanvas = $(this.eSelectedPage).find('#canvas_page')[0];
+	var ViewAddWaggle = function(options) {
+		this.view = document.getElementById('view_add_waggle');
+		this.eWaggle = $(this.view).find('#div_waggle')[0];
+		this.eWaggleCanvas = $(this.eWaggle).find('canvas')[0];
 		this.eNoteTools = $(this.view).find('#div_note_tools')[0];
 		this.eOpenNoteText = $(this.eNoteTools).find('#btn_note_text')[0];
 		this.eOpenNoteAudio = $(this.eNoteTools).find('#btn_note_audio')[0];
@@ -259,7 +259,7 @@
 		this.setEventListeners();
 	};
 
-    ViewShare.prototype = {
+    ViewAddWaggle.prototype = {
     	reset: function(e) {
     		this.notePosition = {x: 0, y: 0};
 			this.AudioRecorder = null;
@@ -268,11 +268,11 @@
     	
     	display: function(e) {
     		this.reset();
-			this.ePageCanvas.width = this.eSelectedPage.clientWidth;
-			this.ePageCanvas.height = this.eSelectedPage.clientHeight;
+			this.eWaggleCanvas.width = this.eWaggle.clientWidth;
+			this.eWaggleCanvas.height = this.eWaggle.clientHeight;
 			this.noteCanvas = new NoteCanvas({
-				root:this.eSelectedPage, canvas:this.ePageCanvas, path:e.detail.images[0]});
-			this.eSelectedPage.className = 'normal';
+				root:this.eWaggle, canvas:this.eWaggleCanvas, path:e.detail.images[0]});
+			this.eWaggle.className = 'normal';
 			this.eOk.className = 'normal';
 			this.eOpenNoteText.className = 'normal';
 			this.eOpenNoteText.className = 'normal';
@@ -300,7 +300,7 @@
     			$(this.eOk).fadeOut('fast');
     			$(this.eNoteTools).fadeOut('fast');
     			$(this.eNoteText).fadeIn('fast');
-    			this.eSelectedPage.className = 'blur';
+    			this.eWaggle.className = 'blur';
     			e.stopPropagation();
     			e.preventDefault();
             }.bind(this), false);
@@ -310,7 +310,7 @@
     			$(this.eOk).fadeOut('fast');
     			$(this.eNoteTools).fadeOut('fast');
     			$(this.eNoteAudio).fadeIn('fast');
-    			this.eSelectedPage.className = 'blur';
+    			this.eWaggle.className = 'blur';
     			e.stopPropagation();
     			e.preventDefault();
     			navigator.getUserMedia({audio: true}, function(s) {
@@ -324,7 +324,7 @@
     			e.stopPropagation();
     			$(this.eOk).fadeIn('fast');
     			$(this.eNoteAudio).fadeOut('fast');
-    			this.eSelectedPage.className = 'normal';
+    			this.eWaggle.className = 'normal';
     			//this.AudioRecorder.stop();
     			this.noteCanvas.addAudioNote(this.notePosition, this.AudioRecorder);
             }.bind(this), false);
@@ -341,11 +341,11 @@
     			}
     			$(this.eOk).fadeIn('fast');
     			$(this.eNoteText).fadeOut('fast');
-    			this.eSelectedPage.className = 'normal';
+    			this.eWaggle.className = 'normal';
             }.bind(this), false);
             
 			this.view.addEventListener('click', function(e) {
-				if (this.eSelectedPage.className == 'normal') {
+				if (this.eWaggle.className == 'normal') {
 					$(this.eNoteTools).fadeIn('fast');
 					var p = this.noteCanvas.getPosition();
 					var a = this.noteCanvas.getArea();
@@ -358,15 +358,15 @@
     	}
     };
 
-    root.ViewShare = ViewShare;
+    root.ViewAddWaggle = ViewAddWaggle;
 }).call(this);
 
 function init() {
 	checkRequestAnimationFrame();
 	
 	viewGroup = new ViewGroup();
-	viewShare = new ViewShare();
-	viewRead = new ViewRead();
+	viewAddWaggle = new ViewAddWaggle();
+	viewVisitComb = new ViewVisitComb();
 	
 	//viewGroup.activeView(document.getElementById("view_read"));
 	viewGroup.activeView(document.getElementById("view_share"), {'handler': 'display', 'images': ['./img/page2.jpg']});
