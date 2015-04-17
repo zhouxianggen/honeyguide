@@ -139,7 +139,7 @@
             			return function(e) {
             				obj.selectedImages.push(e.target.result);
             				if (obj.selectedImages.length == obj.eInputFiles.files.length) {
-            					viewGroup.activeView(document.getElementById("view_share"), 
+            					viewGroup.activeView(document.getElementById("view_add_waggle"), 
             						{'handler': 'display', 'images': obj.selectedImages});
             				}
             			};
@@ -178,7 +178,7 @@
         
     	display: function(e) {
     		this.reset();
-    		var waggles = $(this.eWaggleList).find('.div_waggle').length;
+    		var waggles = $(this.eWaggleList).find('.div_waggle');
 			this.waggleCount = waggles.length;
     		for (var i = 0, e; e = waggles[i]; i++) {
     			var divCanvas = $(e).find('.canvas_waggle')[0];
@@ -241,7 +241,7 @@
 
 	var ViewAddWaggle = function(options) {
 		this.view = document.getElementById('view_add_waggle');
-		this.eWaggle = $(this.view).find('#div_waggle')[0];
+		this.eWaggle = $(this.view).find('.div_waggle')[0];
 		this.eWaggleCanvas = $(this.eWaggle).find('canvas')[0];
 		this.eNoteTools = $(this.view).find('#div_note_tools')[0];
 		this.eOpenNoteText = $(this.eNoteTools).find('#btn_note_text')[0];
@@ -270,6 +270,7 @@
     		this.reset();
 			this.eWaggleCanvas.width = this.eWaggle.clientWidth;
 			this.eWaggleCanvas.height = this.eWaggle.clientHeight;
+			alert(e.detail.images[0]);
 			this.noteCanvas = new NoteCanvas({
 				root:this.eWaggle, canvas:this.eWaggleCanvas, path:e.detail.images[0]});
 			this.eWaggle.className = 'normal';
@@ -368,6 +369,6 @@ function init() {
 	viewAddWaggle = new ViewAddWaggle();
 	viewVisitComb = new ViewVisitComb();
 	
-	//viewGroup.activeView(document.getElementById("view_read"));
-	viewGroup.activeView(document.getElementById("view_share"), {'handler': 'display', 'images': ['./img/page2.jpg']});
+	viewGroup.activeView(document.getElementById("view_visit_comb"));
+	//viewGroup.activeView(document.getElementById("view_add_waggle"), {'handler': 'display', 'images': ['./img/page2.jpg']});
 }

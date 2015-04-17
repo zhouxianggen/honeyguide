@@ -398,7 +398,7 @@ body {
 
 .div_text_note {
     position: absolute;
-    font-size: 5px;
+    font-size: smaller;
     font-family: "微软雅黑";
     font-weight: 500;
     padding: 2px;

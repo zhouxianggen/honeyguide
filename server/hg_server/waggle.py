@@ -8,18 +8,19 @@ __info__ = "waggle"
 import json
 
 class Note(object):
-	def __init__(self, options):
-		self.type = options['type']
-		self.position_x = options['position_x']
-		self.position_y = options['position_y']
-		self.content = options['content']
-		
+    def __init__(self, options):
+        self.type = options['type']
+        self.position_x = options['position_x']
+        self.position_y = options['position_y']
+        self.content = options['content']
+        
 class Waggle(object):
     def parse(self, s):
-		try:
-			d = json.loads(s)
-			self.image = d['image']
-			self.notes = [Note(n) for n in d['notes']]
-			return True
+        try:
+            d = json.loads(s)
+            self.image = 'img/%s' % d['image']
+            self.notes = [Note(n) for n in d['notes']]
+            return True
         except Exception as e:
-			return False
+            print e
+            return False

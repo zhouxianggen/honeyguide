@@ -64,4 +64,4 @@ def sql_select(cfg, SECTION, table, columns, where='', other=''):
         return cur.fetchall()
     except Exception as e:
         return []
-		
+        

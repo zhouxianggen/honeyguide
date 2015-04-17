@@ -17,42 +17,37 @@ sys.path.append(CWD)
 from data_provider import DataProvider
 
 class MyApplication(tornado.web.Application):
-	def __init__(self):
-		handlers = [
-			(r"/", DefaultRequestHandler),
-			(r"/add_comb?", AddCombRequestHandler),
-			(r"/edit_comb?", EditCombRequestHandler),
-			(r"/visit_comb?", VisitCombRequestHandler),
-			(r"/add_waggle?", AddTasteRequestHandler),
-			(r"/register?", RegisterRequestHandler),
-			(r"/enroll?", EnrollRequestHandler)
-		]
-		settings = dict(
-			template_path=os.path.join(os.path.dirname(__file__), "templates"),
-			static_path=os.path.join(os.path.dirname(__file__), "static"),
-			debug=True,
-		)
-		tornado.web.Application.__init__(self, handlers, **settings)
+    def __init__(self):
+        handlers = [
+            (r"/", DefaultRequestHandler),
+            (r"/visit_comb?", VisitCombRequestHandler)
+        ]
+        settings = dict(
+            template_path=os.path.join(os.path.dirname(__file__), "templates"),
+            static_path=os.path.join(os.path.dirname(__file__), "static"),
+            debug=True,
+        )
+        tornado.web.Application.__init__(self, handlers, **settings)
 
 class DefaultRequestHandler(tornado.web.RequestHandler):
-	#@tornado.web.authenticated
-	def get(self):
-		self.write('Hello, world')
-			
+    #@tornado.web.authenticated
+    def get(self):
+        self.write('Hello, world')
+            
 class VisitCombRequestHandler(tornado.web.RequestHandler):
-	#@tornado.web.authenticated
-	def get(self):
-		comb_id = self.get_argument('comb')
-		bee_id = self.get_argument('bee')
-		comb = data_provider.get_comb(comb_id)
-		self.render('visit_comb.html', comb=comb)
+    #@tornado.web.authenticated
+    def get(self):
+        comb_id = self.get_argument('comb')
+        bee_id = self.get_argument('bee')
+        comb = data_provider.get_comb(comb_id, bee_id)
+        self.render('visit_comb.html', comb=comb)
 
 data_provider = DataProvider()
 
 if __name__ == "__main__":
-	cfg = ConfigParser.ConfigParser()
-	cfg.read(sys.argv[1])
-	data_provider.init(cfg)
-	server = tornado.httpserver.HTTPServer(MyApplication())
-	server.listen(80)
-	tornado.ioloop.IOLoop.instance().start()
+    cfg = ConfigParser.ConfigParser()
+    cfg.read(sys.argv[1])
+    data_provider.init(cfg)
+    server = tornado.httpserver.HTTPServer(MyApplication())
+    server.listen(80)
+    tornado.ioloop.IOLoop.instance().start()

@@ -1,4 +1,3 @@
-
 # -*- coding: utf-8 -*-
 #!/usr/bin/env python
 
@@ -10,8 +9,10 @@ import os,sys
 import json
 from copy import copy
 
+
 class Comb(object):
-	def __init__(self):
-		self.title = None
-		self.linkers = []
-		self.waggles = []
+    def __init__(self):
+        self.title = None
+        self.enable_share = True
+        self.linkers = []
+        self.waggles = []

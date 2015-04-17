@@ -2,46 +2,46 @@
 <html>
   <head>
     <title>{{ comb.title }}</title>
-	<meta charset="utf-8">
-	<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-	<link rel="stylesheet" type="text/css" href="{{ static_url('css/visit_comb.css') }}" />
-	<script type="text/javascript" src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.8.0.js"></script>
-	<script src="{{ static_url('js/common.js') }}"></script>
-	<script src="{{ static_url('js/view_group.js') }}"></script>
-	<script src="{{ static_url('js/note_canvas.js') }}"></script>
-	<script src="{{ static_url('js/visit_comb.js') }}"></script>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <link rel="stylesheet" type="text/css" href="{{ static_url('css/visit_comb.css') }}" />
+    <script type="text/javascript" src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.8.0.js"></script>
+    <script src="{{ static_url('js/common.js') }}"></script>
+    <script src="{{ static_url('js/view_group.js') }}"></script>
+    <script src="{{ static_url('js/note_canvas.js') }}"></script>
+    <script src="{{ static_url('js/visit_comb.js') }}"></script>
   </head>
   <body onload="init()">
   
     <div id="view_visit_comb" class="view" data-title="{{ comb.title }}">
       <input type="file" id="input_files" multiple accept="image/*"/>
-	  {% if comb.enable_share %}
+      {% if comb.enable_share %}
       <a href="#" id="a_add_waggle"></a>
-	  {% end %}
+      {% end %}
       <button id="btn_open_linkers" type="submit"></button>
       <div id="div_linkers">
-	  {% for linker in comb.linkers %}
-	    <div class="div_linker">
-          <button type="submit" data-url="{{ linker.url }}" style="background-image: url({{ linker.icon }});"></button>
-		  <div class="linker_title">{{ linker.title }}</div>
-		</div>
+      {% for linker in comb.linkers %}
+        <div class="div_linker">
+          <button type="submit" data-url="{{ linker.url }}" style="background-image: url({{ static_url(linker.icon) }});"></button>
+          <div class="linker_title">{{ linker.title }}</div>
+        </div>
       {% end %}               
       </div>
       <div id="div_gallary">
         <div id="div_waggle_list">
-		  {% for waggle in waggles %}
+          {% for waggle in comb.waggles %}
           <div class="div_waggle">
-            <canvas class="canvas_waggle" data-img="{{ {{ waggle.image }} }}"></canvas>
-			{% for note in waggle.notes %}
+            <canvas class="canvas_waggle" data-img="{{ static_url(waggle.image) }}"></canvas>
+            {% for note in waggle.notes %}
             <div class="div_note" data-type="{{ note.type }}" data-x="{{ note.position_x }}" data-y="{{ note.position_y }}" data-data="{{ note.content }}"></div>
-			{% end %}
-		  </div>
-		  {% end %}
+            {% end %}
+          </div>
+          {% end %}
         </div>
-	  </div>
-	</div>
+      </div>
+    </div>
     
-	<div id="view_add_waggle" class="view" data-title="进行分享">
+    <div id="view_add_waggle" class="view" data-title="进行分享">
       <div class="div_waggle">
         <canvas></canvas>
       </div>
