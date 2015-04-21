@@ -22,7 +22,7 @@ body {
     padding: 0; 
 }
 
-#view_add_waggle .div_waggle {
+#view_add_waggle #div_waggle {
     position: absolute;
     height: 100%;
     width: 100%;
@@ -34,11 +34,11 @@ body {
     -o-transition: opacity 0.2s linear;
 }
 
-#view_add_waggle .div_waggle.blur {
+#view_add_waggle #div_waggle.blur {
     opacity: 0.1;
 }
 
-#view_add_waggle .div_waggle canvas {
+#view_add_waggle #div_waggle canvas {
     position: absolute;
     left: 0;
     top: 0;
@@ -398,7 +398,7 @@ body {
 
 .div_text_note {
     position: absolute;
-    font-size: 5px;
+    font-size: smaller;
     font-family: "微软雅黑";
     font-weight: 500;
     padding: 2px;
@@ -422,6 +422,6 @@ body {
     border-radius: 10px;
     -webkit-border-radius: 10px;
     -moz-border-radius: 10px;
-    box-shadow: 0px 0px 5px rgba(0,0,0,0.4);
+    box-shadow: 0px 0px 4px rgba(0,0,0,0.5);
 }
 

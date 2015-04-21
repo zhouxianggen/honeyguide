@@ -241,7 +241,7 @@
 
 	var ViewAddWaggle = function(options) {
 		this.view = document.getElementById('view_add_waggle');
-		this.eWaggle = $(this.view).find('.div_waggle')[0];
+		this.eWaggle = $(this.view).find('#div_waggle')[0];
 		this.eWaggleCanvas = $(this.eWaggle).find('canvas')[0];
 		this.eNoteTools = $(this.view).find('#div_note_tools')[0];
 		this.eOpenNoteText = $(this.eNoteTools).find('#btn_note_text')[0];
@@ -270,7 +270,6 @@
     		this.reset();
 			this.eWaggleCanvas.width = this.eWaggle.clientWidth;
 			this.eWaggleCanvas.height = this.eWaggle.clientHeight;
-			alert(e.detail.images[0]);
 			this.noteCanvas = new NoteCanvas({
 				root:this.eWaggle, canvas:this.eWaggleCanvas, path:e.detail.images[0]});
 			this.eWaggle.className = 'normal';
@@ -293,7 +292,7 @@
     			this.eOk.className = 'pressed';
     			e.stopPropagation();
     			e.preventDefault();
-    			viewGroup.activeView(document.getElementById("view_read"));
+    			viewGroup.activeView(document.getElementById("view_visit_comb"));
             }.bind(this), false);
 			
     		this.eOpenNoteText.addEventListener('click', function(e) {

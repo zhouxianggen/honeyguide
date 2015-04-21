@@ -11,5 +11,5 @@ class Linker(object):
          self.id = options['id']
          self.title = options['title']
          self.url = options['url']
-         self.icon = options['icon']
+         self.icon = 'img/%s' % options['icon']
     
