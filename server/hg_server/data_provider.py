@@ -19,7 +19,7 @@ class DataProvider(object):
     
 	def get_created_combs(self, bee_id):
 		combs = []
-		columns = ['id', 'title', 'icon', 'url']
+		columns = ['id', 'title', 'icon', 'url', 'waggle_count', 'taste_count']
         where = "WHERE bee_id='%s'" % bee_id
         rows = sql_select(self.cfg, 'hg_db', 'meta_comb', columns, where)
 		for r in rows:
