@@ -1,128 +1,21 @@
-<?xml version="1.0" encoding="utf-8"?>
 <resources>
-
     <string name="app_name">HoneyGuide</string>
+
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
 
-    <string name="account_storage_preference_file_key">com.fc.honeyguide.ACCOUNT_STORAGE_PREFERENCE_FILE_KEY</string>
+    <string name="server_comb_manager">http://54.149.127.185/comb_manager?</string>
 
-    <!-- preference file keys -->
-    <string name="account_manager_preference_file_key">account_manager_preference_file_key</string>
-    <string name="linker_manager_preference_file_key">linker_manager_preference_file_key</string>
+    <string name="preference_comb_manager">com.fc.honeyguide.comb_manager</string>
 
-    <!-- remote server addresses -->
-    <string name="account_manager_remote_server_url">http://10.99.20.96:8089</string>
-    <string name="linker_manager_remote_server_url">http://10.99.20.96:8089</string>
+    <string name="preference_key_created_combs">created_combs</string>
 
-    <string name="account_manager_current_account_id">
-        com.fc.honeyguide.account_manager_current_account_id
-    </string>
-    <string name="account_manager_current_account_password">
-        com.fc.honeyguide.account_manager_current_account_password
-    </string>
-    <string name="global_preference_file_key">
-        com.fc.honeyguide.global_preference_file_key
-    </string>
+    <string name="EXTRA_LINKER_URL">extra_linker_url</string>
+    <string name="EXTRA_USER_ID">extra_user_id</string>
+    <string name="EXTRA_COMB_ID">extra_comb_id</string>
+    <string name="EXTRA_COMB_URL">extra_comb_url</string>
 
-    <string name="folder_list_title">
-        蜜集
-    </string>
-
-    <string name="settings_wizard_finished">
-        com.fc.honeyguide.settings_wizard_finished
-    </string>
-    <string name="settings_user_name">
-        com.fc.honeyguide.settings_user_name
-    </string>
-    <string name="settings_password">
-        com.fc.honeyguide.settings_password
-    </string>
-
-    <string name="add_linker_actionbar_title">
-        添加新连接
-    </string>
-    <string name="add_linker_actionbar_action">
-        完成
-    </string>
-
-    <string name="action_help">帮助</string>
-    <string name="action_finish">完成</string>
-    <string name="action_add">添加</string>
-    <string name="action_add_folder">添加</string>
-
-    <string name="actionbar_title_generate_qr_code">蜜码</string>
-    <string name="actionbar_title_add_comb">新蜜</string>
-    <string name="actionbar_title_comb_list">蜜集</string>
-    <string name="actionbar_title_folder_list">蜜册</string>
-
-    <string name="add_comb_actionbar_action_finish">完成</string>
-    <string name="add_comb_actionbar_action_help">帮助</string>
-    <string name="add_comb_linker_item_action_add">添加</string>
-    <string name="add_comb_linker_item_action_delete">删除</string>
-    <string name="add_comb_step1">1：填写密名</string>
-    <string name="add_comb_step2">2：选择访问方法</string>
-    <string name="add_comb_title_tip">蜜名</string>
-
-    <string name="set_linker_actionbar_title">设置访问方法</string>
-    <string name="set_linker_actionbar_action_help">帮助</string>
-    <string name="set_linker_actionbar_action_finish">完成</string>
-    <string name="set_linker_promotion_plan_head">用户每次推广激励</string>
-    <string name="set_linker_promotion_plan_tail">元</string>
-
-    <string name="EXTRA_LINKER_URL">
-        com.fc.honeyguide.extra_linker_url
-    </string>
-    <string name="EXTRA_USER_ID">
-        com.fc.honeyguide.extra_user_id
-    </string>
-
-    <string name="linker_option_register">
-        com.fc.honeyguide.linker_option_register
-    </string>
-    <string name="linker_option_call">
-        com.fc.honeyguide.linker_option_call
-    </string>
-
-    <string name="linker_url_param_option">
-        option
-    </string>
-    <string name="linker_url_param_user_id">
-        user_id
-    </string>
-
-    <string name="add_comb_select_linker_hint">
-        选择访问方法
-    </string>
-
-    <string name="extras_comb_title">comb_title</string>
-    <string name="extras_comb_url">comb_url</string>
-    <string name="extras_linker_url">linker_url</string>
-    <string name="extras_linker_id">linker_id</string>
-    <string name="extras_linker_position">linker_position</string>
-    <string name="extras_account_id">account_id</string>
-    <string name="extras_folder_name">folder_name</string>
-    <string name="extras_folder_title">folder_title</string>
-    <string name="extras_folder_update_time">folder_update_time</string>
-
-    <string name="error_generate_qr_code_failed">抱歉..出错了</string>
-    <string name="error_comb_title_is_empty">还没有标题哦</string>
-    <string name="error_comb_linkers_is_empty">还没选择访问方法哦</string>
-    <string name="error_comb_server_stopped">抱歉..出错了</string>
-    <string name="error_save_screen_shoot">抱歉..出错了</string>
-
-    <string name="button_shoot_screen">截屏保存图像</string>
-
-    <string name="toast_save_screen_shoot">已保存到：</string>
-
-    <string name="hint_select_linkers">选择访问方法</string>
-
-    <string name="shared_preferences_linker_manager">shared_preferences_linker_manager</string>
-    <string name="shared_preferences_account_manager">shared_preferences_account_manager</string>
-
-    <string name="key_current_account_id">key_current_account_id</string>
-    <string name="key_current_account_password">key_current_account_password</string>
-
-    <string name="remote_server_url">localhost</string>
+    <string name="footer_selector_created">我的</string>
+    <string name="footer_selector_collected">采集</string>
 
 </resources>

@@ -40,7 +40,7 @@ CREATE TABLE `action_link` (
 
 LOCK TABLES `action_link` WRITE;
 /*!40000 ALTER TABLE `action_link` DISABLE KEYS */;
-INSERT INTO `action_link` VALUES ('1','1','1','2015-04-09 00:00:00','');
+INSERT INTO `action_link` VALUES ('1','1','1','2015-04-09 00:00:00',''),('2','2','2','2015-04-09 00:00:00','');
 /*!40000 ALTER TABLE `action_link` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -110,8 +110,12 @@ CREATE TABLE `meta_comb` (
   `id` varchar(64) NOT NULL,
   `bee_id` varchar(64) NOT NULL,
   `title` text NOT NULL,
+  `icon` varchar(255) NOT NULL,
   `position` text,
   `enable_share` tinyint(1) NOT NULL DEFAULT '1',
+  `url` varchar(255) NOT NULL,
+  `waggle_count` int(11) NOT NULL DEFAULT '0',
+  `taste_count` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -122,7 +126,7 @@ CREATE TABLE `meta_comb` (
 
 LOCK TABLES `meta_comb` WRITE;
 /*!40000 ALTER TABLE `meta_comb` DISABLE KEYS */;
-INSERT INTO `meta_comb` VALUES ('1','1','VERO MODA 西城广场店','',1);
+INSERT INTO `meta_comb` VALUES ('1','1','VERO MODA 西城广场店','http://www.logotypes101.com/logos/607/8FCEB56FBF014730265EFD5EFE493EA8/veromoda.png','',1,'http://54.149.127.185/visit_comb?comb=1',1,1),('2','1','TMM','http://3.bp.blogspot.com/-V69-Kg2HLac/TmqweiFa6eI/AAAAAAAAAlQ/wYtrNZOB9UU/s320/Avril+%252826%2529.png','',1,'http://54.149.127.185/visit_comb?comb=2',980,450);
 /*!40000 ALTER TABLE `meta_comb` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -193,4 +197,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-04-17 20:36:16
+-- Dump completed on 2015-04-29 14:53:19

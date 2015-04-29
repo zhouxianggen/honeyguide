@@ -20,7 +20,8 @@ class MyApplication(tornado.web.Application):
     def __init__(self):
         handlers = [
             (r"/", DefaultRequestHandler),
-            (r"/visit_comb?", VisitCombRequestHandler)
+            (r"/visit_comb?", VisitCombRequestHandler),
+			(r"/comb_manager?", CombManagerRequestHandler)
         ]
         settings = dict(
             template_path=os.path.join(os.path.dirname(__file__), "templates"),
@@ -42,6 +43,20 @@ class VisitCombRequestHandler(tornado.web.RequestHandler):
         comb = data_provider.get_comb(comb_id, bee_id)
         self.render('visit_comb.html', comb=comb)
 
+class CombManagerRequestHandler(tornado.web.RequestHandler):
+    #@tornado.web.authenticated
+    def get(self):
+        act = self.get_argument('act')
+		if act == 'get_created_combs':
+			return self.get_created_combs()
+	
+	def get_created_combs(self):
+        bee_id = self.get_argument('bee')
+        combs = data_provider.get_created_combs(bee_id)
+		
+		result = '{"combs":[%s]}' % ', '.join([json.dump(c, ensure_ascii=False) for c in combs])
+        self.write(result)
+		
 data_provider = DataProvider()
 
 if __name__ == "__main__":

@@ -1,0 +1,35 @@
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical" >
+
+    <FrameLayout
+        android:id="@+id/content"
+        android:layout_width="fill_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+
+    <RadioGroup
+        android:id="@+id/footer"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/footer_bg"
+        android:orientation="horizontal" >
+
+        <RadioButton
+            style="@style/FooterSelector"
+            android:id="@+id/selector_created"
+            android:checked="true"
+            android:drawableTop="@drawable/footer_selector_created"
+            android:text="@string/footer_selector_created" />
+
+        <RadioButton
+            style="@style/FooterSelector"
+            android:id="@+id/selector_collected"
+            android:checked="true"
+            android:drawableTop="@drawable/footer_selector_collected"
+            android:text="@string/footer_selector_collected" />
+
+    </RadioGroup>
+</LinearLayout>

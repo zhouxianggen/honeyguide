@@ -17,6 +17,15 @@ class DataProvider(object):
     def init(self, cfg):
         self.cfg = cfg
     
+	def get_created_combs(self, bee_id):
+		combs = []
+		columns = ['id', 'title', 'icon', 'url']
+        where = "WHERE bee_id='%s'" % bee_id
+        rows = sql_select(self.cfg, 'hg_db', 'meta_comb', columns, where)
+		for r in rows:
+			combs.append({columns[i]:r[i] for i in range(len(columns))})
+		return combs
+		
     def get_comb(self, comb_id, bee_id):
         comb = Comb()
         
