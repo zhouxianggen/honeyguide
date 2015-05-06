@@ -23,7 +23,7 @@
             android:text="初见"/>
 
         <ImageButton
-            android:id="@+id/actionbar_action_scan"
+            android:id="@+id/action_scan"
             android:layout_width="40dip"
             android:layout_height="40dip"
             android:scaleType="fitCenter"
@@ -31,11 +31,11 @@
             android:src="@drawable/actionbar_action_scan"/>
 
         <ImageButton
-            android:id="@+id/actionbar_action_add"
+            android:id="@+id/action_add"
             android:layout_width="40dip"
             android:layout_height="40dip"
             android:scaleType="fitCenter"
-            android:layout_toLeftOf="@id/actionbar_action_scan"
+            android:layout_toLeftOf="@id/action_scan"
             android:src="@drawable/actionbar_action_new" />
 
     </RelativeLayout>

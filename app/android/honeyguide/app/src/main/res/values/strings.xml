@@ -4,16 +4,33 @@
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
 
+    <string name="error_none"></string>
+    <string name="error_username_is_empty">请输入用户名</string>
+    <string name="error_password_is_empty">请输入密码</string>
+    <string name="error_username_not_exist">用户名不存在</string>
+    <string name="error_password_wrong">密码错误</string>
+    <string name="error_parse_account_failed">服务器响应错误</string>
+    <string name="error_exception">处理发生异常</string>
+    <string name="error_sync_created_combs_failed">处理发生异常</string>
+    <string name="error_sync_account_failed">同步数据错误</string>
+    <string name="error_sync_collected_combs_failed">处理发生异常</string>
+    <string name="error_create_comb_failed">创建新密失败了</string>
+
     <string name="server_comb_manager">http://54.149.127.185/comb_manager?</string>
 
     <string name="preference_comb_manager">com.fc.honeyguide.comb_manager</string>
+    <string name="preference_linker_manager">com.fc.honeyguide.linker_manager</string>
 
     <string name="preference_key_created_combs">created_combs</string>
+    <string name="preference_key_current_account">current_account</string>
 
     <string name="EXTRA_LINKER_URL">extra_linker_url</string>
     <string name="EXTRA_USER_ID">extra_user_id</string>
+    <string name="EXTRA_BEE_ID">extra_bee_id</string>
     <string name="EXTRA_COMB_ID">extra_comb_id</string>
     <string name="EXTRA_COMB_URL">extra_comb_url</string>
+    <string name="EXTRA_COMB_TITLE">extra_comb_title</string>
+    <string name="EXTRA_LINKER_ID">extra_comb_id</string>
 
     <string name="footer_selector_created">我的</string>
     <string name="footer_selector_collected">采集</string>

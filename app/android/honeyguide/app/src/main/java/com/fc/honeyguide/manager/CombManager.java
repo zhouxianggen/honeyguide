@@ -1,6 +1,7 @@
 package com.fc.honeyguide.manager;
 
 import android.content.SharedPreferences;
+import android.util.Log;
 
 import com.fc.honeyguide.R;
 import com.fc.honeyguide.define.Account;
@@ -9,55 +10,66 @@ import com.fc.honeyguide.MyApplication;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
-import org.apache.http.NameValuePair;
-import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
-import org.apache.http.client.utils.URLEncodedUtils;
 import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.LinkedList;
 import java.util.List;
-import java.util.Set;
 
 public class CombManager extends Manager {
+    private static final String TAG = "CombManager";
 
     public CombManager(MyApplication context) {
         super(context, context.getString(R.string.preference_comb_manager));
-        mServer = "http://54.149.127.185/get_created_combs?";
+        mServer = "http://54.149.127.185/comb_manager?";
     }
 
-    public boolean syncCreatedCombs() {
+    public String syncCreatedCombs(List<Comb> combs) {
         try {
             Account account = mContext.getAccountManager().getCurrentAccount();
-            String url = String.format("%sbee=%s", mServer, account.id);
+            String url = String.format("%sbee=%s&act=get_created_combs", mServer, account.id);
+            Log.d(TAG, "sync created combs from " + url);
             HttpResponse httpResponse = new DefaultHttpClient().execute(new HttpGet(url));
+            Log.d(TAG, "code is " + String.valueOf(httpResponse.getStatusLine().getStatusCode()));
             if (httpResponse.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {
-                String key = mContext.getString(R.string.preference_key_created_combs);
                 String result = EntityUtils.toString(httpResponse.getEntity());
+                Log.d(TAG, "result is: " + result);
+                JSONObject jsonObject = new JSONObject(result);
+                String status = jsonObject.getString("status");
+                if (!status.equals("ok")) {
+                    return status;
+                }
+                JSONArray jsonArray = jsonObject.getJSONArray("combs");
+                for (int i = 0; i < jsonArray.length(); i++) {
+                    Comb comb = new Comb();
+                    if (comb.parseFromJsonObject(jsonArray.getJSONObject(i))) {
+                        Log.d(TAG, "add comb with " + comb.title);
+                        combs.add(comb);
+                    }
+                }
+                String strCombs = jsonObject.getString("combs");
+                String key = mContext.getString(R.string.preference_key_created_combs);
                 SharedPreferences.Editor editor = mPreferences.edit();
-                editor.putString(key, result);
+                editor.putString(key, strCombs);
                 editor.commit();
-                return true;
+                return mContext.getString(R.string.error_none);
             }
+            return mContext.getString(R.string.error_sync_created_combs_failed);
         } catch (Exception e) {
+            Log.d(TAG, "exception: " + String.valueOf(e));
+            return mContext.getString(R.string.error_exception);
         }
-        return false;
     }
 
-    public List<Comb> getCreatedCombs() {
+    public String getCreatedCombs(List<Comb> combs) {
         String key = mContext.getString(R.string.preference_key_created_combs);
-        List<Comb> combs = new ArrayList<>();
 
-        if (!mPreferences.contains(key) && !syncCreatedCombs()) {
-            return null;
+        if (!mPreferences.contains(key)) {
+            String error = syncCreatedCombs(combs);
+            return error;
         }
-
         String result = mPreferences.getString(key, "");
         try {
             JSONObject jsonObject = new JSONObject(result);
@@ -65,17 +77,30 @@ public class CombManager extends Manager {
             for (int i = 0; i < jsonArray.length(); i++) {
                 Comb comb = new Comb();
                 if (comb.parseFromJsonObject(jsonArray.getJSONObject(i))) {
+                    Log.d(TAG, "add comb with " + comb.title);
                     combs.add(comb);
                 }
             }
-            return combs;
+            return mContext.getString(R.string.error_none);
         } catch (Exception e) {
+            Log.d(TAG, "exception: " + String.valueOf(e));
+            return mContext.getString(R.string.error_exception);
         }
-        return null;
     }
 
-    public Comb getComb(String combId) {
-        Comb comb = new Comb();
-        return comb;
+    public String getCollectedCombs(List<Comb> combs) {
+        return mContext.getString(R.string.error_sync_collected_combs_failed);
+    }
+
+    public Comb createComb() {
+        try {
+            Account account = mContext.getAccountManager().getCurrentAccount();
+            Comb comb = new Comb();
+            comb.beeId = account.id;
+            comb.id = String.format("%%d", account.id, System.currentTimeMillis());
+            return comb;
+        } catch (Exception e) {
+            return null;
+        }
     }
 }

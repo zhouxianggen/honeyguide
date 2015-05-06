@@ -1,7 +1,9 @@
 package com.fc.honeyguide;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,13 +12,19 @@ import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.fc.honeyguide.define.Comb;
 import com.fc.honeyguide.util.ImageLoadTask;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class CollectedCombListFragment extends Fragment {
+    private static final String TAG = "CollectedCombListFragment";
     private CreatedCombListAdapter mListAdapter;
     private ListView mListView;
+    private Handler mHandler = new Handler();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -32,23 +40,37 @@ public class CollectedCombListFragment extends Fragment {
                 startActivityForResult(intent, 1);
             }
         });
+
+        mListAdapter = new CreatedCombListAdapter();
+        mListView.setAdapter(mListAdapter);
+
         return view;
     }
 
     @Override
     public void onResume() {
         super.onResume();
-
-        if (mListAdapter == null) {
-            initializeAdapter();
-        }
+        updateAdapter();
     }
 
-    private void initializeAdapter() {
-        mListAdapter = new CreatedCombListAdapter();
-        mListAdapter.combs = ((MyApplication)getActivity().getApplicationContext()).
-                getCombManager().getCreatedCombs();
-        mListView.setAdapter(mListAdapter);
+    private void updateAdapter() {
+        new Thread(new Runnable() {
+            public void run() {
+                final Context context = getActivity().getApplicationContext();
+                final List<Comb> combs = new ArrayList<>();
+                final String error = ((MyApplication)getActivity().getApplicationContext()).
+                        getCombManager().getCollectedCombs(combs);
+                mHandler.post(new Runnable() {
+                    public void run() {
+                        if (error.isEmpty()) {
+                            mListAdapter.combs = combs;
+                        } else {
+                            Toast.makeText(context, error, Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+            }
+        }).start();
     }
 
     class CreatedCombListAdapter extends CombListAdapter {

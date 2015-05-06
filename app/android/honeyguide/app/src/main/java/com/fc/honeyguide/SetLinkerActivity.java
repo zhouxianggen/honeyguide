@@ -1,32 +1,34 @@
 package com.fc.honeyguide;
 
-import android.support.v7.app.ActionBar;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.view.View;
+import android.webkit.JavascriptInterface;
+import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.TextView;
 
-public class H5CombActivity extends ActionBarActivity {
-    private String mCombUrl;
-    private String mCombTitle;
+public class SetLinkerActivity extends ActionBarActivity {
+    private String mLinkerId;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.h5_comb);
+        setContentView(R.layout.set_linker);
         initializeActionBar();
 
-        Intent intent = getIntent();
-        mCombUrl = intent.getStringExtra(getString(R.string.EXTRA_COMB_URL));
-        mCombTitle = intent.getStringExtra(getString(R.string.EXTRA_COMB_TITLE));
-        WebView webView = (WebView) findViewById(R.id.h5_comb_view);
+        mLinkerId = getIntent().getStringExtra(getString(R.string.EXTRA_LINKER_ID));
+        String url = getIntent().getStringExtra(getString(R.string.EXTRA_LINKER_URL));
+        WebView webView = (WebView) findViewById(R.id.web_view);
+        webView.addJavascriptInterface(new WebAppInterface(), "Android");
+        webView.setScrollBarStyle(WebView.SCROLLBARS_OUTSIDE_OVERLAY);
         webView.getSettings().setJavaScriptEnabled(true);
         //webView.getSettings().setSupportZoom(true);
         //webView.getSettings().setBuiltInZoomControls(true);
-        webView.loadUrl(mCombUrl);
+        webView.loadUrl(url);
 
         webView.setWebViewClient(new WebViewClient() {
             @Override
@@ -37,6 +39,11 @@ public class H5CombActivity extends ActionBarActivity {
         });
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+    }
+
     private void initializeActionBar() {
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayShowCustomEnabled(true);
@@ -44,6 +51,16 @@ public class H5CombActivity extends ActionBarActivity {
         actionBar.setDisplayHomeAsUpEnabled(true);
         View customView = actionBar.getCustomView();
         TextView textView = (TextView) customView.findViewById(R.id.title);
-        textView.setText(mCombTitle);
+        textView.setText("设置服务");
+    }
+
+    public class WebAppInterface {
+        @JavascriptInterface
+        public void onFinish() {
+            Intent intent = new Intent();
+            intent.putExtra(getString(R.string.EXTRA_LINKER_ID), mLinkerId);
+            setResult(RESULT_OK, intent);
+            finish();
+        }
     }
 }
