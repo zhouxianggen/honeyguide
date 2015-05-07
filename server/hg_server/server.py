@@ -21,7 +21,9 @@ class MyApplication(tornado.web.Application):
         handlers = [
             (r"/", DefaultRequestHandler),
             (r"/visit_comb?", VisitCombRequestHandler),
-			(r"/comb_manager?", CombManagerRequestHandler)
+            (r"/comb_manager?", CombManagerRequestHandler),
+            (r"/account_manager?", AccountManagerRequestHandler),
+            (r"/linker_manager?", LinkerManagerRequestHandler)
         ]
         settings = dict(
             template_path=os.path.join(os.path.dirname(__file__), "templates"),
@@ -47,16 +49,52 @@ class CombManagerRequestHandler(tornado.web.RequestHandler):
     #@tornado.web.authenticated
     def get(self):
         act = self.get_argument('act')
-		if act == 'get_created_combs':
-			return self.get_created_combs()
-	
-	def get_created_combs(self):
+        if act == 'get_created_combs':
+            return self.get_created_combs()
+    
+    def get_created_combs(self):
         bee_id = self.get_argument('bee')
         combs = data_provider.get_created_combs(bee_id)
-		
-		result = '{"combs":[%s]}' % ', '.join([json.dump(c, ensure_ascii=False) for c in combs])
+        
+        result = '{"combs":[%s]}' % ', '.join([json.dumps(c, ensure_ascii=False) for c in combs])
         self.write(result)
-		
+ 
+class AccountManagerRequestHandler(tornado.web.RequestHandler):
+    #@tornado.web.authenticated
+    def post(self):
+        print 'AccountManager post %s' % self.request.uri
+        act = self.get_argument('act')
+        if act == 'login':
+            return self.login()
+        if act == 'register':
+            return self.register()
+    
+    def login(self):
+        data = self.request.body
+        print 'request body is [%s]' % data
+        username = self.get_body_argument('username', '')
+        password = self.get_body_argument('password', '')
+        print 'username=[%s] password=[%s]' % (username, password)
+        status, account = data_provider.get_account(username, password)
+        result = {"status": status, "account": account}
+        self.write(json.dumps(result, ensure_ascii=False))
+ 
+class LinkerManagerRequestHandler(tornado.web.RequestHandler):
+    #@tornado.web.authenticated
+    def post(self):
+        print 'LinkerManager post %s' % self.request.uri
+        act = self.get_argument('act')
+        if act == 'get_linkers':
+            return self.get_linkers()
+    
+    def get_linkers(self):
+        data = self.request.body
+        print 'request body is [%s]' % data
+        bee_id = self.get_body_argument('bee', '')
+        status, linkers = data_provider.get_linkers(bee_id)
+        result = {"status": status, "linkers": linkers}
+        self.write(json.dumps(result, ensure_ascii=False))
+      
 data_provider = DataProvider()
 
 if __name__ == "__main__":

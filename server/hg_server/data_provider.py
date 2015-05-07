@@ -17,15 +17,28 @@ class DataProvider(object):
     def init(self, cfg):
         self.cfg = cfg
     
-	def get_created_combs(self, bee_id):
-		combs = []
-		columns = ['id', 'title', 'icon', 'url', 'waggle_count', 'taste_count']
+    def get_account(self, username, password):
+        columns = ['id', 'name', 'password', 'avatar']
+        where = "WHERE name='%s' and password='%s'" % (username, password)
+        rows = sql_select(self.cfg, 'hg_db', 'meta_bee', columns, where)
+        if len(rows) != 1:
+            return '用户名或密码错误', {}
+        account = {columns[i]:rows[0][i] for i in range(len(columns))}
+        return 'ok', account
+
+        for r in rows:
+            combs.append({columns[i]:r[i] for i in range(len(columns))})
+        return combs
+
+    def get_created_combs(self, bee_id):
+        combs = []
+        columns = ['id', 'title', 'icon', 'url', 'waggle_count', 'taste_count']
         where = "WHERE bee_id='%s'" % bee_id
         rows = sql_select(self.cfg, 'hg_db', 'meta_comb', columns, where)
-		for r in rows:
-			combs.append({columns[i]:r[i] for i in range(len(columns))})
-		return combs
-		
+        for r in rows:
+            combs.append({columns[i]:r[i] for i in range(len(columns))})
+        return combs
+        
     def get_comb(self, comb_id, bee_id):
         comb = Comb()
         
@@ -60,3 +73,12 @@ class DataProvider(object):
             if waggle.parse(r[0]):
                 comb.waggles.append(waggle)
         return comb
+
+    def get_linkers(self, bee_id):
+        linkers = []
+        columns = ['id', 'title', 'icon', 'url', 'description', 'price', 'click_count']
+        rows = sql_select(self.cfg, 'hg_db', 'meta_comb', columns)
+        for r in rows:
+            linkers.append({columns[i]:r[i] for i in range(len(columns))})
+        return linkers
+
