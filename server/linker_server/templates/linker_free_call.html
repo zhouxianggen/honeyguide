@@ -1,42 +1,42 @@
 <!DOCTYPE html>
 <html>
-	<head>
-		<title>free call</title>
-		<meta charset="utf-8">
-		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-		<link rel="stylesheet" type="text/css" href="{{ static_url('css/linker_free_call.css') }}" />
-		<script type="text/javascript" src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.8.0.js"></script>
-		<script src="{{ static_url('js/common.js') }}"></script>
-		<script src="{{ static_url('js/view_group.js') }}"></script>
-		<script src="{{ static_url('js/linker_free_call.js') }}"></script>
-	</head>
-	<body onload="init()">
-		<div id="view_setting" class="view" data-title="free call - setting" data-comb="{{ comb }}">
-			<div id="div_phone_number" class="hint">设置您的电话号码</div>
-			<div id="div_address"></div>
-			<table id="table_keyboard">
-				<tr>
-					<td id="1" class="key">1</td>
-					<td id="2" class="key">2</td>
-					<td id="3" class="key">3</td>
-				</tr>
-				<tr>
-					<td id="4" class="key">4</td>
-					<td id="5" class="key">5</td>
-					<td id="6" class="key">6</td>
-				</tr>
-				<tr>
-					<td id="7" class="key">7</td>
-					<td id="8" class="key">8</td>
-					<td id="9" class="key">9</td>
-				</tr>
-				<tr>
-					<td id="empty" class="key"></td>
-					<td id="0" class="key">0</td>
-					<td id="del" class="key" style="font-size: 32px;">删除</td>
-				</tr>
-			</table>
-			<button id="btn_finish"">完成</button>
-		</div>
-	</body>
+    <head>
+        <title>free call</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+        <link rel="stylesheet" type="text/css" href="{{ static_url('css/linker_free_call.css') }}" />
+        <script type="text/javascript" src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.8.0.js"></script>
+        <script src="{{ static_url('js/common.js') }}"></script>
+        <script src="{{ static_url('js/view_group.js') }}"></script>
+        <script src="{{ static_url('js/linker_free_call.js') }}"></script>
+    </head>
+    <body onload="init()">
+        <div id="view_setting" class="view" data-title="free call - setting" data-comb="{{ comb }}">
+            <div id="div_phone_number" class="hint">设置您的电话号码</div>
+            <div id="div_address"></div>
+            <table id="table_keyboard">
+                <tr>
+                    <td id="1" class="key">1</td>
+                    <td id="2" class="key">2</td>
+                    <td id="3" class="key">3</td>
+                </tr>
+                <tr>
+                    <td id="4" class="key">4</td>
+                    <td id="5" class="key">5</td>
+                    <td id="6" class="key">6</td>
+                </tr>
+                <tr>
+                    <td id="7" class="key">7</td>
+                    <td id="8" class="key">8</td>
+                    <td id="9" class="key">9</td>
+                </tr>
+                <tr>
+                    <td id="empty" class="key"></td>
+                    <td id="0" class="key">0</td>
+                    <td id="del" class="key" style="font-size: 32px;">删除</td>
+                </tr>
+            </table>
+            <button id="btn_finish"">完成</button>
+        </div>
+    </body>
 </html>
