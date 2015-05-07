@@ -2,8 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/HoneyGuide.iml" filepath="$PROJECT_DIR$/HoneyGuide.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/honeyguide.iml" filepath="$PROJECT_DIR$/honeyguide.iml" />
     </modules>
   </component>
 </project>

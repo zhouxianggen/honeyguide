@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:fillViewport="true">
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:orientation="vertical">
+
+        <EditText
+            android:id="@+id/title"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dip"
+            android:singleLine="true"
+            android:hint="设置蜜名"/>
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dip"
+            android:orientation="vertical">
+
+            <Button
+                android:id="@+id/set_linkers"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:hint="选择服务"/>
+
+            <HorizontalScrollView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:id="@+id/linkers"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+                 </LinearLayout>
+
+            </HorizontalScrollView>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dip"
+            android:orientation="vertical">
+
+            <Button
+                android:id="@+id/set_icon"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:hint="设置图标"/>
+
+            <ImageView
+                android:id="@+id/icon"
+                android:layout_width="100dip"
+                android:layout_height="100dip" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+</ScrollView>

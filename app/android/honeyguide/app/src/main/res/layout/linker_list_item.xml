@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:padding="5dip">
+
+    <ImageView
+        android:id="@+id/icon"
+        android:layout_width="64dip"
+        android:layout_height="64dip"
+        android:layout_alignParentLeft="true"
+        android:layout_marginRight="5dip"
+        android:src="@drawable/ic_launcher"/>
+
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="wrap_content"
+        android:layout_height="18dip"
+        android:layout_alignTop="@+id/icon"
+        android:layout_toRightOf="@id/icon"
+        android:layout_toLeftOf="@id/action_delete"
+        android:text="去淘宝"
+        android:textColor="#040404"
+        android:typeface="sans"
+        android:textSize="18dip"
+        android:textStyle="bold"/>
+
+    <TextView
+        android:id="@+id/description"
+        android:layout_width="wrap_content"
+        android:layout_height="20dip"
+        android:layout_toRightOf="@id/icon"
+        android:layout_below="@id/title"
+        android:layout_toLeftOf="@id/action_delete"
+        android:layout_marginTop="2dip"
+        android:ellipsize="end"
+        android:lineSpacingMultiplier="0.9"
+        android:textColor="#343434"
+        android:textSize="9dip"
+        android:text="最受欢迎的淘宝访问工具，安全快速访问您的网页，支持微信内访问淘宝"/>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_alignBottom="@+id/icon"
+        android:layout_toRightOf="@id/icon"
+        android:layout_below="@id/description"
+        android:layout_toLeftOf="@id/action_delete">
+
+        <TextView
+            android:id="@+id/click_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:textColor="#ff9900"
+            android:textSize="8dip"
+            android:text="已提供1000次服务"/>
+
+        <TextView
+            android:id="@+id/price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:textColor="#ff9900"
+            android:textSize="8dip"
+            android:text="0.5元每次"/>
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/action_delete"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="invisible"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="4dip"
+        android:text="取消选择"/>
+
+</RelativeLayout>

@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CombListAdapter extends BaseAdapter {
-    public List<Comb> combs = new ArrayList<Comb>();
+    public List<Comb> combs = new ArrayList<>();
 
     @Override
     public int getCount() {

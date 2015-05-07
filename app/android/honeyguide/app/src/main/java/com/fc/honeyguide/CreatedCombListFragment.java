@@ -1,9 +1,11 @@
 package com.fc.honeyguide;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,33 +13,25 @@ import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.fc.honeyguide.define.Comb;
+import com.fc.honeyguide.manager.AccountManager;
 import com.fc.honeyguide.util.ImageLoadTask;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class CreatedCombListFragment extends Fragment {
+    private static final String TAG = "CreatedCombListFragment";
     private CreatedCombListAdapter mListAdapter;
     private ListView mListView;
-    private MyHandler myHandler = new MyHandler();
-
-    class MyHandler extends Handler {
-        public void initializeAdapter() {
-            mListAdapter.combs = ((MyApplication)getActivity().getApplicationContext()).
-                    getCombManager().getCreatedCombs();
-            getActivity().runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    if (mListAdapter.combs != null) {
-                        mListView.setAdapter(mListAdapter);
-                    }
-                }
-            });
-        }
-    }
+    private Handler mHandler = new Handler();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        Log.d(TAG, "onCreateView");
         View view = inflater.inflate(R.layout.comb_list, container, false);
         mListView = (ListView) view.findViewById(R.id.comb_list);
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -46,11 +40,14 @@ public class CreatedCombListFragment extends Fragment {
                 Intent intent = new Intent(getActivity(), H5CombActivity.class);
                 intent.putExtra(getString(R.string.EXTRA_COMB_URL),
                         mListAdapter.combs.get(position).url);
+                intent.putExtra(getString(R.string.EXTRA_COMB_TITLE),
+                        mListAdapter.combs.get(position).title);
                 startActivityForResult(intent, 1);
             }
         });
 
         mListAdapter = new CreatedCombListAdapter();
+        mListView.setAdapter(mListAdapter);
 
         return view;
     }
@@ -58,9 +55,28 @@ public class CreatedCombListFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        if (mListView.getAdapter() == null) {
-            myHandler.initializeAdapter();
-        }
+        Log.d(TAG, "onResume");
+        updateAdapter();
+    }
+
+    private void updateAdapter() {
+        new Thread(new Runnable() {
+            public void run() {
+                final Context context = getActivity().getApplicationContext();
+                final List<Comb> combs = new ArrayList<>();
+                final String error = ((MyApplication)getActivity().getApplicationContext()).
+                        getCombManager().getCreatedCombs(combs);
+                mHandler.post(new Runnable() {
+                    public void run() {
+                        if (error.isEmpty()) {
+                            mListAdapter.combs = combs;
+                        } else {
+                            Toast.makeText(context, error, Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+            }
+        }).start();
     }
 
     class CreatedCombListAdapter extends CombListAdapter {
@@ -98,8 +114,8 @@ public class CreatedCombListFragment extends Fragment {
             Comb comb = (Comb) getItem(holder.position);
             new ImageLoadTask(comb.icon, holder.icon).execute();
             holder.title.setText(comb.title);
-            holder.waggleCount.setText(comb.waggleCount);
-            holder.tasteCount.setText(comb.tasteCount);
+            holder.waggleCount.setText(String.valueOf(comb.waggleCount));
+            holder.tasteCount.setText(String.valueOf(comb.tasteCount));
         }
     }
 
