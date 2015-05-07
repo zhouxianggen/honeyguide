@@ -1,0 +1,7 @@
+
+[linker_db]
+host = hg2.c7dsdrfy4wfo.us-west-2.rds.amazonaws.com
+port = 3306
+db = linker
+user = zhouxg
+passwd = justaguest

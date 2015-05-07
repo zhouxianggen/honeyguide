@@ -1,5 +1,4 @@
 
-
 (function() {
     var root = this;
 
@@ -18,6 +17,11 @@
 
     ViewSetting.prototype = {
         display: function(e) {
+			for (var i = 0; i < this.eKeys.length; i++) {
+				var width = $(this.view).width() / 3;
+				$(this.eKeys[i]).width(width).height(width);
+				$(this.eKeys[i]).css("font-size", width * 0.8);		
+			}
         },
         
         setEventListeners: function() {
@@ -54,7 +58,6 @@
                     if (phoneNumber.length > 0) {
                         var data = {'comb': this.view.dataset.comb, 'phone_number': phoneNumber};
                         $.post('free_call?act=set_phone_number', data, function(result) {
-                              alert(result);
                         });
                         returnToApp('');
                     }

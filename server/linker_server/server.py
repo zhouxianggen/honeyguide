@@ -11,6 +11,7 @@ import tornado.httpserver
 import tornado.ioloop
 import tornado.web
 import tornado.template
+import ConfigParser
 CWD = os.path.dirname(os.path.abspath(__file__))
 sys.path.append(CWD)
 from data_provider import DataProvider
@@ -39,8 +40,7 @@ class DefaultRequestHandler(tornado.web.RequestHandler):
 class FreeCallRequestHandler(tornado.web.RequestHandler):
     #@tornado.web.authenticated
     def post(self):
-        #data = self.request.data
-        # 使用 hg publick key 对data进行解密
+        # 我们应当使用post方法，通过对post data进行hg公钥解码来判断是不是来自hg的请求
         return self.get()
     
     #@tornado.web.authenticated
@@ -56,12 +56,13 @@ class FreeCallRequestHandler(tornado.web.RequestHandler):
             
     def set_linker(self):
         comb = self.get_argument('comb')
-        self.render('linker_free_call.html', comb=comb)
+        self.render('free_call_setting.html', comb=comb)
         
     def click_linker(self):
         comb = self.get_argument('comb')
         bee = self.get_argument('bee')
-        self.render('click_free_call.html')
+		phone_number = data_provider.get_phone_number(comb)
+        self.render('free_call_serving.html', phone_number=phone_number)
         
     def set_phone_number(self):
         comb = self.get_body_argument('comb', '')
@@ -81,6 +82,9 @@ class GoTaobaoRequestHandler(tornado.web.RequestHandler):
 data_provider = DataProvider()
 
 if __name__ == "__main__":
+    cfg = ConfigParser.ConfigParser()
+    cfg.read(sys.argv[1])
+    data_provider.init(cfg)
     server = tornado.httpserver.HTTPServer(MyApplication())
     server.listen(80)
     tornado.ioloop.IOLoop.instance().start()

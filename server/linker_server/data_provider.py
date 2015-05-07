@@ -8,6 +8,7 @@ __info__ = "data provider"
 import os,sys
 CWD = os.path.dirname(os.path.abspath(__file__))
 sys.path.append(CWD)
+from mysql import sql_select, sql_execute
 
 phone_numbers = {}
 
@@ -15,6 +16,18 @@ class DataProvider(object):
     def init(self, cfg):
         self.cfg = cfg
     
+	def get_phone_number(self, comb):
+		columns = ['phone']
+        where = "WHERE comb='%s'" % comb
+        rows = sql_select(self.cfg, 'linker_db', 'phone_number', columns, where)
+		if len(rows) == 1:
+			return rows[0][0]
+			
+	    sql = 'insert into phone_number (comb, phone) values (%s, %s)'
+		args = (comb, phone_number)
+		sql_execute(cfg, 'linker_db', sql, args)
+		
     def set_phone_number(self, comb, phone_number):
-        phone_numbers[comb] = phone_number
-        return 'success'
+	    sql = 'insert into phone_number (comb, phone) values (%s, %s)'
+		args = (comb, phone_number)
+		sql_execute(cfg, 'linker_db', sql, args)

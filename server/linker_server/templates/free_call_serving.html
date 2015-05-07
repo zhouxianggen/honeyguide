@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>free call</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+        <link rel="stylesheet" type="text/css" href="{{ static_url('css/free_call.css') }}" />
+        <script type="text/javascript" src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.8.0.js"></script>
+        <script src="{{ static_url('js/common.js') }}"></script>
+        <script src="{{ static_url('js/view_group.js') }}"></script>
+        <script src="{{ static_url('js/free_call_serving.js') }}"></script>
+    </head>
+    <body onload="init()">
+		<div id="view_serving" class="view" data-title="free call - serving">
+			<div id="div_hint">点击按钮拨打电话</div>
+            <a id="a_call" href="tel:{{ phone_number}}"></a>
+        </div>
+    </body>
+</html>
