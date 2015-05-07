@@ -25,5 +25,5 @@ function init() {
     checkRequestAnimationFrame();
     viewGroup = new ViewGroup();
     viewServing = new ViewServing();
-    viewGroup.activeView(document.getElementById("view_serving"));
+    viewGroup.activeView(document.getElementById("view_serving"), {'handler': 'display'});
 }
