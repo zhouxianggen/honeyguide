@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>{{ comb.title }}</title>
+    <title>{{ comb['title'] }}</title>
     <meta charset="utf-8">
     <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <link rel="stylesheet" type="text/css" href="{{ static_url('css/visit_comb.css') }}" />
@@ -13,27 +13,27 @@
   </head>
   <body onload="init()">
   
-    <div id="view_visit_comb" class="view" data-title="{{ comb.title }}">
+    <div id="view_visit_comb" class="view" data-title="{{ comb['title'] }}">
       <input type="file" id="input_files" multiple accept="image/*"/>
-      {% if comb.enable_share %}
+      {% if comb['enable_share'] %}
       <a href="#" id="a_add_waggle"></a>
       {% end %}
       <button id="btn_open_linkers" type="submit"></button>
       <div id="div_linkers">
-      {% for linker in comb.linkers %}
+      {% for linker in linkers %}
         <div class="div_linker">
-          <button type="submit" data-url="{{ linker.url }}" style="background-image: url({{ static_url(linker.icon) }});"></button>
-          <div class="linker_title">{{ linker.title }}</div>
+          <button type="submit" data-url="{{ linker['url'] }}" style="background-image: url({{ static_url(linker['icon']) }});"></button>
+          <div class="linker_title">{{ linker['title'] }}</div>
         </div>
       {% end %}               
       </div>
       <div id="div_gallary">
         <div id="div_waggle_list">
-          {% for waggle in comb.waggles %}
+          {% for waggle in waggles %}
           <div class="div_waggle">
-            <canvas class="canvas_waggle" data-img="{{ static_url(waggle.image) }}"></canvas>
-            {% for note in waggle.notes %}
-            <div class="div_note" data-type="{{ note.type }}" data-x="{{ note.position_x }}" data-y="{{ note.position_y }}" data-data="{{ note.content }}"></div>
+            <canvas class="canvas_waggle" data-img="{{ static_url(waggle['image']) }}"></canvas>
+            {% for note in waggle['notes'] %}
+            <div class="div_note" data-type="{{ note['type'] }}" data-x="{{ note['position_x'] }}" data-y="{{ note['position_y'] }}" data-data="{{ note['content'] }}"></div>
             {% end %}
           </div>
           {% end %}
