@@ -59,7 +59,7 @@
                         var data = {'comb': this.view.dataset.comb, 'phone_number': phoneNumber};
                         $.post('free_call?act=set_phone_number', data, function(result) {
                         });
-                        returnToApp('');
+                        android.returnToApp('');
                     }
                 }
                 viewGroup.activeView(document.getElementById("view_read"));

@@ -40,24 +40,47 @@ class DefaultRequestHandler(tornado.web.RequestHandler):
 class VisitCombRequestHandler(tornado.web.RequestHandler):
     #@tornado.web.authenticated
     def get(self):
+        print 'VisitCombRequestHandler: %s' % self.request.uri
         comb_id = self.get_argument('comb')
-        bee_id = self.get_argument('bee')
-        comb = data_provider.get_comb(comb_id, bee_id)
-        self.render('visit_comb.html', comb=comb)
+        bee_id = self.get_argument('bee', default='')
+        status, comb, linkers, waggles = data_provider.get_comb(comb_id, bee_id)
+        print 'comb:', comb
+        print 'linkers:', linkers
+        print 'waggles:', waggles
+        self.render('visit_comb.html', comb=comb, linkers=linkers, waggles=waggles)
 
 class CombManagerRequestHandler(tornado.web.RequestHandler):
     #@tornado.web.authenticated
+    def post(self):
+        return self.get()
+    
+    #@tornado.web.authenticated
     def get(self):
         act = self.get_argument('act')
+        print 'CombManagerRequestHandler.%s' % act
         if act == 'get_created_combs':
             return self.get_created_combs()
+        if act == 'add_comb':
+            return self.add_comb()
     
     def get_created_combs(self):
         bee_id = self.get_argument('bee')
         combs = data_provider.get_created_combs(bee_id)
-        
-        result = '{"combs":[%s]}' % ', '.join([json.dumps(c, ensure_ascii=False) for c in combs])
-        self.write(result)
+        result = {"status": "ok", "combs": combs}
+        #result = '{"combs":[%s]}' % ', '.join([json.dumps(c, ensure_ascii=False) for c in combs])
+        print json.dumps(result, ensure_ascii=False)
+        self.write(json.dumps(result, ensure_ascii=False))
+    
+    def add_comb(self):
+        data = self.request.body
+        print 'request body is [%s]' % data
+        bee_id = self.get_body_argument('bee', '')
+        comb = self.get_body_argument('comb', '')
+        print 'bee=[%s] comb=[%s]' % (bee_id, comb)
+        status, reason = data_provider.add_comb(bee_id, comb)
+        result = {"status": status, "reason": reason}
+        print json.dumps(result, ensure_ascii=False)
+        self.write(json.dumps(result, ensure_ascii=False))
  
 class AccountManagerRequestHandler(tornado.web.RequestHandler):
     #@tornado.web.authenticated
