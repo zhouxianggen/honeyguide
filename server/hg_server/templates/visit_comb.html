@@ -21,10 +21,11 @@
       <button id="btn_open_linkers" type="submit"></button>
       <div id="div_linkers">
       {% for linker in linkers %}
-        <div class="div_linker">
-          <button type="submit" data-url="{{ linker['url'] }}" style="background-image: url({{ static_url(linker['icon']) }});"></button>
-          <div class="linker_title">{{ linker['title'] }}</div>
-        </div>
+        <a class="a_linker" href="{{ linker['url'] }}">
+          <button class="btn_click_linker" type="submit" style="background-image: url({{ linker['icon'] }});">
+		  </button>
+          <div class="div_linker_title">{{ linker['title'] }}</div>
+        </a>
       {% end %}               
       </div>
       <div id="div_gallary">

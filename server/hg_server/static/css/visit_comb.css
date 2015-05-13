@@ -314,7 +314,7 @@ body {
     z-index: 3;
 }
 
-#view_visit_comb #div_linkers .div_linker {
+#view_visit_comb #div_linkers .a_linker {
     display: inline-block;
     position: relative;
     margin-left: 20px;
@@ -322,7 +322,7 @@ body {
     height: 80px;
 }
 
-#view_visit_comb #div_linkers .div_linker button {
+#view_visit_comb #div_linkers .a_linker .btn_click_linker {
     display: block;
     position: relative;
     width: 100%;
@@ -334,7 +334,7 @@ body {
     box-shadow: 0px 0px 4px rgba(0,0,0,0.6);
 }
 
-#view_visit_comb #div_linkers .div_linker .linker_title {
+#view_visit_comb #div_linkers .a_linker .div_linker_title {
     display: block;
     position: relative;
     width: 100%;
