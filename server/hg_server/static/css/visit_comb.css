@@ -320,6 +320,7 @@ body {
     margin-left: 20px;
     width: 64px;
     height: 80px;
+	text-decoration: none;
 }
 
 #view_visit_comb #div_linkers .a_linker .btn_click_linker {

@@ -55,7 +55,9 @@ class DataProvider(object):
             where = "WHERE id='%s'" % id
             rows = sql_select(self.cfg, 'hg_db', 'meta_linker', columns, where)
             if len(rows) == 1:
-                linkers.append({columns[i]:rows[0][i] for i in range(len(columns))})
+                d = {columns[i]:rows[0][i] for i in range(len(columns))}
+                d['url'] = '%sact=click_linker&comb=%s&bee=%s' % (d['url'], comb_id, waggle_bee_id)
+                linkers.append(d)
                 
         # get waggles
         waggles = []
