@@ -29,12 +29,10 @@ import java.util.List;
 
 public class SelectLinkersActivity extends ActionBarActivity {
     private static final String TAG = "SelectLinkersActivity";
+    private static final int SET_LINKER_REQUEST = 1;
     private LinkerListAdapter mListAdapter = null;
     private ListView mListView;
     private Handler mHandler = new Handler();
-    private String mCombId;
-    private String mBeeId;
-    private List<Linker> mSelectedLinkers = new ArrayList<>();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -43,19 +41,17 @@ public class SelectLinkersActivity extends ActionBarActivity {
         initializeActionBar();
         mListView = (ListView) findViewById(R.id.linker_list);
 
-        Bundle extras = getIntent().getExtras();
-        if (extras == null) {
-            finish();
-        }
-        mCombId = extras.getString(getString(R.string.EXTRA_COMB_ID));
-        mBeeId = extras.getString(getString(R.string.EXTRA_BEE_ID));
-
         Button buttonFinish = (Button) findViewById(R.id.action_finish);
         buttonFinish.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
+                Comb comb = ((MyApplication)getApplication()).getNewComb();
+                comb.linkers.clear();
+                for (Linker linker : mListAdapter.linkers) {
+                    if (linker.selected) {
+                        comb.linkers.add(linker);
+                    }
+                }
                 Intent intent = new Intent();
-                //intent.putExtra(getString(R.string.extras_linker_position), mPosition);
-                //intent.putExtra(getString(R.string.extras_linker_id), mLinkerId);
                 setResult(RESULT_OK, intent);
                 finish();
             }
@@ -64,15 +60,21 @@ public class SelectLinkersActivity extends ActionBarActivity {
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Log.d(TAG, "list item click " + String.valueOf(position));
+                Comb comb = ((MyApplication)getApplication()).getNewComb();
                 Linker linker = (Linker) mListAdapter.getItem(position);
                 if (linker.selected == false) {
                     Intent intent = new Intent(SelectLinkersActivity.this,
                             SetLinkerActivity.class);
-                    String url = String.format("%scomb=%s&bee=%s",
-                            linker.url, mCombId, mBeeId);
+                    String url = String.format("%sact=set_linker&comb=%s",
+                            linker.url, comb.id);
                     intent.putExtra(getString(R.string.EXTRA_LINKER_URL), url);
-                    intent.putExtra(getString(R.string.EXTRA_LINKER_ID), url);
-                    startActivityForResult(intent, 1);
+                    intent.putExtra(getString(R.string.EXTRA_LINKER_ID), linker.id);
+                    startActivityForResult(intent, SET_LINKER_REQUEST);
+                } else {
+                    linker.selected = false;
+                    mListAdapter.refreshView(mListView.getChildAt(
+                            position - mListView.getFirstVisiblePosition()));
                 }
             }
         });
@@ -89,13 +91,16 @@ public class SelectLinkersActivity extends ActionBarActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == 1) {
+        //super.onActivityResult(requestCode, resultCode, data);
+        Log.d(TAG, "onActivityResult with request code " + String.valueOf(requestCode));
+        Log.d(TAG, "onActivityResult with result code " + String.valueOf(resultCode));
+        if (requestCode == SET_LINKER_REQUEST) {
             if (resultCode == RESULT_OK) {
                 Bundle extras = data.getExtras();
                 if (extras != null) {
                     String linkerId = extras.getString(getString(R.string.EXTRA_LINKER_ID));
-                    setLinkerSelected(linkerId);
+                    mListAdapter.setLinkerSelected(linkerId);
+                    Log.d(TAG, "set " + String.valueOf(linkerId) + " selected");
                 }
             }
         }
@@ -111,18 +116,6 @@ public class SelectLinkersActivity extends ActionBarActivity {
         textView.setText("选择服务");
     }
 
-    private void setLinkerSelected(String linkerId) {
-        for (int i = 0; i < mListAdapter.getCount(); i++) {
-            Linker linker = (Linker) mListAdapter.getItem(i);
-            if (linker.id.equals(linkerId)) {
-                linker.selected = true;
-                mListAdapter.refreshView(mListView.getChildAt(
-                        i - mListView.getFirstVisiblePosition()));
-                break;
-            }
-        }
-    }
-
     private void initializeAdapter() {
         new Thread(new Runnable() {
             public void run() {
@@ -130,6 +123,15 @@ public class SelectLinkersActivity extends ActionBarActivity {
                 final List<Linker> linkers = new ArrayList<>();
                 final String error = ((MyApplication)getApplicationContext()).getLinkerManager().
                         getLinkers(linkers);
+                // 设置过去已选择的链接
+                Comb comb = ((MyApplication)getApplication()).getNewComb();
+                for (Linker linker : comb.linkers) {
+                    for (Linker linker1 : linkers) {
+                        if (linker1.id.equals(linker.id)) {
+                            linker1.selected = true;
+                        }
+                    }
+                }
                 mHandler.post(new Runnable() {
                     public void run() {
                         if (error.isEmpty()) {
@@ -206,6 +208,8 @@ public class SelectLinkersActivity extends ActionBarActivity {
             holder.price.setText(String.valueOf(linker.price));
             if (linker.selected) {
                 holder.actionDelete.setVisibility(View.VISIBLE);
+            } else {
+                holder.actionDelete.setVisibility(View.INVISIBLE);
             }
         }
 
@@ -217,6 +221,16 @@ public class SelectLinkersActivity extends ActionBarActivity {
         @Override
         public boolean isEnabled(int position) {
             return true;
+        }
+
+        private void setLinkerSelected(String linkerId) {
+            for (int i = 0; i < linkers.size(); i++) {
+                if (linkers.get(i).id.equals(linkerId)) {
+                    linkers.get(i).selected = true;
+                    refreshView(mListView.getChildAt(i - mListView.getFirstVisiblePosition()));
+                    break;
+                }
+            }
         }
     }
 
@@ -236,6 +250,7 @@ public class SelectLinkersActivity extends ActionBarActivity {
 
         @Override
         public void onClick(View view) {
+            Log.d(TAG, "delete " + String.valueOf(position));
             Linker linker = (Linker) mListAdapter.getItem(position);
             linker.selected = false;
             mListAdapter.refreshView(mListView.getChildAt(

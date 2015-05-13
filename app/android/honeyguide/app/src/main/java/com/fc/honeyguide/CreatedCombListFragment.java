@@ -10,12 +10,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.fc.honeyguide.define.Account;
 import com.fc.honeyguide.define.Comb;
+import com.fc.honeyguide.define.Linker;
 import com.fc.honeyguide.manager.AccountManager;
 import com.fc.honeyguide.util.ImageLoadTask;
 
@@ -24,6 +28,8 @@ import java.util.List;
 
 public class CreatedCombListFragment extends Fragment {
     private static final String TAG = "CreatedCombListFragment";
+    private static final int VISIT_H5_COMB_REQUEST = 1;
+    private static final int GENERATE_QR_CODE_REQUEST = 2;
     private CreatedCombListAdapter mListAdapter;
     private ListView mListView;
     private Handler mHandler = new Handler();
@@ -38,11 +44,13 @@ public class CreatedCombListFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(getActivity(), H5CombActivity.class);
-                intent.putExtra(getString(R.string.EXTRA_COMB_URL),
-                        mListAdapter.combs.get(position).url);
-                intent.putExtra(getString(R.string.EXTRA_COMB_TITLE),
-                        mListAdapter.combs.get(position).title);
-                startActivityForResult(intent, 1);
+                Account account = ((MyApplication)getActivity().getApplicationContext()).
+                        getAccountManager().getCurrentAccount();
+                Comb comb = mListAdapter.combs.get(position);
+                String url = String.format("%s&bee=%s", comb.url, account.id);
+                intent.putExtra(getString(R.string.EXTRA_COMB_URL), url);
+                intent.putExtra(getString(R.string.EXTRA_COMB_TITLE), comb.title);
+                startActivityForResult(intent, VISIT_H5_COMB_REQUEST);
             }
         });
 
@@ -70,6 +78,7 @@ public class CreatedCombListFragment extends Fragment {
                     public void run() {
                         if (error.isEmpty()) {
                             mListAdapter.combs = combs;
+                            mListAdapter.notifyDataSetChanged();
                         } else {
                             Toast.makeText(context, error, Toast.LENGTH_SHORT).show();
                         }
@@ -98,9 +107,14 @@ public class CreatedCombListFragment extends Fragment {
                 holder.title = (TextView) view.findViewById(R.id.comb_title);
                 holder.waggleCount = (TextView) view.findViewById(R.id.waggle_count);
                 holder.tasteCount = (TextView) view.findViewById(R.id.taste_count);
+                holder.generateQRCode = (ImageButton) view.findViewById(R.id.generate_qr_code);
+                holder.generateQRCodeOnClickListener = new GenerateQRCodeOnClickListener();
+                holder.generateQRCode.setOnClickListener(
+                        holder.generateQRCodeOnClickListener);
                 view.setTag(holder);
             }
             holder.position = position;
+            holder.generateQRCodeOnClickListener.position = position;
             refreshView(view);
 
             return view;
@@ -124,6 +138,22 @@ public class CreatedCombListFragment extends Fragment {
         public TextView title;
         public TextView waggleCount;
         public TextView tasteCount;
+        public ImageButton generateQRCode;
+        public GenerateQRCodeOnClickListener generateQRCodeOnClickListener;
         public int position;
+    }
+
+    class GenerateQRCodeOnClickListener implements View.OnClickListener {
+        public int position;
+
+        @Override
+        public void onClick(View view) {
+            Log.d(TAG, "start GenerateQRCodeActivity");
+            Comb comb = (Comb) mListAdapter.getItem(position);
+            Intent intent = new Intent(getActivity(), GenerateQRCodeActivity.class);
+            intent.putExtra(getString(R.string.EXTRA_COMB_TITLE), comb.title);
+            intent.putExtra(getString(R.string.EXTRA_COMB_URL), comb.url);
+            startActivityForResult(intent, GENERATE_QR_CODE_REQUEST);
+        }
     }
 }

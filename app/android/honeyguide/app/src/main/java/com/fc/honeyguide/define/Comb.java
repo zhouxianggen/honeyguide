@@ -13,7 +13,6 @@ public class Comb {
     public int waggleCount = 0;
     public int tasteCount = 0;
     public List<Linker> linkers = new ArrayList<>();
-    public String beeId = "";
 
     public Comb() {
     }
@@ -22,10 +21,6 @@ public class Comb {
         if (title.isEmpty()) return "标题不能为空";
         if (linkers.isEmpty()) return "服务不能为空";
         return "";
-    }
-
-    public boolean parseFromString(String s) {
-        return true;
     }
 
     public boolean parseFromJsonObject(JSONObject jsonObject) {
@@ -40,5 +35,20 @@ public class Comb {
             return false;
         }
         return true;
+    }
+
+    public String serializeToString() {
+        String linkersString = "";
+        for (Linker linker : linkers) {
+            if (linkersString.isEmpty()) {
+                linkersString = linker.serializeToString();
+            } else {
+                linkersString += ", " + linker.serializeToString();
+            }
+        }
+        return String.format("{\"id\": \"%s\", \"title\": \"%s\", \"icon\": \"%s\", " +
+                "\"url\": \"%s\", \"waggleCount\": %d, \"tasteCount\": %d, " +
+                "\"linkers\":  [%s]}",
+                id, title, icon, url, waggleCount, tasteCount, linkersString);
     }
 }

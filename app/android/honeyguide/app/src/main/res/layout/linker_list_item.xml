@@ -15,6 +15,17 @@
         android:layout_marginRight="5dip"
         android:src="@drawable/ic_launcher"/>
 
+    <Button
+        android:id="@+id/action_delete"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="invisible"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="4dip"
+        android:focusable="false"
+        android:text="取消选择"/>
+
     <TextView
         android:id="@+id/title"
         android:layout_width="wrap_content"
@@ -70,15 +81,5 @@
             android:text="0.5元每次"/>
 
     </LinearLayout>
-
-    <Button
-        android:id="@+id/action_delete"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:visibility="invisible"
-        android:layout_alignParentRight="true"
-        android:layout_centerVertical="true"
-        android:layout_marginLeft="4dip"
-        android:text="取消选择"/>
 
 </RelativeLayout>

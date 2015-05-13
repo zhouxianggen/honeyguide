@@ -10,9 +10,11 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class SetLinkerActivity extends ActionBarActivity {
     private String mLinkerId;
+    private WebView mWebView;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -22,15 +24,15 @@ public class SetLinkerActivity extends ActionBarActivity {
 
         mLinkerId = getIntent().getStringExtra(getString(R.string.EXTRA_LINKER_ID));
         String url = getIntent().getStringExtra(getString(R.string.EXTRA_LINKER_URL));
-        WebView webView = (WebView) findViewById(R.id.web_view);
-        webView.addJavascriptInterface(new WebAppInterface(), "Android");
-        webView.setScrollBarStyle(WebView.SCROLLBARS_OUTSIDE_OVERLAY);
-        webView.getSettings().setJavaScriptEnabled(true);
-        //webView.getSettings().setSupportZoom(true);
-        //webView.getSettings().setBuiltInZoomControls(true);
-        webView.loadUrl(url);
+        mWebView = (WebView) findViewById(R.id.web_view);
+        mWebView.addJavascriptInterface(this, "android");
+        mWebView.setScrollBarStyle(WebView.SCROLLBARS_OUTSIDE_OVERLAY);
+        mWebView.getSettings().setJavaScriptEnabled(true);
+        //mWebView.getSettings().setSupportZoom(true);
+        //mWebView.getSettings().setBuiltInZoomControls(true);
+        mWebView.loadUrl(url);
 
-        webView.setWebViewClient(new WebViewClient() {
+        mWebView.setWebViewClient(new WebViewClient() {
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
                 view.loadUrl(url);
@@ -44,6 +46,17 @@ public class SetLinkerActivity extends ActionBarActivity {
         super.onResume();
     }
 
+    @Override
+    public void onBackPressed() {
+        if (mWebView.canGoBack()) {
+            mWebView.goBack();
+            return;
+        }
+
+        // Otherwise defer to system default behavior.
+        super.onBackPressed();
+    }
+
     private void initializeActionBar() {
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayShowCustomEnabled(true);
@@ -54,13 +67,12 @@ public class SetLinkerActivity extends ActionBarActivity {
         textView.setText("设置服务");
     }
 
-    public class WebAppInterface {
-        @JavascriptInterface
-        public void onFinish() {
-            Intent intent = new Intent();
-            intent.putExtra(getString(R.string.EXTRA_LINKER_ID), mLinkerId);
-            setResult(RESULT_OK, intent);
-            finish();
-        }
+    @JavascriptInterface
+    public void returnToApp(String error) {
+        Toast.makeText(getApplicationContext(), "return " + error, Toast.LENGTH_SHORT).show();
+        Intent intent = new Intent(SetLinkerActivity.this, SelectLinkersActivity.class);
+        intent.putExtra(getString(R.string.EXTRA_LINKER_ID), mLinkerId);
+        setResult(RESULT_OK, intent);
+        finish();
     }
 }

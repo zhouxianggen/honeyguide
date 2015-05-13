@@ -12,7 +12,7 @@
         android:layout_height="60dip"
         android:layout_alignParentLeft="true"
         android:layout_centerVertical="true"
-        android:src="@drawable/veromoda"/>
+        android:src="@drawable/honeyguide"/>
 
     <TextView
         android:id="@+id/comb_title"
@@ -20,6 +20,7 @@
         android:layout_height="wrap_content"
         android:layout_alignTop="@id/comb_icon"
         android:layout_toRightOf="@id/comb_icon"
+        android:layout_marginLeft="4dip"
         android:ellipsize="end"
         android:singleLine="true"
         android:text="VEROMODA 西城广场店"
@@ -34,6 +35,8 @@
         android:layout_height="wrap_content"
         android:layout_toRightOf="@id/comb_icon"
         android:layout_below="@id/comb_title"
+        android:layout_marginTop="4dip"
+        android:layout_marginLeft="4dip"
         android:orientation="horizontal">
 
         <RelativeLayout
@@ -47,8 +50,9 @@
             <TextView
                 android:id="@+id/waggle_count"
                 style="@style/CombFeatureContent"
+                android:layout_marginLeft="3dip"
                 android:layout_toRightOf="@id/comb_feature_waggle_icon"
-                android:text="980"/>
+                android:text="0"/>
         </RelativeLayout>
 
         <RelativeLayout
@@ -62,18 +66,19 @@
             <TextView
                 android:id="@+id/taste_count"
                 style="@style/CombFeatureContent"
+                android:layout_marginLeft="3dip"
                 android:layout_toRightOf="@id/comb_feature_taste_icon"
-                android:text="88"/>
+                android:text="0"/>
         </RelativeLayout>
 
     </LinearLayout>
 
     <ImageButton
-        android:id="@+id/display_qr_code"
-        android:layout_width="20dip"
-        android:layout_height="20dip"
+        android:id="@+id/generate_qr_code"
+        android:layout_width="40dip"
+        android:layout_height="40dip"
         android:layout_alignParentTop="true"
         android:layout_alignParentRight="true"
-        android:src="@drawable/qr_code"/>
+        android:background="@drawable/qr_code"/>
 
 </RelativeLayout>

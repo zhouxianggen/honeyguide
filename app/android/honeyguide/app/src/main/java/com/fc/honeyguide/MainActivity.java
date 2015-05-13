@@ -86,7 +86,7 @@ public class MainActivity extends ActionBarActivity {
                 startActivityForResult(intent, 1);
             }
         });
-        actionBar.setDisplayHomeAsUpEnabled(true);
+        //actionBar.setDisplayHomeAsUpEnabled(true);
     }
 
     @Override

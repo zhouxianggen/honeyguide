@@ -15,6 +15,9 @@
     <string name="error_sync_account_failed">同步数据错误</string>
     <string name="error_sync_collected_combs_failed">处理发生异常</string>
     <string name="error_create_comb_failed">创建新密失败了</string>
+    <string name="error_sync_add_comb_failed">同步新密失败了</string>
+    <string name="error_save_qr_code_failed">保存二维码失败了</string>
+    <string name="error_generate_qr_code_failed">生成二维码失败了</string>
 
     <string name="server_comb_manager">http://54.149.127.185/comb_manager?</string>
 
@@ -30,9 +33,13 @@
     <string name="EXTRA_COMB_ID">extra_comb_id</string>
     <string name="EXTRA_COMB_URL">extra_comb_url</string>
     <string name="EXTRA_COMB_TITLE">extra_comb_title</string>
-    <string name="EXTRA_LINKER_ID">extra_comb_id</string>
+    <string name="EXTRA_LINKER_ID">extra_linker_id</string>
 
     <string name="footer_selector_created">我的</string>
     <string name="footer_selector_collected">采集</string>
+
+    <string name="save_qr_code">保存二维码图像</string>
+
+    <string name="toast_save_screen_shoot">已保存到：</string>
 
 </resources>

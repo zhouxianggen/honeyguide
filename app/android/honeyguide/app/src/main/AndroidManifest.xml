@@ -12,7 +12,7 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
-            android:name=".LoginActivity"
+            android:name=".MainActivity"
             android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -24,20 +24,29 @@
             android:label="@string/app_name" >
         </activity>
         <activity
-            android:name=".MainActivity"
-            android:label="@string/app_name" >
+            android:name=".GenerateQRCodeActivity"
+            android:label="@string/app_name"
+            android:parentActivityName=".MainActivity" >
         </activity>
         <activity
             android:name=".H5CombActivity"
-            android:label="@string/app_name" >
+            android:label="@string/app_name"
+            android:parentActivityName=".MainActivity" >
         </activity>
         <activity
             android:name=".AddCombActivity"
-            android:label="@string/app_name" >
+            android:label="@string/app_name"
+            android:parentActivityName=".MainActivity" >
         </activity>
         <activity
             android:name=".SelectLinkersActivity"
-            android:label="@string/app_name" >
+            android:label="@string/app_name"
+            android:parentActivityName=".AddCombActivity" >
+        </activity>
+        <activity
+            android:name=".SetLinkerActivity"
+            android:label="@string/app_name"
+            android:parentActivityName=".SelectLinkersActivity" >
         </activity>
     </application>
 

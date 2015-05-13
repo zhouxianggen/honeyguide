@@ -7,6 +7,6 @@
         android:id="@+id/comb_list"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:dividerHeight = "2.0dip"/>
+        android:dividerHeight = "4.0dip"/>
 
 </LinearLayout>

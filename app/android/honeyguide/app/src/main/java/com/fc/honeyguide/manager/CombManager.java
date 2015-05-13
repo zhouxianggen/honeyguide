@@ -10,12 +10,19 @@ import com.fc.honeyguide.MyApplication;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
+import org.apache.http.NameValuePair;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.client.utils.URLEncodedUtils;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class CombManager extends Manager {
@@ -49,10 +56,9 @@ public class CombManager extends Manager {
                         combs.add(comb);
                     }
                 }
-                String strCombs = jsonObject.getString("combs");
                 String key = mContext.getString(R.string.preference_key_created_combs);
                 SharedPreferences.Editor editor = mPreferences.edit();
-                editor.putString(key, strCombs);
+                editor.putString(key, result);
                 editor.commit();
                 return mContext.getString(R.string.error_none);
             }
@@ -92,15 +98,36 @@ public class CombManager extends Manager {
         return mContext.getString(R.string.error_sync_collected_combs_failed);
     }
 
-    public Comb createComb() {
+    public String addComb() {
         try {
             Account account = mContext.getAccountManager().getCurrentAccount();
-            Comb comb = new Comb();
-            comb.beeId = account.id;
-            comb.id = String.format("%%d", account.id, System.currentTimeMillis());
-            return comb;
+            Comb comb = mContext.getNewComb();
+            HttpClient httpclient = new DefaultHttpClient();
+            String url = String.format("%sact=add_comb", mServer);
+            HttpPost httppost = new HttpPost(url);
+            List<NameValuePair> nameValuePairs = new ArrayList<>();
+            nameValuePairs.add(new BasicNameValuePair("bee", account.id));
+            nameValuePairs.add(new BasicNameValuePair("comb", comb.serializeToString()));
+            httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs, "UTF-8"));
+            Log.d(TAG, " begin to post");
+            HttpResponse httpResponse = httpclient.execute(httppost);
+            Log.d(TAG, "code is " + String.valueOf(httpResponse.getStatusLine().getStatusCode()));
+            if (httpResponse.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {
+                String result = EntityUtils.toString(httpResponse.getEntity());
+                Log.d(TAG, "result is: " + result);
+                JSONObject jsonObject = new JSONObject(result);
+                String status = jsonObject.getString("status");
+                if (!status.equals("ok")) {
+                    return status;
+                }
+                List<Comb> combs = new ArrayList<>();
+                syncCreatedCombs(combs);
+                return mContext.getString(R.string.error_none);
+            }
+            return mContext.getString(R.string.error_sync_add_comb_failed);
         } catch (Exception e) {
-            return null;
+            Log.d(TAG, "exception: " + String.valueOf(e));
+            return mContext.getString(R.string.error_exception);
         }
     }
 }
