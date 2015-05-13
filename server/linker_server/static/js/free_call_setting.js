@@ -17,14 +17,25 @@
 
     ViewSetting.prototype = {
         display: function(e) {
-			for (var i = 0; i < this.eKeys.length; i++) {
-				var width = $(this.view).width() / 3;
-				$(this.eKeys[i]).width(width).height(width);
-				$(this.eKeys[i]).css("font-size", width * 0.8);		
-			}
+            for (var i = 0; i < this.eKeys.length; i++) {
+                var width = $(this.view).width() / 4;
+                $(this.eKeys[i]).width(width).height(width);
+                if (this.eKeys[i].id != 'del') {
+                    $(this.eKeys[i]).css("font-size", width * 0.8);
+                }
+            }
         },
         
         setEventListeners: function() {
+            this.view.addEventListener('active', function(e) {
+                e.stopPropagation();
+                e.preventDefault();
+                var handler = this.handlers && this.handlers[e.detail.handler];
+                if (handler) {
+                    handler(e);
+                }
+            }.bind(this));
+
             for (var i = 0; i < this.eKeys.length; i++) {
                 this.eKeys[i].addEventListener('click', function(e) {
                     var phoneNumber = '';
@@ -74,5 +85,5 @@ function init() {
     checkRequestAnimationFrame();
     viewGroup = new ViewGroup();
     viewSetting = new ViewSetting();
-    viewGroup.activeView(document.getElementById("view_setting"));
+    viewGroup.activeView(document.getElementById("view_setting"), {'handler': 'display'});
 }

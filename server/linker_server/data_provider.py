@@ -16,18 +16,24 @@ class DataProvider(object):
     def init(self, cfg):
         self.cfg = cfg
     
-	def get_phone_number(self, comb):
-		columns = ['phone']
+    def get_phone_number(self, comb):
+        columns = ['phone']
         where = "WHERE comb='%s'" % comb
         rows = sql_select(self.cfg, 'linker_db', 'phone_number', columns, where)
-		if len(rows) == 1:
-			return rows[0][0]
-			
-	    sql = 'insert into phone_number (comb, phone) values (%s, %s)'
-		args = (comb, phone_number)
-		sql_execute(cfg, 'linker_db', sql, args)
-		
+        if len(rows) == 1:
+            return rows[0][0]
+        return ''
+            
+        
     def set_phone_number(self, comb, phone_number):
-	    sql = 'insert into phone_number (comb, phone) values (%s, %s)'
-		args = (comb, phone_number)
-		sql_execute(cfg, 'linker_db', sql, args)
+        n = self.get_phone_number(comb)
+        if n:
+            if n != phone_number:
+                sql = 'update phone_number set phone=%s where comb=%s'
+                args = (phone_number, comb)
+            else:
+                return
+        else:
+            sql = 'insert into phone_number (comb, phone) values (%s, %s)'
+            args = (comb, phone_number)
+        sql_execute(self.cfg, 'linker_db', sql, args)
