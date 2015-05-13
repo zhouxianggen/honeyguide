@@ -12,7 +12,11 @@
     </head>
     <body onload="init()">
         <div id="view_setting" class="view" data-title="free call - setting" data-comb="{{ comb }}">
+            {% if not phone_number %}
             <div id="div_phone_number" class="hint">设置您的电话号码</div>
+            {% else %}
+            <div id="div_phone_number" class="numbers">{{ phone_number }}</div>
+            {% end %}
             <div id="div_address"></div>
             <table id="table_keyboard">
                 <tr>

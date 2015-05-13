@@ -56,7 +56,8 @@ class FreeCallRequestHandler(tornado.web.RequestHandler):
             
     def set_linker(self):
         comb = self.get_argument('comb')
-        self.render('free_call_setting.html', comb=comb)
+        phone_number = data_provider.get_phone_number(comb)
+        self.render('free_call_setting.html', comb=comb, phone_number=phone_number)
         
     def click_linker(self):
         comb = self.get_argument('comb')
