@@ -3,14 +3,14 @@
   -webkit-box-sizing: border-box;
      -moz-box-sizing: border-box;
           box-sizing: border-box;
+          margin: 0 0 0 0;
+          padding: 0 0 0 0;
 }
 
 body {
 	position: absolute;
 	width: 100%;
 	height: 100%;
-	margin: 0;
-	padding: 0;
 	background: #000;
 }
 
@@ -19,8 +19,6 @@ body {
 	position: absolute;
 	width: 100%;
 	height: 100%;
-	margin: 0;
-	padding: 0;
 	overflow: hidden;
 }
 
@@ -31,12 +29,13 @@ body {
 #view_browse_comb #footer {
 	position: absolute;
 	width: 100%;
-	height: 80px;
+	min-width: 300px;
+	height: 15%;
+	min-height: 80px;
 	background: #333333;
 	transition: all 0.2s linear;
 	-moz-transition: all 0.2s linear;
 	-webkit-transition: all 0.2s linear;
-	-o-transition: all 0.2s linear;
 	border-top-left-radius: 5px;
 	border-top-right-radius: 5px;
 	-webkit-border-top-left-radius: 5px;
@@ -53,45 +52,84 @@ body {
 
 #view_browse_comb #footer.out {
 	opacity: 0.1;
-	bottom: -80px;
+	top: 100%;
 }
 
 #view_browse_comb #footer #icon {
-	display: inline-block;
-	position: relative;
-	width: 100px;
+	display: block;
+	position: absolute;
+	left: 0;
+	top: 0;
+	width: 160px;
 	height: 100%;
-	border-right: 1px solid #FFFFFF;
-}
-
-#view_browse_comb #footer #actions {
-	display: inline-block;
-	position: relative;
-	width: 100%;
-	height: 100%;
-}
-
-#view_browse_comb #footer #actions .action {
-	
 }
 
 #view_browse_comb #footer #icon #btn_open_linkers {
 	display: block;
 	position: absolute;
-	width: 64px;
-	height: 64px;
-	left: 0;
-	right: 0;
+	width: 120px;
+	height: 70px;
+	left: 10px;
 	top: 0;
 	bottom: 0;
 	margin: auto;
+	padding: 1px 1px;
+	background-position: center center;
+	background-color: transparent;
+	background-size: 100%;
+	border-width: 0px;
+	border-radius: 4px;
+	-moz-border-radius: 4px;
+	-webkit-border-radius: 4px;
+}
+
+#view_browse_comb #footer hr {
+	display: block;
+	position: absolute;
+	left: 160px;
+	top: 0;
+	bottom: 0;
+	margin: auto;
+	opacity: 0.5;
+}
+
+#view_browse_comb #footer #actions {
+	display: block;
+	position: absolute;
+	left: 180px;
+	top: 0;
+	right: 0;
+	height: 100%;
+}
+
+#view_browse_comb #footer #actions ul {
+	display: block;
+	position: absolute;
+	list-style: none;
+	width: 100%;
+	height: 100%;
+}
+
+#view_browse_comb #footer #actions ul li {
+	display: inline-block;
+	height: 100%;
+	float: left;
+	margin-right: 10px;
+}
+
+#view_browse_comb #footer #actions ul li #waggle {
+	display: block;
+	width: 48px;
+	height: 48px;
+	position: relative;
+	top: 50%;
+	transform: translateY(-50%);
+	-webkit-transform: translateY(-50%);
+	-moz-transform: translateY(-50%);
+	background-color: transparent;
+	background-image: url(../img/plus.png);
 	background-size: cover;
 	border-width: 0px;
-	border-radius: 32px;
-	-moz-border-radius: 32px;
-	-webkit-border-radius: 32px;
-	-o-border-radius: 32px;
-	box-shadow: 0px 0px 2px rgba(0,0,0,0.6);
 }
 
 #view_browse_comb #linker_list {
