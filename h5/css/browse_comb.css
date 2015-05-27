@@ -30,8 +30,7 @@ body {
 	position: absolute;
 	width: 100%;
 	min-width: 300px;
-	height: 15%;
-	min-height: 80px;
+	height: 80px;
 	background: #333333;
 	transition: all 0.2s linear;
 	-moz-transition: all 0.2s linear;
@@ -146,6 +145,7 @@ body {
 	box-shadow: 0px 0px 2px rgba(0,0,0,0.6);
 	border-width: 0px;
 	border-radius: 2px;
+	background-color: #e7e6dd;
 }
 
 #view_browse_comb #linker_list.in {
@@ -181,7 +181,6 @@ body {
 	padding: 0 10px;
 	border-bottom: 1px solid #ccc;
 	border-top: 1px solid #fff;
-	background-color: #e7e6dd;
 }
 
 #view_browse_comb #linker_list .linker a {
@@ -204,7 +203,6 @@ body {
 	border-radius: 5px;
 	-webkit-border-radius: 5px;
 	-moz-border-radius: 5px;
-	/*box-shadow: 0px 0px 2px rgba(0,0,0,1.0);*/
 }
 
 #view_browse_comb #linker_list .linker a .linker_title {
@@ -269,3 +267,9 @@ body {
 	text-align: center;
 }
 
+#view_browse_comb #gallery {
+	display: block;
+	position: absolute;
+	width: 100%;
+	height: 100%;
+}
