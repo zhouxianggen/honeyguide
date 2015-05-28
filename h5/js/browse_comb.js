@@ -8,6 +8,7 @@
 		this.eOpenLinkers = $(this.view).find('#btn_open_linkers')[0];
 		this.eCloseLinkers = $(this.view).find('#close_linkers')[0];
 		this.eLinkerList = $(this.view).find('#linker_list')[0];
+		this.gallery = new Gallery({view: $(this.view).find('#gallery')[0]});
 		this.handlers = {
 			'display': this.display.bind(this)
 		};
@@ -24,7 +25,6 @@
     		this.view.addEventListener('click', function(e) {
     			if (this.eFooter.className == 'in') {
     				if (this.eLinkerList.className == 'in') {
-    					this.eLinkerList.style.bottom = -(this.view.clientHeight + this.eLinkerList.clientHeight) + 'px';
     					this.eLinkerList.className = 'out';
     				}
     				else {
@@ -44,21 +44,17 @@
             this.eOpenLinkers.addEventListener('click', function(e) {
             	e.stopPropagation();
     			e.preventDefault();
-    			this.eLinkerList.style.bottom = '0px';
     			this.eLinkerList.className = 'in';
             }.bind(this), true);
             
             this.eCloseLinkers.addEventListener('click', function(e) {
             	e.stopPropagation();
     			e.preventDefault();
-    			this.eLinkerList.style.bottom = -(this.view.clientHeight + this.eLinkerList.clientHeight) + 'px';
     			this.eLinkerList.className = 'out';
             }.bind(this), true);
     	},
         
     	display: function(e) {
-    		this.eLinkerList.style.bottom = -(this.view.clientHeight + this.eLinkerList.clientHeight) + 'px';
-    		this.eLinkerList.className = 'out';
     	},
     };
 

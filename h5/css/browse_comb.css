@@ -154,7 +154,8 @@ body {
 }
 
 #view_browse_comb #linker_list.out {
-	display: block;	
+	display: block;
+	top: 100%;
 }
 
 #view_browse_comb #linker_list #guide {
@@ -272,4 +273,35 @@ body {
 	position: absolute;
 	width: 100%;
 	height: 100%;
+}
+
+#view_browse_comb #gallery #card_list {
+	display: block;
+	position: absolute;
+	height: 100%;
+	width: 1000%;
+	top: 0px;
+	left: 0px;
+}
+
+#view_browse_comb #gallery #card_list.moving {
+}
+
+#view_browse_comb #gallery #card_list.floating {
+	transition: left 0.4s ease-in;
+	-moz-transition: left 0.4s ease-in;
+	-webkit-transition: left 0.4s ease-in;
+}
+
+#view_browse_comb #gallery #card_list .image_card {
+	display: inline-block;
+	position: relative;
+	height: 100%;
+	width: 10%;
+}
+
+#view_browse_comb #gallery #card_list .image_card canvas {
+	position: absolute;
+	left: 0;
+	top: 0;
 }
