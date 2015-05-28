@@ -28,11 +28,6 @@ class MyApplication(tornado.web.Application):
 class DefaultRequestHandler(tornado.web.RequestHandler):
     #@tornado.web.authenticated
      def get(self):
-        self.write('Hello, world')
-        
-class FreeCallRequestHandler(tornado.web.RequestHandler):
-    #@tornado.web.authenticated
-    def post(self):
         self.render('browse_comb.html')
 
 if __name__ == "__main__":
