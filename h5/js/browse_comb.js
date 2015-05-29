@@ -9,6 +9,8 @@
 		this.eCloseLinkers = $(this.view).find('#close_linkers')[0];
 		this.eLinkerList = $(this.view).find('#linker_list')[0];
 		this.gallery = new Gallery({view: $(this.view).find('#gallery')[0]});
+		this.touchId = null;
+		this.touchPos = null;
 		this.handlers = {
 			'display': this.display.bind(this)
 		};
@@ -21,8 +23,8 @@
     			var handler = this.handlers && this.handlers[e.detail.handler] || this.display.bind(this);
     			handler(e);
     		}.bind(this));
-    		
-    		this.view.addEventListener('click', function(e) {
+ 	
+			this.view.addEventListener('click', function(e) {
     			if (this.eFooter.className == 'in') {
     				if (this.eLinkerList.className == 'in') {
     					this.eLinkerList.className = 'out';
@@ -35,7 +37,7 @@
     				this.eFooter.className = 'in';
     			}
             }.bind(this), false);
-            
+
             this.eFooter.addEventListener('click', function(e) {
             	e.stopPropagation();
     			e.preventDefault();

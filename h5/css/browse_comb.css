@@ -30,11 +30,11 @@ body {
 	position: absolute;
 	width: 100%;
 	min-width: 300px;
-	height: 80px;
+	height: 70px;
 	background: #333333;
-	transition: all 0.2s linear;
-	-moz-transition: all 0.2s linear;
-	-webkit-transition: all 0.2s linear;
+	transition: all 0.5s ease;
+	-moz-transition: all 0.5s ease;
+	-webkit-transition: all 0.5s ease;
 	border-top-left-radius: 5px;
 	border-top-right-radius: 5px;
 	-webkit-border-top-left-radius: 5px;
@@ -46,7 +46,10 @@ body {
 
 #view_browse_comb #footer.in {
 	opacity: 0.7;
-	bottom: 0;
+	top: 100%;
+	transform: translateY(-100%);
+	-moz-transform: translateY(-100%);
+	-webkit-transform: translateY(-100%);
 }
 
 #view_browse_comb #footer.out {
@@ -66,8 +69,8 @@ body {
 #view_browse_comb #footer #icon #btn_open_linkers {
 	display: block;
 	position: absolute;
-	width: 120px;
-	height: 70px;
+	width: 100px;
+	height: 60px;
 	left: 10px;
 	top: 0;
 	bottom: 0;
@@ -85,17 +88,17 @@ body {
 #view_browse_comb #footer hr {
 	display: block;
 	position: absolute;
-	left: 160px;
+	left: 120px;
 	top: 0;
 	bottom: 0;
 	margin: auto;
-	opacity: 0.5;
+	opacity: 0.8;
 }
 
 #view_browse_comb #footer #actions {
 	display: block;
 	position: absolute;
-	left: 180px;
+	left: 140px;
 	top: 0;
 	right: 0;
 	height: 100%;
@@ -138,10 +141,9 @@ body {
 	width: 100%;
 	margin: 0;
 	padding: 0;
-	transition: all 0.2s linear;
-	-moz-transition: all 0.2s linear;
-	-webkit-transition: all 0.2s linear;
-	-o-transition: all 0.2s linear;
+	transition: all 0.5s ease;
+	-moz-transition: all 0.5s ease;
+	-webkit-transition: all 0.5s ease;
 	box-shadow: 0px 0px 2px rgba(0,0,0,0.6);
 	border-width: 0px;
 	border-radius: 2px;
@@ -150,7 +152,10 @@ body {
 
 #view_browse_comb #linker_list.in {
 	display: block;
-	bottom: 0px;	
+	top: 100%;
+	transform: translateY(-100%);
+	-moz-transform: translateY(-100%);
+	-webkit-transform: translateY(-100%);
 }
 
 #view_browse_comb #linker_list.out {
@@ -285,12 +290,15 @@ body {
 }
 
 #view_browse_comb #gallery #card_list.moving {
+	transition: ease;
+	-moz-transition: ease;
+	-webkit-transition: ease;
 }
 
 #view_browse_comb #gallery #card_list.floating {
-	transition: left 0.4s ease-in;
-	-moz-transition: left 0.4s ease-in;
-	-webkit-transition: left 0.4s ease-in;
+	transition: all 0.4s ease-out;
+	-moz-transition: all 0.4s ease-out;
+	-webkit-transition: all 0.4s ease-out;
 }
 
 #view_browse_comb #gallery #card_list .image_card {

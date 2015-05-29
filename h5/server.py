@@ -19,8 +19,8 @@ class MyApplication(tornado.web.Application):
             (r"/", DefaultRequestHandler)
         ]
         settings = dict(
-            template_path=os.path.join(os.path.dirname(__file__), ""),
-            static_path=os.path.join(os.path.dirname(__file__), ""),
+            template_path=os.path.join(os.path.dirname(__file__), "./"),
+            static_path=os.path.join(os.path.dirname(__file__), "./"),
             debug=True,
         )
         tornado.web.Application.__init__(self, handlers, **settings)

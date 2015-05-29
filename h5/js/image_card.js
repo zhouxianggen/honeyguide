@@ -132,8 +132,6 @@
 
         setEventListeners: function() {
             this.canvas.addEventListener('touchstart', function(e) {
-            	e.preventDefault();
-            	e.stopPropagation();
                 this.lastX          = null;
                 this.lastY          = null;
                 this.lastZoomScale  = null;
@@ -143,14 +141,14 @@
             this.canvas.addEventListener('touchmove', function(e) {
             	if (e.targetTouches.length == 1) {
             		if(this.scale > this.scaleRange.min) {
-            			e.preventDefault();
+						e.preventDefault();
             			e.stopPropagation();
             			var relativeX = e.targetTouches[0].pageX - this.canvas.getBoundingClientRect().left;
                     	var relativeY = e.targetTouches[0].pageY - this.canvas.getBoundingClientRect().top;                
                     	this.doMove(relativeX, relativeY);
             		}
             	} else if (e.targetTouches.length == 2) {
-            		e.preventDefault();
+					e.preventDefault();
             		e.stopPropagation();
             		this.doZoom(this.gesturePinchZoom(e));
             	}

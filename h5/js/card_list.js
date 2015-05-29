@@ -14,9 +14,9 @@
 			}
 		}
 		this.cardIndex = 0;
-		this.touchStarts = {};
-		this.touchMoves = {};
-		this.touchTimes = {};
+        this.lastX = null;
+        this.lastLeft = null;
+        this.lastTime = null;
 		this.moveTouchId = null;
 		
 		this.setEventListeners();
@@ -25,47 +25,65 @@
     CardList.prototype = {
     	setEventListeners: function() {
             this.view.addEventListener('touchstart', function(e) {
-            	e.preventDefault();
-            	e.stopPropagation();
-            	for (var i = 0, t; t = e.touches[i]; i++) {
-            		this.touchStarts[t.identifier] = {x: t.pageX, y: t.pageY};
-            		this.touchTimes[t.identifier] = new Date().getTime();
-            	}
-            	if (e.touches.length == 1) {
-            		this.view.className = 'moving';
-            		this.moveTouchId = e.touches[0].identifier;
-            		this.position = $(this.view).position();
-            		requestAnimationFrame(this.animate.bind(this));
-            	}
+                this.lastX          = null;
+				this.lastLeft       = null;
+                this.lastTime       = null;
+				this.moveTouchId    = null;
             }.bind(this), false);
 
             this.view.addEventListener('touchmove', function(e) {
-            	e.preventDefault();
-            	e.stopPropagation();
-                for (var i = 0, t; t = e.touches[i]; i++) {
-                	this.touchMoves[t.identifier] = {x: t.pageX, y: t.pageY};
-                }
+            	if (e.targetTouches.length == 1) {
+					e.preventDefault();
+            		e.stopPropagation();
+					this.view.className = 'moving';
+            		var relativeX = e.targetTouches[0].pageX
+					if (this.lastX != null && this.lastLeft != null) {
+						var deltaX = relativeX - this.lastX;
+						$(this.view).css({left: this.lastLeft + deltaX})
+					} else {
+						this.lastX = relativeX;
+						this.lastLeft = $(this.view).position().left;
+						this.lastTime = new Date().getTime();
+						this.moveTouchId = e.targetTouches[0].identifier;
+						requestAnimationFrame(this.animate.bind(this));
+					}
+            	}
             }.bind(this), false);
             
             this.view.addEventListener('touchend', function(e) {
             	for (var i = 0, t; t = e.changedTouches[i]; i++) {
-            		delete this.touchStarts[t.identifier];
-            		delete this.touchMoves[t.identifier];
-            		delete this.touchTimes[t.identifier];
-            		if (e.changedTouches[i] == this.moveTouchId) {
+            		if (e.changedTouches[i].identifier == this.moveTouchId) {
+						//e.preventDefault();
+            			//e.stopPropagation();
             			this.view.className = 'floating';
-            			var sp = this.touchStarts[this.moveTouchId];
-    					var mp = this.touchMoves[this.moveTouchId];
-    					var deltaX = (mp && sp)? mp.x - sp.x : 0;
-						var absX = Math.abs(deltaX);
+						var deltaX = e.changedTouches[i].pageX - this.lastX;
 						var endTime = new Date().getTime();
+						var deltaT = endTime - this.lastTime;
+						var absX = Math.abs(deltaX);
 						var cardWidth = this.cards[this.cardIndex].width;
-						var speed = absX / (endTime - this.touchTimes[this.moveTouchId]);
-						if (absX*3 > cardWidth || speed > 0.2) {
-							var deltaIndex = (deltaX < 0)? 1 : -1;
-							this.cardIndex += deltaIndex;
-							$(this.view).css({left: this.position.left - (deltaIndex * cardWidth)});
+						var speed = absX / deltaT;
+						debug('deltaX=' + deltaX + ", speed=" + speed);
+						if (absX*2.1 > cardWidth || speed > 0.2) {
+							this.cardIndex += (deltaX < 0)? 1 : -1;
+							if (this.cardIndex < 0) {
+								this.cardIndex = 0;
+							} else if (this.cardIndex >= this.cards.length) {
+								this.cardIndex =  this.cards.length - 1;
+							}
+							var newLeft = 0;
+							for (var i = 0; i < this.cardIndex; i++) {
+								newLeft -= this.cards[i].width;
+							}
+							debug('left=' + $(this.view).position().left + ", newleft=" + newLeft);
+							$(this.view).css({left: newLeft});
 						}
+						var newLeft = 0;
+						for (var i = 0; i < this.cardIndex; i++) {
+							newLeft -= this.cards[i].width;
+						}
+						debug('left=' + $(this.view).position().left + ", newleft=" + newLeft);
+						$(this.view).css({left: newLeft});
+						this.view.className = 'moving';
 						this.moveTouchId = null;
             		}
 				}
