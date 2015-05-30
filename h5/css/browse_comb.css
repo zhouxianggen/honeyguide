@@ -119,7 +119,7 @@ body {
 	margin-right: 10px;
 }
 
-#view_browse_comb #footer #actions ul li #waggle {
+#view_browse_comb #footer #actions ul li #btn_open_waggles {
 	display: block;
 	width: 48px;
 	height: 48px;
@@ -260,6 +260,81 @@ body {
 }
 
 #view_browse_comb #linker_list #close_linkers {
+	height: 40px;
+	line-height: 40px;
+	padding: 0 10px;
+	border-bottom: 1px solid #ccc;
+	border-top: 1px solid #fff;
+	background-color: #fafafa;
+	font-family: "微软雅黑";
+	font-weight: 500;
+	font-size: 8px;
+	color: #333333;
+	text-align: center;
+}
+
+#view_browse_comb #input_images {
+    position: absolute;
+    z-index: 2;
+    display: none;
+}
+
+#view_browse_comb #input_vedios {
+    position: absolute;
+    z-index: 2;
+    display: none;
+}
+
+#view_browse_comb #waggle_list {
+	list-style: none;
+	position: absolute;
+	width: 100%;
+	margin: 0;
+	padding: 0;
+	transition: all 0.5s ease;
+	-moz-transition: all 0.5s ease;
+	-webkit-transition: all 0.5s ease;
+	box-shadow: 0px 0px 2px rgba(0,0,0,0.6);
+	border-width: 0px;
+	border-radius: 2px;
+	background-color: #e7e6dd;
+}
+
+#view_browse_comb #waggle_list.in {
+	display: block;
+	top: 100%;
+	transform: translateY(-100%);
+	-moz-transform: translateY(-100%);
+	-webkit-transform: translateY(-100%);
+}
+
+#view_browse_comb #waggle_list.out {
+	display: block;
+	top: 100%;
+}
+
+#view_browse_comb #waggle_list li {
+	height: 80px;
+	padding: 0 10px;
+	border-bottom: 1px solid #ccc;
+	border-top: 1px solid #fff;
+}
+
+#view_browse_comb #waggle_list li a {
+	display: block;
+	position: absolute;
+	width: 100%;
+	height: 80px;
+	line-height: 80px;
+	text-align: center;
+	text-decoration: none;
+	font-family: "微软雅黑";
+	font-weight: 700;
+	font-size: 16px;
+	color: #f4b400;	
+}
+
+#view_browse_comb #waggle_list #close {
 	height: 40px;
 	line-height: 40px;
 	padding: 0 10px;

@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>browse comb</title>
+	  <meta charset="utf-8">
+	  <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+	  <link rel="stylesheet" type="text/css" href="css/browse_comb.css" />
+	  <script type="text/javascript" src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.8.0.js"></script>
+	  <script src="js/common.js"></script>
+	  <script src="js/view_group.js"></script>
+	  <script src="js/image_card.js"></script>
+	  <script src="js/card_list.js"></script>
+	  <script src="js/gallery.js"></script>
+	  <script src="js/browse_comb.js"></script>
+  </head>
+  <body onload="init()">
+  	<div id="div_debug" style="display: none; position: absolute; width: 200px; height: 60px; background: #E66000; z-index: 100;"></div>
+    <div id="view_browse_comb" class="view" data-title="comb title">
+    	
+	  <div id="gallery">
+	  	<div id="card_list">
+	  		<div class="image_card">
+	  			<canvas data-img="img/page1.jpg"></canvas>
+	  		</div>
+	  		<div class="image_card">
+	  			<canvas data-img="img/page2.jpg"></canvas>
+	  		</div>
+	  		<div class="image_card">
+	  			<canvas data-img="img/page3.jpg"></canvas>
+	  		</div>
+	  	</div>
+	  </div>
+	  
+	  <div id="footer" class="out">
+	  	<div id="icon">
+	  		<button id="btn_open_linkers" type="submit" style="background-image: url(img/veromoda.png);"></button>
+	  	</div>
+	  	<hr align="center" width="1" size="50%">
+	  	<div id="actions">
+	  		<ul>
+	  			<li><button id="btn_open_waggles" type="submit"></button></li>
+	  		</ul>
+	  	</div>
+	  </div>
+	  
+	  <input type="file" id="input_images" multiple accept="image/*"/>
+	  <input type="file" id="input_vedios" multiple accept="vedio/*"/>
+	  <ul id="waggle_list" class="out">
+	    <li><a href="#" id="a_add_images">添加视频</a></li>
+		<li><a href="#" id="a_add_vedios">添加图片</a></li>
+		<li id="close">点击收起</li>
+	  </ul>
+	  
+	  <ul id="linker_list" class="out">
+	  	<li id="guide">
+	  		为您提供下列服务:
+	  	</li>
+	  	<li class="linker">
+		  	<a href="http://www.baidu.com">
+	  	      <div class="linker_icon" style="background-image: url(img/taobao.png);"></div>
+	  	  	  <div class="linker_title">去淘宝</div>
+	  	  	  <div class="linker_description">访问淘宝店</div>
+	  	  	  <div class="linker_popularity">
+	  	  	  	已服务&nbsp;<span>3876799</span>&nbsp;次
+			  </div>
+		  	</a>
+	  	</li>
+	  	<li id="close_linkers">
+	  		点击收起
+	  	</li>
+	  </ul>
+	  
+  	</div>
+  	
+  	<div id="view_add_waggle" class="view" data-title="add waggle">
+  	  <button id="btn_ok" type="submit"></button>
+    	
+	  <div id="gallery">
+	  	<div id="card_list">
+	  		<div class="image_card">
+	  			<canvas data-img="img/page1.jpg"></canvas>
+	  		</div>
+	  		<div class="image_card">
+	  			<canvas data-img="img/page2.jpg"></canvas>
+	  		</div>
+	  		<div class="image_card">
+	  			<canvas data-img="img/page3.jpg"></canvas>
+	  		</div>
+	  	</div>
+	  </div>
+	  
+	  <div id="footer" class="out">
+	  </div>
+	  
+  	</div>
+  	
+  </body>
+</html>

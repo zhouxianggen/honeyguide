@@ -8,6 +8,8 @@
 		this.eOpenLinkers = $(this.view).find('#btn_open_linkers')[0];
 		this.eCloseLinkers = $(this.view).find('#close_linkers')[0];
 		this.eLinkerList = $(this.view).find('#linker_list')[0];
+		this.eOpenWaggles = $(this.view).find('#btn_open_waggles')[0];
+		this.eWaggleList = $(this.view).find('#waggle_list')[0];
 		this.gallery = new Gallery({view: $(this.view).find('#gallery')[0]});
 		this.touchId = null;
 		this.touchPos = null;
@@ -26,10 +28,16 @@
  	
 			this.view.addEventListener('click', function(e) {
     			if (this.eFooter.className == 'in') {
+    				var subIn = false;
     				if (this.eLinkerList.className == 'in') {
+    					subIn = true;
     					this.eLinkerList.className = 'out';
     				}
-    				else {
+    				if (this.eWaggleListList.className == 'in') {
+    					subIn = true;
+    					this.eWaggleListList.className = 'out';
+    				}
+    				if (subIn == false) {
     					this.eFooter.className = 'out';
     				}
     			}
@@ -53,6 +61,12 @@
             	e.stopPropagation();
     			e.preventDefault();
     			this.eLinkerList.className = 'out';
+            }.bind(this), true);
+            
+            this.eOpenWaggles.addEventListener('click', function(e) {
+            	e.stopPropagation();
+    			e.preventDefault();
+    			this.eWaggleList.className = 'in';
             }.bind(this), true);
     	},
         
