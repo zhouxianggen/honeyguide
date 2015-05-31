@@ -4,7 +4,7 @@
 
 	var VideoInput = function(options) {
 		this.view = options.view;
-		this.eInput = options.input;
+		this.eInput = $(this.view).find('#input_videos')[0];
 		this.files = [];
 		this.setEventListeners();
 	};
@@ -25,9 +25,7 @@
             		reader.onload = (function(obj) {
             			return function(e) {
             				obj.files.push(e.target.result);
-            				alert('input ' + e.target.result);
             				if (obj.files.length == obj.eInput.files.length) {
-            					alert('finish');
             				}
             			};
             		})(this);

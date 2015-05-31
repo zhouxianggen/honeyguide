@@ -6,8 +6,6 @@
 		this.view = document.getElementById('view_browse_comb');
 		this.gallery = new Gallery({view: $(this.view).find('#gallery')[0]});
 		this.footer = new Footer({view: $(this.view).find('#footer')[0]});
-		this.touchId = null;
-		this.touchPos = null;
 		this.handlers = {
 			'display': this.display.bind(this)
 		};
@@ -24,8 +22,7 @@
 			this.view.addEventListener('click', function(e) {
     			if (this.footer.view.className == 'in') {
     				this.footer.popOut();
-    			}
-    			else {
+    			} else {
     				this.footer.popIn();
     			}
             }.bind(this), false);
@@ -42,5 +39,7 @@ function init() {
 	checkRequestAnimationFrame();
 	viewGroup = new ViewGroup();
 	viewBrowseComb = new ViewBrowseComb();
-	viewGroup.activeView(document.getElementById("view_browse_comb"));
+	viewShare = new ViewShare({view: document.getElementById("view_share")});
+	//viewGroup.activeView(document.getElementById("view_browse_comb"));
+	viewGroup.activeView(document.getElementById("view_share"));
 }

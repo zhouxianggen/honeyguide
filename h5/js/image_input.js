@@ -4,7 +4,7 @@
 
 	var ImageInput = function(options) {
 		this.view = options.view;
-		this.eInput = options.input;
+		this.eInput = $(this.view).find('#input_images')[0];
 		this.files = [];
 		this.setEventListeners();
 	};
@@ -17,6 +17,10 @@
     			this.eInput.click();
             }.bind(this), false);
             
+            this.eInput.addEventListener('click', function(e) {
+            	e.stopPropagation();
+            }.bind(this), true);
+            
             this.eInput.addEventListener('change', function(e) {
             	e.stopPropagation();
             	e.preventDefault();
@@ -25,9 +29,7 @@
             		reader.onload = (function(obj) {
             			return function(e) {
             				obj.files.push(e.target.result);
-            				alert('input ' + e.target.result);
             				if (obj.files.length == obj.eInput.files.length) {
-            					alert('finish');
             				}
             			};
             		})(this);
