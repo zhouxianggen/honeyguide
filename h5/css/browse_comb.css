@@ -134,7 +134,7 @@ body {
 	border-width: 0px;
 }
 
-#view_browse_comb #linker_list {
+#view_browse_comb #footer #linker_list {
 	display: none;
 	list-style: none;
 	position: absolute;
@@ -150,7 +150,7 @@ body {
 	background-color: #e7e6dd;
 }
 
-#view_browse_comb #linker_list.in {
+#view_browse_comb #footer #linker_list.in {
 	display: block;
 	top: 100%;
 	transform: translateY(-100%);
@@ -158,12 +158,12 @@ body {
 	-webkit-transform: translateY(-100%);
 }
 
-#view_browse_comb #linker_list.out {
+#view_browse_comb #footer #linker_list.out {
 	display: block;
 	top: 100%;
 }
 
-#view_browse_comb #linker_list #guide {
+#view_browse_comb #footer #linker_list #guide {
 	height: 40px;
 	line-height: 40px;
 	padding: 0 10px;
@@ -182,14 +182,14 @@ body {
 	color: #f4b400;
 }
 
-#view_browse_comb #linker_list .linker {
+#view_browse_comb #footer #linker_list .linker {
 	height: 80px;
 	padding: 0 10px;
 	border-bottom: 1px solid #ccc;
 	border-top: 1px solid #fff;
 }
 
-#view_browse_comb #linker_list .linker a {
+#view_browse_comb #footer #linker_list .linker a {
 	display: block;
 	position: absolute;
 	width: 100%;
@@ -197,7 +197,7 @@ body {
 	text-decoration: none;	
 }
 
-#view_browse_comb #linker_list .linker a .linker_icon {
+#view_browse_comb #footer #linker_list .linker a .linker_icon {
 	display: block;
 	position: absolute;
 	width: 64px;
@@ -211,7 +211,7 @@ body {
 	-moz-border-radius: 5px;
 }
 
-#view_browse_comb #linker_list .linker a .linker_title {
+#view_browse_comb #footer #linker_list .linker a .linker_title {
 	display: block;
 	position: absolute;
 	left: 80px;
@@ -226,7 +226,7 @@ body {
 	color: #000000;
 }
 
-#view_browse_comb #linker_list .linker a .linker_description {
+#view_browse_comb #footer #linker_list .linker a .linker_description {
 	position: absolute;
 	left: 80px;
 	top: 40px;
@@ -239,7 +239,7 @@ body {
 	color: #999999;
 }
 
-#view_browse_comb #linker_list .linker a .linker_popularity {
+#view_browse_comb #footer #linker_list .linker a .linker_popularity {
 	position: absolute;
 	right: 5px;
 	width: 200px;
@@ -252,14 +252,14 @@ body {
 	overflow: hidden;
 }
 
-#view_browse_comb #linker_list .linker a .linker_popularity span {
+#view_browse_comb #footer #linker_list .linker a .linker_popularity span {
 	font-family: "微软雅黑";
 	font-weight: 800;
 	font-size: 24px;
 	color: #0f9d58;
 }
 
-#view_browse_comb #linker_list #close_linkers {
+#view_browse_comb #footer #linker_list #close {
 	height: 40px;
 	line-height: 40px;
 	padding: 0 10px;
@@ -273,19 +273,19 @@ body {
 	text-align: center;
 }
 
-#view_browse_comb #input_images {
+#view_browse_comb #footer #waggle_list #input_images {
     position: absolute;
     z-index: 2;
     display: none;
 }
 
-#view_browse_comb #input_vedios {
+#view_browse_comb #footer #waggle_list #input_vedios {
     position: absolute;
     z-index: 2;
     display: none;
 }
 
-#view_browse_comb #waggle_list {
+#view_browse_comb #footer #waggle_list {
 	list-style: none;
 	position: absolute;
 	width: 100%;
@@ -300,7 +300,7 @@ body {
 	background-color: #e7e6dd;
 }
 
-#view_browse_comb #waggle_list.in {
+#view_browse_comb #footer #waggle_list.in {
 	display: block;
 	top: 100%;
 	transform: translateY(-100%);
@@ -308,19 +308,19 @@ body {
 	-webkit-transform: translateY(-100%);
 }
 
-#view_browse_comb #waggle_list.out {
+#view_browse_comb #footer #waggle_list.out {
 	display: block;
 	top: 100%;
 }
 
-#view_browse_comb #waggle_list li {
+#view_browse_comb #footer #waggle_list li {
 	height: 80px;
 	padding: 0 10px;
 	border-bottom: 1px solid #ccc;
 	border-top: 1px solid #fff;
 }
 
-#view_browse_comb #waggle_list li a {
+#view_browse_comb #footer #waggle_list li a {
 	display: block;
 	position: absolute;
 	width: 100%;
@@ -334,7 +334,7 @@ body {
 	color: #f4b400;	
 }
 
-#view_browse_comb #waggle_list #close {
+#view_browse_comb #footer #waggle_list #close {
 	height: 40px;
 	line-height: 40px;
 	padding: 0 10px;

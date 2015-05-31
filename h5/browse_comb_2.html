@@ -11,6 +11,7 @@
 	  <script src="js/image_card.js"></script>
 	  <script src="js/card_list.js"></script>
 	  <script src="js/gallery.js"></script>
+	  <script src="js/footer.js"></script>
 	  <script src="js/browse_comb.js"></script>
   </head>
   <body onload="init()">
@@ -41,35 +42,41 @@
 	  			<li><button id="btn_open_waggles" type="submit"></button></li>
 	  		</ul>
 	  	</div>
+	  	
+	  	<ul id="waggle_list" class="out">
+		    <li>
+		    	<a href="#" id="a_add_vedios">添加视频</a>
+		    	<input type="file" id="input_vedios" multiple accept="vedio/*"/>
+		    </li>
+			<li>
+				<a href="#" id="a_add_images">
+					<input type="file" id="input_images" multiple accept="image/*"/>
+					添加图片
+				</a>
+			</li>
+			<li id="close">点击收起</li>
+	  	</ul>
+	  	
+		  <ul id="linker_list" class="out">
+		  	<li id="guide">
+		  		为您提供下列服务:
+		  	</li>
+		  	<li class="linker">
+			  	<a href="http://www.baidu.com">
+		  	      <div class="linker_icon" style="background-image: url(img/taobao.png);"></div>
+		  	  	  <div class="linker_title">去淘宝</div>
+		  	  	  <div class="linker_description">访问淘宝店</div>
+		  	  	  <div class="linker_popularity">
+		  	  	  	已服务&nbsp;<span>3876799</span>&nbsp;次
+				  </div>
+			  	</a>
+		  	</li>
+		  	<li id="close">
+		  		点击收起
+		  	</li>
+		  </ul>
+	  
 	  </div>
-	  
-	  <input type="file" id="input_images" multiple accept="image/*"/>
-	  <input type="file" id="input_vedios" multiple accept="vedio/*"/>
-	  <ul id="waggle_list" class="out">
-	    <li><a href="#" id="a_add_images">添加视频</a></li>
-		<li><a href="#" id="a_add_vedios">添加图片</a></li>
-		<li id="close">点击收起</li>
-	  </ul>
-	  
-	  <ul id="linker_list" class="out">
-	  	<li id="guide">
-	  		为您提供下列服务:
-	  	</li>
-	  	<li class="linker">
-		  	<a href="http://www.baidu.com">
-	  	      <div class="linker_icon" style="background-image: url(img/taobao.png);"></div>
-	  	  	  <div class="linker_title">去淘宝</div>
-	  	  	  <div class="linker_description">访问淘宝店</div>
-	  	  	  <div class="linker_popularity">
-	  	  	  	已服务&nbsp;<span>3876799</span>&nbsp;次
-			  </div>
-		  	</a>
-	  	</li>
-	  	<li id="close_linkers">
-	  		点击收起
-	  	</li>
-	  </ul>
-	  
   	</div>
   	
   	<div id="view_add_waggle" class="view" data-title="add waggle">
