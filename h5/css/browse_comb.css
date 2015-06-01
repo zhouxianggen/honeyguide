@@ -22,6 +22,19 @@ body {
 	overflow: hidden;
 }
 
+#define {
+	display: none;
+}
+
+.image_card {
+}
+
+.image_card canvas {
+	position: absolute;
+	left: 0;
+	top: 0;
+}
+
 #view_browse_comb {
 	display: block;
 }
@@ -383,10 +396,11 @@ body {
 	width: 10%;
 }
 
-#view_browse_comb #gallery #card_list .image_card canvas {
-	position: absolute;
-	left: 0;
-	top: 0;
+#view_browse_comb #gallery #card_list .video_card {
+	display: inline-block;
+	position: relative;
+	height: 100%;
+	width: 10%;
 }
 
 #view_share #btn_finish {
@@ -425,6 +439,7 @@ body {
 	-moz-border-radius-topleft: 5px;
 	-moz-border-radius-topright: 5px;
 	box-shadow: 0px 1px 2px rgba(0,0,0,0.7);
+	z-index: 2;
 }
 
 #view_share #footer.in {
@@ -471,4 +486,11 @@ body {
 	position: absolute;
 	height: 100%;
 	width: 100%;
-}	
+}
+
+#view_share .video_card {
+	display: block;
+	position: absolute;
+	height: 100%;
+	width: 100%;
+}

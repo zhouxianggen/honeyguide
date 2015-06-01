@@ -7,6 +7,8 @@
 		this.eFinish = $(this.view).find('#btn_finish')[0];
 		this.eFooter = $(this.view).find('#footer')[0];
 		this.eNote = $(this.eFooter).find('#textarea_note')[0];
+		this.eCard = null;
+		this.card = null;
 		this.handlers = {
 			'display': this.display.bind(this)
 		};
@@ -17,15 +19,15 @@
     	setEventListeners: function() {
     		this.view.addEventListener('active', function(e) {
     			var handler = this.handlers && this.handlers[e.detail.handler] || this.display.bind(this);
-    			handler(e);
+    			handler.bind(this)(e);
     		}.bind(this));
  	
 			this.view.addEventListener('click', function(e) {
-    			if (this.eFooter.className == 'in') {
-    				this.eFooter.className = "out";
-    			} else {
-    				this.eFooter.className = "in";
-    			}
+//  			if (this.eFooter.className == 'in') {
+//  				this.eFooter.className = "out";
+//  			} else {
+//  				this.eFooter.className = "in";
+//  			}
             }.bind(this), false);
             
             this.eNote.addEventListener('click', function(e) {
@@ -43,9 +45,20 @@
     	},
         
     	display: function(e) {
-    		if (e.detail.card.type='image') {
-    			this.card = new ImageCard({url: e.detail.card.url});
-    			this.view.add(this.card.view);
+    		if (e.detail.card.type == 'image') {
+    			this.eCard = document.createElement('div');
+    			this.eCard.className = 'image_card';
+    			this.eCard.dataset.img = e.detail.card.url;
+    			this.eCard.innerHTML = document.getElementById('define_image_card').innerHTML;
+    			this.view.appendChild(this.eCard);
+    			this.card = new ImageCard({view: this.eCard});
+    		} else if (e.detail.card.type == 'video') {
+    			this.eCard = document.createElement('div');
+    			this.eCard.className = 'video_card';
+    			this.eCard.dataset.url = e.detail.card.url;
+    			this.eCard.innerHTML = document.getElementById('define_video_card').innerHTML;
+    			this.view.appendChild(this.eCard);
+    			this.card = new VideoCard({view: this.eCard});
     		}
     	},
     };
