@@ -40,9 +40,9 @@ function init() {
 	viewGroup = new ViewGroup();
 	viewBrowseComb = new ViewBrowseComb();
 	viewShare = new ViewShare({view: document.getElementById("view_share")});
-	//viewGroup.activeView(document.getElementById("view_browse_comb"));
+	viewGroup.activeView(document.getElementById("view_browse_comb"));
 	//viewGroup.activeView(document.getElementById("view_share"), 
-		//{'handler': 'display', 'card': {'type': 'image', 'url': 'img/page2.jpg'}});
-	viewGroup.activeView(document.getElementById("view_share"), 
-		{'handler': 'display', 'card': {'type': 'video', 'url': 'video/love.mp4'}});
+	//	{'handler': 'display', 'card': {'type': 'image', 'url': 'img/page2.jpg'}});
+	//viewGroup.activeView(document.getElementById("view_share"), 
+		//{'handler': 'display', 'card': {'type': 'video', 'url': 'video/love.mp4'}});
 }

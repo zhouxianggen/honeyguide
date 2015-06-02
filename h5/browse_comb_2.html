@@ -19,28 +19,19 @@
 	  <script src="js/browse_comb.js"></script>
   </head>
   <body onload="init()">
-  	<div id="define">
-  		<div id="define_image_card" class="image_card">
-	  		<canvas></canvas>
-	  	</div>
-	  	
-	  	<div id="define_video_card" class="video_card">
-	  		<video controls autoplay></video>
-	  	</div>
-  	</div>
-  	
   	<div id="div_debug" style="display: none; position: absolute; width: 200px; height: 60px; background: #E66000; z-index: 100;"></div>
+    
     <div id="view_browse_comb" class="view" data-title="comb title">
     	
 	  <div id="gallery">
 	  	<div id="card_list">
-	  		<div class="image_card" data-img="img/page1.jpg">
+	  		<div class="image_card" data-url="img/page1.jpg">
 	  			<canvas></canvas>
 	  		</div>
-	  		<div class="image_card" data-img="img/page2.jpg">
+	  		<div class="image_card" data-url="img/page2.jpg">
 	  			<canvas></canvas>
 	  		</div>
-	  		<div class="image_card" data-img="img/page3.jpg">
+	  		<div class="image_card" data-url="img/page3.jpg">
 	  			<canvas></canvas>
 	  		</div>
 	  	</div>
@@ -97,7 +88,7 @@
   	
 	<div id="view_share" class="view" data-title="share">
 		<button id="btn_finish" type="submit">完&nbsp;成</button>
-		<div id="footer" class="out">
+		<div id="footer" class="in">
 			<textarea id="textarea_note" autofocus class="hint">你想说些什么</textarea>
 		</div>
 	</div>

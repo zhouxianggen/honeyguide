@@ -18,7 +18,7 @@
         this.scaleRange = {min: 0, max: 0};
         
 		this.imgTexture = new Image();
-        this.imgTexture.src = this.view.dataset.img;
+        this.imgTexture.src = this.view.dataset.url;
         this.imgTexture.onload = function() {
 			var cw = this.canvas.clientWidth, ch = this.canvas.clientHeight;
         	var iw = this.imgTexture.width, ih = this.imgTexture.height;

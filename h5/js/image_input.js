@@ -29,6 +29,7 @@
             		reader.onload = (function(obj) {
             			return function(e) {
             				obj.files.push(e.target.result);
+            				alert(e.target.result);
             				if (obj.files.length == obj.eInput.files.length) {
             				}
             			};

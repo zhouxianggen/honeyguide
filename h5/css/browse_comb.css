@@ -26,9 +26,6 @@ body {
 	display: none;
 }
 
-.image_card {
-}
-
 .image_card canvas {
 	position: absolute;
 	left: 0;

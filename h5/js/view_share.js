@@ -48,15 +48,15 @@
     		if (e.detail.card.type == 'image') {
     			this.eCard = document.createElement('div');
     			this.eCard.className = 'image_card';
-    			this.eCard.dataset.img = e.detail.card.url;
-    			this.eCard.innerHTML = document.getElementById('define_image_card').innerHTML;
+    			this.eCard.dataset.url = e.detail.card.url;
+    			this.eCard.innerHTML = '<canvas></canvas>';
     			this.view.appendChild(this.eCard);
     			this.card = new ImageCard({view: this.eCard});
     		} else if (e.detail.card.type == 'video') {
     			this.eCard = document.createElement('div');
     			this.eCard.className = 'video_card';
     			this.eCard.dataset.url = e.detail.card.url;
-    			this.eCard.innerHTML = document.getElementById('define_video_card').innerHTML;
+    			this.eCard.innerHTML = '<video controls autoplay></video>';
     			this.view.appendChild(this.eCard);
     			this.card = new VideoCard({view: this.eCard});
     		}
