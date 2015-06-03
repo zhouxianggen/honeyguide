@@ -12,17 +12,20 @@
 	  <script src="js/video_card.js"></script>
 	  <script src="js/card_list.js"></script>
 	  <script src="js/gallery.js"></script>
-	  <script src="js/image_input.js"></script>
-	  <script src="js/video_input.js"></script>
+	  <script src="js/inputer.js"></script>
+	  <script src="js/uploader.js"></script>
 	  <script src="js/footer.js"></script>
 	  <script src="js/view_share.js"></script>
+	  <script src="js/view_browse.js"></script>
 	  <script src="js/browse_comb.js"></script>
   </head>
   <body onload="init()">
   	<div id="div_debug" style="display: none; position: absolute; width: 200px; height: 60px; background: #E66000; z-index: 100;"></div>
     
-    <div id="view_browse_comb" class="view" data-title="comb title">
-    	
+    <div id="progress" class="runing">22
+    </div>
+    
+    <div id="view_browse" class="view" data-title="comb title">
 	  <div id="gallery">
 	  	<div id="card_list">
 	  		<div class="image_card" data-url="img/page1.jpg">
@@ -44,11 +47,11 @@
 	  	<hr align="center" width="1" size="50%">
 	  	<div id="actions">
 	  		<ul>
-	  			<li><button id="btn_open_waggles" type="submit"></button></li>
+	  			<li><button id="btn_open_inputs" type="submit"></button></li>
 	  		</ul>
 	  	</div>
 	  		
-	  	<ul id="waggle_list" class="out">
+	  	<ul id="input_list" class="out">
 		    <li>
 		    	<a href="#" id="a_add_videos">
 		    		<input type="file" id="input_videos" accept="video/*"/>

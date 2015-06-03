@@ -7,6 +7,7 @@
 		this.eFinish = $(this.view).find('#btn_finish')[0];
 		this.eFooter = $(this.view).find('#footer')[0];
 		this.eNote = $(this.eFooter).find('#textarea_note')[0];
+		this.inputer = null;
 		this.eCard = null;
 		this.card = null;
 		this.handlers = {
@@ -41,21 +42,32 @@
             this.eFinish.addEventListener('click', function(e) {
     			e.stopPropagation();
     			e.preventDefault();
+    			var uploader = new Uploader({
+    				progress: document.getElementById('progress'),
+    				local_url: this.inputer.acceptedFiles[0],
+    				target_url: 'http://54.149.127.185/upload?',
+    				onfinish: (function(obj) {
+		    			return function(e) {
+		    				window.viewGroup.active(document.getElementById("view_browse"));
+		    			};
+		    		})(this)
+    			});
             }.bind(this), false);
     	},
         
     	display: function(e) {
-    		if (e.detail.card.type == 'image') {
+    		this.inputer = e.detail.inputer;
+    		if (this.inputer.type == 'image') {
     			this.eCard = document.createElement('div');
     			this.eCard.className = 'image_card';
-    			this.eCard.dataset.url = e.detail.card.url;
+    			this.eCard.dataset.url = this.inputer.url;
     			this.eCard.innerHTML = '<canvas></canvas>';
     			this.view.appendChild(this.eCard);
     			this.card = new ImageCard({view: this.eCard});
-    		} else if (e.detail.card.type == 'video') {
+    		} else if (this.inputer.type == 'video') {
     			this.eCard = document.createElement('div');
     			this.eCard.className = 'video_card';
-    			this.eCard.dataset.url = e.detail.card.url;
+    			this.eCard.dataset.url = this.inputer.url;
     			this.eCard.innerHTML = '<video controls autoplay></video>';
     			this.view.appendChild(this.eCard);
     			this.card = new VideoCard({view: this.eCard});

@@ -5,11 +5,9 @@
 	var Footer = function(options) {
 		this.view = options.view;
 		this.eOpenLinkers = $(this.view).find('#btn_open_linkers')[0];
+		this.eOpenInputs = $(this.view).find('#btn_open_inputs')[0];
 		this.eLinkerList = $(this.view).find('#linker_list')[0];
-		this.eOpenWaggles = $(this.view).find('#btn_open_waggles')[0];
-		this.eWaggleList = $(this.view).find('#waggle_list')[0];
-		this.imageInput = new ImageInput({view: $(this.eWaggleList).find('#a_add_images')[0]});
-		this.videoInput = new VideoInput({view: $(this.eWaggleList).find('#a_add_videos')[0]});
+		this.eInputList = $(this.view).find('#input_list')[0];
 		this.setEventListeners();
 	};
 
@@ -24,9 +22,9 @@
 				subIn = true;
 				this.eLinkerList.className = 'out';
 			}
-			if (this.eWaggleList.className == 'in') {
+			if (this.eInputList.className == 'in') {
 				subIn = true;
-				this.eWaggleList.className = 'out';
+				this.eInputList.className = 'out';
 			}
 			if (subIn == false) {
 				this.view.className = 'out';
@@ -51,10 +49,16 @@
     			this.eLinkerList.className = 'out';
             }.bind(this), true);
             
-            this.eOpenWaggles.addEventListener('click', function(e) {
+            this.eOpenInputs.addEventListener('click', function(e) {
             	e.stopPropagation();
     			e.preventDefault();
-    			this.eWaggleList.className = 'in';
+    			this.eInputList.className = 'in';
+            }.bind(this), true);
+            
+            $(this.eInputList).find('#close')[0].addEventListener('click', function(e) {
+            	e.stopPropagation();
+    			e.preventDefault();
+    			this.eInputList.className = 'out';
             }.bind(this), true);
     	},
     };
