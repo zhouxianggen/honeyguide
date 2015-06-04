@@ -8,10 +8,19 @@
 		this.onfinish = options.onfinish;
 		this.local_url = options.local_url;
 		this.target_url = options.target_url;
-		this.uploadFile().bind(this);
+		this.uploadFile.bind(this)();
 	};
 
     Uploader.prototype = {
+    	b64ToUint6: function(nChr) {
+			// convert base64 encoded character to 6-bit integer
+			// from: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Base64_encoding_and_decoding
+			return nChr > 64 && nChr < 91 ? nChr - 65
+				: nChr > 96 && nChr < 123 ? nChr - 71
+				: nChr > 47 && nChr < 58 ? nChr + 4
+				: nChr === 43 ? 62 : nChr === 47 ? 63 : 0;
+		},
+	
 		base64DecToArr: function (sBase64, nBlocksSize) {
 			// convert base64 encoded string to Uintarray
 			// from: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Base64_encoding_and_decoding
@@ -55,18 +64,28 @@
 			if (http.upload && http.upload.addEventListener) {
 				http.upload.addEventListener( 'progress', function(e) {
 					if (e.lengthComputable) {
+						//debug(e.loaded / e.total);
 						this.progress.dispatchEvent(new CustomEvent('progress', {'detail': e.loaded / e.total}));
 					}
-				}, false );
+				}.bind(this), false );
 			}
 			
 			// completion handler
 			http.onload = function() {
+				debug('http onload ' + http.status + ', ' + http.responseText);
 				this.status = http.status;
 				this.reponseText = http.responseText;
 				this.progress.dispatchEvent(new CustomEvent('complete'));
 				this.onfinish();
-			};
+			}.bind(this);
+			
+			http.onerror = function() {
+				alert('uploader error');
+			}.bind(this)
+			
+			http.onabort = function() {
+				alert('uploader abort');
+			}.bind(this)
 			
 			// create a blob and decode our base64 to binary
 			var blob = new Blob( [ this.base64DecToArr(raw) ], {type: typ+'/'+fmt} );
@@ -77,7 +96,7 @@
 			
 			// send data to server
 			http.send(form);
-		}.bind(this),
+		},
     };
 
     root.Uploader = Uploader;

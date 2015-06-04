@@ -44,7 +44,7 @@
     			e.preventDefault();
     			var uploader = new Uploader({
     				progress: document.getElementById('progress'),
-    				local_url: this.inputer.acceptedFiles[0],
+    				local_url: this.inputer.url,
     				target_url: 'http://54.149.127.185/upload?',
     				onfinish: (function(obj) {
 		    			return function(e) {
@@ -52,7 +52,7 @@
 		    			};
 		    		})(this)
     			});
-            }.bind(this), false);
+            }.bind(this), true);
     	},
         
     	display: function(e) {

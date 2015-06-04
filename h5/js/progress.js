@@ -11,6 +11,7 @@
     Progress.prototype = {
     	setEventListeners: function() {
     		this.view.addEventListener('progress', function(e) {
+    			debug(e.loaded / e.total);
     			this.progress = e.detail;
     			this.view.className = 'runing';
     			requestAnimationFrame(this.animate.bind(this));
