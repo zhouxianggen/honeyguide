@@ -7,7 +7,8 @@
         };
 
     ViewGroup.prototype = {
-        active: function(view, data) {
+        active: function(view_id, data) {
+        	var view = document.getElementById(view_id);
             data = typeof data !== 'undefined' ? data : {};
             
             for (var i = 0; i < this.views.length; i++) {

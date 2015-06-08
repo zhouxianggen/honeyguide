@@ -4,12 +4,9 @@
 
 	var ViewShare = function(options) {
 		this.view = options.view;
-		this.eFinish = $(this.view).find('#btn_finish')[0];
-		this.eFooter = $(this.view).find('#footer')[0];
-		this.eNote = $(this.eFooter).find('#textarea_note')[0];
 		this.inputer = null;
-		this.eCard = null;
 		this.card = null;
+		this.eFooter = $(this.view).find('.footer')[0];
 		this.handlers = {
 			'display': this.display.bind(this)
 		};
@@ -31,15 +28,15 @@
 //  			}
             }.bind(this), false);
             
-            this.eNote.addEventListener('click', function(e) {
-    			if (this.eNote.className == 'hint') {
-    				this.eNote.innerHTML = '';
-    				this.eNote.className = "edit";
-    			}
-    			e.stopPropagation();
-            }.bind(this), false);
+//          this.eNote.addEventListener('click', function(e) {
+//  			if (this.eNote.className == 'hint') {
+//  				this.eNote.innerHTML = '';
+//  				this.eNote.className = "edit";
+//  			}
+//  			e.stopPropagation();
+//          }.bind(this), false);
             
-            this.eFinish.addEventListener('click', function(e) {
+            $(this.view).find('#btn_main')[0].addEventListener('click', function(e) {
     			e.stopPropagation();
     			e.preventDefault();
     			var uploader = new Uploader({
@@ -48,7 +45,7 @@
     				target_url: 'http://54.149.127.185/upload?',
     				onfinish: (function(obj) {
 		    			return function(e) {
-		    				window.viewGroup.active(document.getElementById("view_browse"));
+		    				window.viewGroup.active('view_browse');
 		    			};
 		    		})(this)
     			});
@@ -58,19 +55,19 @@
     	display: function(e) {
     		this.inputer = e.detail.inputer;
     		if (this.inputer.type == 'image') {
-    			this.eCard = document.createElement('div');
-    			this.eCard.className = 'image_card';
-    			this.eCard.dataset.url = this.inputer.url;
-    			this.eCard.innerHTML = '<canvas></canvas>';
-    			this.view.appendChild(this.eCard);
-    			this.card = new ImageCard({view: this.eCard});
+    			var eCard = document.createElement('div');
+    			eCard.className = 'image_card';
+    			eCard.dataset.url = this.inputer.url;
+    			eCard.innerHTML = '<canvas></canvas>';
+    			this.view.appendChild(eCard);
+    			this.card = new ImageCard({view: eCard});
     		} else if (this.inputer.type == 'video') {
-    			this.eCard = document.createElement('div');
-    			this.eCard.className = 'video_card';
-    			this.eCard.dataset.url = this.inputer.url;
-    			this.eCard.innerHTML = '<video controls autoplay></video>';
-    			this.view.appendChild(this.eCard);
-    			this.card = new VideoCard({view: this.eCard});
+    			var eCard = document.createElement('div');
+    			eCard.className = 'video_card';
+    			eCard.dataset.url = this.inputer.url;
+    			eCard.innerHTML = '<video controls autoplay></video>';
+    			this.view.appendChild(eCard);
+    			this.card = new VideoCard({view: eCard});
     		}
     	},
     };
