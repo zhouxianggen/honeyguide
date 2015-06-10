@@ -1,0 +1,156 @@
+
+.popup {
+	display: block;
+	position: absolute;
+	list-style: none;
+	overflow: hidden;
+	width: 100%;
+	background-color: #e7e6dd;
+	transition: all 0.5s ease;
+	-moz-transition: all 0.5s ease;
+	-webkit-transition: all 0.5s ease;
+	border-width: 0px;
+	border-top-left-radius: 5px;
+	border-top-right-radius: 5px;
+	-webkit-border-top-left-radius: 5px;
+	-webkit-border-top-right-radius: 5px;
+	-moz-border-radius-topleft: 5px;
+	-moz-border-radius-topright: 5px;
+	z-index: 100;
+}
+
+.popup.in {
+	top: 100%;
+	transform: translateY(-100%);
+	-moz-transform: translateY(-100%);
+	-webkit-transform: translateY(-100%);
+}
+
+.popup.out {
+	top: 100%;
+}
+
+.popup li {
+	width: 100%;
+	height: 40px;
+	line-height: 40px;
+	text-align: center;
+	border-top: 1px solid #fff;
+	border-bottom: 1px solid #ccc;
+}
+
+.popup #li_title {
+	height: 30px;
+	line-height: 30px;
+	font-family: "微软雅黑";
+	font-weight: 400;
+	font-size: 16px;
+	color: #000;
+	border-top: 0;
+}
+
+.popup #li_close {
+	height: 50px;
+	line-height: 50px;
+	overflow: hidden;
+}
+
+.popup #li_close i {
+	top: 15px;
+	width: 50px;
+	height: 50px;
+	left: 0;
+	right: 0;
+	margin: auto;
+}
+
+.close_arrow {
+    position:relative;
+    display:block;
+    height:50px;/*height should be double border*/
+}
+.close_arrow:before,
+.close_arrow:after{
+    position:absolute;
+    display:block;
+    content:"";
+    border:25px solid transparent;/*adjust size*/
+}
+/*Change four 'top' values below to rotate (top/right/bottom/left)*/
+.close_arrow:before{
+    top:0;
+    border-top-color:#f4b400;/*Arrow Color*/
+}
+.close_arrow:after{
+    top:-10px;/*adjust thickness*/
+    border-top-color:#e7e6dd;/*Match background colour*/
+}
+
+#popup_sign #li_sign input {
+	width: 100%;
+	height: 100%;
+	float: left;
+	font-family: "微软雅黑";
+	font-weight: 400;
+	font-size: 16px;
+	color: #000;
+	border-bottom: 0;
+}
+
+#popup_sign #li_help {
+	height: 20px;
+	line-height: 20px;
+	border-top: 0;
+	border-bottom: 0;
+	font-family: "微软雅黑";
+}
+
+#popup_sign #li_action {
+	border-top: 0;
+	padding: 1px;
+}
+
+#popup_sign #li_action button {
+	width: 100px;
+	height: 95%;
+	font-family: "微软雅黑";
+}
+
+#popup_help_sign #li_info {
+	height: 300px;
+	line-height: 30px;
+	text-align: left;
+}
+	
+#popup_help_sign #li_action button {
+	width: 200px;
+	height: 95%;
+	font-family: "微软雅黑";
+}
+
+#popup_input_list li {
+	height: 60px;
+	line-height: 60px;
+}
+
+#popup_input_list li a {
+	display: block;
+	width: 100%;
+	height: 100%;
+	text-decoration: none;
+	font-family: "微软雅黑";
+	font-weight: 600;
+	font-size: 20px;
+	color: #f4b400;	
+}
+
+#popup_input_list li a input {
+    position: absolute;
+    z-index: 2;
+    display: none;
+}
+
+#popup_linker_list .li_linker{
+	height: 80px;
+	padding: 0 10px;
+}

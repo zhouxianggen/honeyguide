@@ -5,8 +5,10 @@
 	var ViewBrowse = function(options) {
 		this.view = options.view;
 		this.comb_id = this.view.dataset.comb_id;
-		this.gallery = new Gallery({view: $(this.view).find('#gallery')[0]});
-		this.footer = new Footer({view: $(this.view).find('#footer')[0]});
+		this.gallery = new Gallery({view: $(this.view).find('.gallery')[0]});
+		this.eFooter = $(this.view).find('.footer')[0];
+		this.eLinkerList = $(this.view).find('#popup_linker_list')[0];
+		this.eInputList = $(this.view).find('#popup_input_list')[0];
 		// 添加分享的按钮
 		// 添加图片分享
 		this.imageInputer = new Inputer({
@@ -43,12 +45,32 @@
     		}.bind(this));
  	
 			this.view.addEventListener('click', function(e) {
-    			if (this.footer.view.className == 'in') {
-    				this.footer.popOut();
+    			if (this.eFooter.className == 'footer in') {
+    				if (this.eLinkerList.className == 'popup in') {
+    					this.eLinkerList.className = 'popup out';
+    					return;
+    				}
+    				if (this.eInputList.className == 'popup in') {
+    					this.eInputList.className = 'popup out';
+    					return;
+    				}
+    				this.eFooter.className = 'footer out';
     			} else {
-    				this.footer.popIn();
+    				this.eFooter.className = 'footer in';
     			}
             }.bind(this), false);
+            
+            $(this.eFooter).find('#btn_main')[0].addEventListener('click', function(e) {
+    			e.stopPropagation();
+    			e.preventDefault();
+    			this.eLinkerList.className = 'popup in';
+            }.bind(this), true);
+            
+            $(this.eFooter).find('#btn_open_inputs')[0].addEventListener('click', function(e) {
+    			e.stopPropagation();
+    			e.preventDefault();
+    			this.eInputList.className = 'popup in';
+            }.bind(this), true);
     	},
         
     	display: function(e) {

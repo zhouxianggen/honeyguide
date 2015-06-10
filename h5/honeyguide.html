@@ -4,7 +4,11 @@
 		<title>browse comb</title>
 		<meta charset="utf-8">
 		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-		<link rel="stylesheet" type="text/css" href="css/browse_comb.css" />
+		<link rel="stylesheet" type="text/css" href="css/common.css" />
+		<link rel="stylesheet" type="text/css" href="css/footer.css" />
+		<link rel="stylesheet" type="text/css" href="css/gallery.css" />
+		<link rel="stylesheet" type="text/css" href="css/popup.css" />
+		<link rel="stylesheet" type="text/css" href="css/linker.css" />
 		<script type="text/javascript" src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.8.0.js"></script>
 		<script src="js/common.js"></script>
 		<script src="js/view_group.js"></script>
@@ -27,32 +31,33 @@
 		</div>
 		
 		<div id="view_browse" class="view" data-title="comb title">
-		<div id="gallery">
-			<div id="card_list">
-				<div class="image_card" data-url="img/page1.jpg">
-					<canvas></canvas>
-				</div>
-				<div class="image_card" data-url="img/page2.jpg">
-					<canvas></canvas>
-				</div>
-				<div class="image_card" data-url="img/page3.jpg">
-					<canvas></canvas>
+			<div class="gallery">
+				<div id="card_list">
+					<div class="image_card" data-url="img/page1.jpg">
+						<canvas></canvas>
+					</div>
+					<div class="image_card" data-url="img/page2.jpg">
+						<canvas></canvas>
+					</div>
+					<div class="image_card" data-url="img/page3.jpg">
+						<canvas></canvas>
+					</div>
 				</div>
 			</div>
-		</div>
-		
-		<div id="footer" class="out">
-			<div id="icon">
-				<button id="btn_open_linkers" type="submit" style="background-image: url(img/veromoda.png);"></button>
+			
+			<div class="footer out">
+				<div id="main">
+					<button id="btn_main" type="submit" style="background-image: url(img/veromoda.png);"></button>
+				</div>
+				<hr align="center" width="1" size="30%">
+				<div id="actions">
+					<ul>
+						<li><button id="btn_open_inputs" type="submit"></button></li>
+					</ul>
+				</div>
 			</div>
-			<hr align="center" width="1" size="50%">
-			<div id="actions">
-				<ul>
-					<li><button id="btn_open_inputs" type="submit"></button></li>
-				</ul>
-			</div>
-				
-			<ul id="input_list" class="out">
+			
+			<ul id="popup_input_list" class="popup out">
 				<li>
 					<a href="#" id="a_add_videos">
 						<input type="file" id="input_videos" accept="video/*"/>
@@ -65,74 +70,76 @@
 						添加图片
 					</a>
 				</li>
-			<li id="close">点击收起</li>
-			</ul>
-			
-			<ul id="linker_list" class="out">
-				<li id="guide">
-					为您提供下列服务:
+				<li id="li_close">
+					<i class="close_arrow"></i>
 				</li>
-				<li class="linker">
+			</ul>
+					
+			<ul id="popup_linker_list" class="popup out">
+				<li class="li_linker">
 					<a href="http://www.baidu.com">
-							<div class="linker_icon" style="background-image: url(img/taobao.png);"></div>
-							<div class="linker_title">去淘宝</div>
-							<div class="linker_description">访问淘宝店</div>
-							<div class="linker_popularity">
-								已服务&nbsp;<span>3876799</span>&nbsp;次
-					</div>
+						<div class="linker_icon" style="background-image: url(img/taobao.png);"></div>
+						<div class="linker_title">去淘宝</div>
+						<div class="linker_popularity">
+							已服务&nbsp;<span>3876799</span>&nbsp;次
+						</div>
 					</a>
 				</li>
-				<li id="close">
-					点击收起
+				<li id="li_close">
+					<i class="close_arrow"></i>
 				</li>
 			</ul>
 		
 		</div>
-		</div>
+			
+		<div id="view_share" class="view" data-title="share">
+			<div class="footer in">
+				<div id="main">
+					<button id="btn_main" type="submit" style="background-image: url(img/veromoda.png);"></button>
+				</div>
+				<hr align="center" width="1" size="30%">
+				<div id="actions">
+					<ul>
+						<li><button id="btn_add_text" type="submit"></button></li>
+					</ul>
+				</div>
+			</div>
+			
+			<ul id="popup_sign" class="popup out">
+				<li id="li_title">签名</li>
+				<li id="li_sign">
+					<input type="text">
+				</li>
+				<li id="li_help">
+					<a href="#">为什么需要您的签名？</a>
+					<a href="#">登陆</a>
+				</li>
+				<li id="li_action">
+					<button type="submit">跳过</button>
+				</li>
+				<li id="li_close">
+					<i class="close_arrow"></i>
+				</li>
+			</ul>
+			
+			<ul id="popup_help_sign" class="popup out">
+				<li id="li_title">为什么需要您的签名</li>
+				<li id="li_info">
+					<p>我们希望告诉您，您分享的每张图片，每短视频，这些内容的版权都属于你，而且这些分享内容很有可能产生经济价值。
+					例如，当您在餐馆用餐，然后将美味体验分享到朋友圈，吸引您的朋友前来体验，这样你的分享为餐馆带来了价值。</p>
+					<p>我们认为这些价值应当属于您，因此需要您提供签名。</p>
+					<p>如何签名呢？就是写一串您能记住的内容，例如你的邮箱，或姓名，或任何东西，但是不能使用已被他人使用过的签名。</p>
+					<p>为了避免每次都要签名，我们建议您进行注册，然后登陆。</p>
+				</li>
+				<li id="li_action">
+					<button type="submit">现在注册，下次自动签名</button>
+				</li>
+				<li id="li_close">
+					<i class="close_arrow"></i>
+				</li>
+			</ul>
 		
-	<div id="view_share" class="view" data-title="share">
-		<div class="footer in">
-			<div id="main">
-				<button id="btn_main" type="submit" style="background-image: url(img/veromoda.png);"></button>
-			</div>
-			<hr align="center" width="1" size="30%">
-			<div id="actions">
-				<ul>
-					<li><button id="btn_add_text" type="submit"></button></li>
-				</ul>
-			</div>
 		</div>
-	</div>
-	
-	<ul id="popup_sign" class="popup out">
-		<li id="li_title">签名</li>
-		<li id="li_sign">
-			<input type="text">
-		</li>
-		<li id="li_help">
-			<a href="#">为什么需要您的签名？</a>
-			<a href="#">登陆</a>
-		</li>
-		<li id="li_action">
-			<button type="submit">跳过</button>
-		</li>
-		<li id="li_close">
-			<i class="close_arrow"></i>
-		</li>
-	</ul>
-	
-	<ul id="popup_help_sign" class="popup in">
-		<li id="li_title">为什么需要您的签名</li>
-		<li id="li_info">
-			我们希望告诉您，您的每一次分享可能会为商家带来流量，这些
-		</li>
-		<li id="li_action">
-			<button type="submit">现在注册，下次自动签名</button>
-		</li>
-		<li id="li_close">
-			<i class="close_arrow"></i>
-		</li>
-	</ul>
 		
 	</body>
 </html>
