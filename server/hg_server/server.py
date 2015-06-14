@@ -21,6 +21,8 @@ class MyApplication(tornado.web.Application):
         handlers = [
             (r"/", DefaultRequestHandler),
             (r"/visit_comb?", VisitCombRequestHandler),
+            (r"/comb?", CombRequestHandler),
+            (r"/waggles?", WagglesRequestHandler),
             (r"/comb_manager?", CombManagerRequestHandler),
             (r"/account_manager?", AccountManagerRequestHandler),
             (r"/linker_manager?", LinkerManagerRequestHandler)
@@ -28,6 +30,7 @@ class MyApplication(tornado.web.Application):
         settings = dict(
             template_path=os.path.join(os.path.dirname(__file__), "templates"),
             static_path=os.path.join(os.path.dirname(__file__), "static"),
+            cookie_secret='__TODO:_GENERATE_YOUR_OWN_RANDOM_VALUE_HERE__',
             debug=True,
         )
         tornado.web.Application.__init__(self, handlers, **settings)
@@ -36,7 +39,52 @@ class DefaultRequestHandler(tornado.web.RequestHandler):
     #@tornado.web.authenticated
     def get(self):
         self.write('Hello, world')
+
+class CombRequestHandler(tornado.web.RequestHandler):
+    def get(self):
+        print 'CombRequestHandler: %s' % self.request.uri
+        
+        comb_id = self.get_argument('comb_id')
+        comb = data_provider.get_comb(comb_id)
+        if not comb:
+            self.render('comb_404.html')
+            return
+        
+        bee_cookie = self.get_secure_cookie('bee_cookie')
+        if not bee_cookie:
+            bee = data_provider.generate_anonymous_bee()
+            self.set_secure_cookie('bee_cookie', bee.id)
+        else:
+            bee = data_provider.get_bee(bee_cookie)
+            if not bee:
+                bee = data_provider.generate_anonymous_bee()
+                self.set_secure_cookie('bee_cookie', bee.id)
+        
+        waggles = data_provider.get_waggles(comb_id, bee.id, 0, 10)
+        if not waggles:
+            waggles = data_provider.get_latest_waggles(comb_id)
             
+        self.render('comb.html', comb=comb, waggles=waggles)
+        
+class WagglesRequestHandler(tornado.web.RequestHandler):
+    def set_default_headers(self):
+        self.set_header("Access-Control-Allow-Origin", "*")
+        
+    def options(self):
+        self.write('ok')
+        
+    def get(self):
+        return self.post()
+     
+    def post(self):
+        print 'WagglesRequestHandler: %s' % self.request.uri
+        comb_id = self.get_argument('comb_id')
+        bee_id = self.get_argument('bee_id')
+        start = self.get_argument('start')
+        count = self.get_argument('count')
+        waggles = data_provider.get_waggles(comb_id, bee_id, start, count)
+        self.write(genereate_waggles_inner_html(waggles))
+        
 class VisitCombRequestHandler(tornado.web.RequestHandler):
     #@tornado.web.authenticated
     def get(self):

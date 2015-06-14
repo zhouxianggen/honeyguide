@@ -14,7 +14,6 @@
 		<script src="js/view_group.js"></script>
 		<script src="js/image_card.js"></script>
 		<script src="js/video_card.js"></script>
-		<script src="js/card_list.js"></script>
 		<script src="js/gallery.js"></script>
 		<script src="js/inputer.js"></script>
 		<script src="js/uploader.js"></script>
@@ -26,6 +25,8 @@
 	<body onload="init()">
 		<div id="div_debug" style="display: none; position: absolute; width: 200px; height: 60px; background: #E66000; z-index: 100;"></div>
 		
+		<div id="context" data-comb_id="" data-bee_id="" data-waggles_server=""></div>
+		
 		<div id="progress" class="finished">
 			<div>22</div>
 		</div>
@@ -33,15 +34,9 @@
 		<div id="view_browse" class="view" data-title="comb title">
 			<div class="gallery">
 				<div id="card_list">
-					<div class="image_card" data-url="img/page1.jpg">
-						<canvas></canvas>
-					</div>
-					<div class="image_card" data-url="img/page2.jpg">
-						<canvas></canvas>
-					</div>
-					<div class="image_card" data-url="img/page3.jpg">
-						<canvas></canvas>
-					</div>
+					<div class="image_card" data-url="img/page1.jpg" data-date="2015-06-10" data-likes="2" data-reward=""></div>
+					<div class="image_card" data-url="img/page2.jpg" data-date="2015-06-10" data-likes="2" data-reward=""></div>
+					<div class="image_card" data-url="img/page3.jpg" data-date="2015-06-10" data-likes="2" data-reward=""></div>
 				</div>
 			</div>
 			

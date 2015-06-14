@@ -15,6 +15,7 @@
 .gallery #card_list {
 	display: block;
 	position: absolute;
+	overflow: visible;
 	height: 100%;
 	width: 1000%;
 	top: 0px;
@@ -28,9 +29,9 @@
 }
 
 .gallery #card_list.floating {
-	transition: all 0.4s ease-out;
-	-moz-transition: all 0.4s ease-out;
-	-webkit-transition: all 0.4s ease-out;
+	transition: all 0.5s ease-out;
+	-moz-transition: all 0.5s ease-out;
+	-webkit-transition: all 0.5s ease-out;
 }
 
 .gallery #card_list .image_card {

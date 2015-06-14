@@ -60,6 +60,11 @@
     			}
             }.bind(this), false);
             
+            this.eFooter.addEventListener('click', function(e) {
+            	e.stopPropagation();
+    			e.preventDefault();
+            }.bind(this), false);
+            
             $(this.eFooter).find('#btn_main')[0].addEventListener('click', function(e) {
     			e.stopPropagation();
     			e.preventDefault();

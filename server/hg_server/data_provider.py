@@ -35,14 +35,14 @@ class DataProvider(object):
         for r in rows:
             combs.append({columns[i]:r[i] for i in range(len(columns))})
         return combs
-        
-    def get_comb(self, comb_id, waggle_bee_id):
+    
+    def get_comb(self, comb_id):
         # get comb meta data
         columns = ['id', 'bee_id', 'title', 'enable_share']
         where = "WHERE id='%s'" % comb_id
         rows = sql_select(self.cfg, 'hg_db', 'meta_comb', columns, where)
         if len(rows) != 1:
-            return None
+            return 'not exist', None
         comb = {columns[i]:rows[0][i] for i in range(len(columns))}
         
         # get linkers
@@ -56,21 +56,27 @@ class DataProvider(object):
             rows = sql_select(self.cfg, 'hg_db', 'meta_linker', columns, where)
             if len(rows) == 1:
                 d = {columns[i]:rows[0][i] for i in range(len(columns))}
-                d['url'] = '%sact=click_linker&comb=%s&bee=%s' % (d['url'], comb_id, waggle_bee_id)
                 linkers.append(d)
-                
-        # get waggles
+        
+        comb['linkers'] = linkers
+        return 'ok', comb
+        
+    def get_waggles(self, comb, bee_id, start, count):
         waggles = []
         columns = ['content']
-        if waggle_bee_id:
-            where = "WHERE comb_id='%s' and bee_id='%s'" % (comb_id, waggle_bee_id)
+        
+        # 对所有者，展现所有的waggle，否则只展现相应的waggle
+        # 在没有引入用户关注关系前，这是个简化的处理逻辑
+        if comb.bee_id != bee_id:
+            where = "WHERE comb_id='%s' and bee_id='%s'" % (comb.id, bee_id)
         else:
-            where = "WHERE comb_id='%s'" % (comb_id)
-        others = "ORDER BY date DESC LIMIT 10"
-        rows = sql_select(self.cfg, 'hg_db', 'meta_waggle', columns, where)
-        for r in rows:
+            where = "WHERE comb_id='%s'" % (comb.id)
+            
+        others = "ORDER BY date DESC"
+        rows = sql_select(self.cfg, 'hg_db', 'meta_waggle', columns, where, others)
+        for r in rows[start:start+count]:
             waggles.append(json.loads(r[0]))
-        return 'ok', comb, linkers, waggles
+        return 'ok', waggles
 
     def add_comb(self, bee_id, comb):
         try:

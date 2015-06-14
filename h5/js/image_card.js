@@ -4,8 +4,10 @@
     
 	var ImageCard = function(options) {
 		this.view = options.view;
+		this.view.innerHTML = '<canvas></canvas>';
         this.canvas = $(this.view).find('canvas')[0];
         this.context = this.canvas.getContext('2d');
+        this.width = 0;
 
 		this.status = 0;
 		this.position = {x: 0, y: 0};
@@ -17,6 +19,7 @@
         this.imgTexture.src = this.view.dataset.url;
         this.imgTexture.onload = function() {
         	var rec = this.view.getBoundingClientRect();
+        	this.width = rec.right - rec.left;
 			this.canvas.width = rec.right - rec.left;
 			this.canvas.height = rec.bottom - rec.top;
 			var cw = this.canvas.clientWidth, ch = this.canvas.clientHeight;
