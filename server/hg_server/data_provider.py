@@ -61,16 +61,22 @@ class DataProvider(object):
         comb['linkers'] = linkers
         return 'ok', comb
         
-    def get_waggles(self, comb, bee_id, start, count):
+    def get_waggles(self, comb_id, bee_id, start, count):
+        columns = ['id', 'bee_id', 'title', 'enable_share']
+        where = "WHERE id='%s'" % comb_id
+        rows = sql_select(self.cfg, 'hg_db', 'meta_comb', columns, where)
+        if len(rows) != 1:
+            return 'not exist', None
+        comb = {columns[i]:rows[0][i] for i in range(len(columns))}
+        
         waggles = []
         columns = ['content']
-        
         # 对所有者，展现所有的waggle，否则只展现相应的waggle
         # 在没有引入用户关注关系前，这是个简化的处理逻辑
-        if comb.bee_id != bee_id:
-            where = "WHERE comb_id='%s' and bee_id='%s'" % (comb.id, bee_id)
+        if comb['bee_id'] != bee_id:
+            where = "WHERE comb_id='%s' and bee_id='%s'" % (comb_id, bee_id)
         else:
-            where = "WHERE comb_id='%s'" % (comb.id)
+            where = "WHERE comb_id='%s'" % (comb_id)
             
         others = "ORDER BY date DESC"
         rows = sql_select(self.cfg, 'hg_db', 'meta_waggle', columns, where, others)

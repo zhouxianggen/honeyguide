@@ -78,12 +78,19 @@ class WagglesRequestHandler(tornado.web.RequestHandler):
      
     def post(self):
         print 'WagglesRequestHandler: %s' % self.request.uri
-        comb_id = self.get_argument('comb_id')
-        bee_id = self.get_argument('bee_id')
-        start = self.get_argument('start')
-        count = self.get_argument('count')
-        waggles = data_provider.get_waggles(comb_id, bee_id, start, count)
-        self.write(genereate_waggles_inner_html(waggles))
+        print 'WagglesRequestHandler body: %s' % self.request.body
+        comb_id = self.get_body_argument('comb_id')
+        bee_id = self.get_body_argument('bee_id')
+        start = int(self.get_body_argument('start'))
+        count = int(self.get_body_argument('count'))
+        print comb_id, bee_id, start, count
+        status, waggles = data_provider.get_waggles(comb_id, bee_id, start, count)
+        print status, waggles
+        if waggles:
+            result = ''
+            for w in waggles:
+                result += '<div class="image_card" data-url="http://img5.duitang.com/uploads/item/201407/01/20140701222150_k4MdG.thumb.700_0.jpeg" data-date="2015-06-10" data-likes="2" data-reward=""></div>\n'
+            self.write(result)
         
 class VisitCombRequestHandler(tornado.web.RequestHandler):
     #@tornado.web.authenticated
