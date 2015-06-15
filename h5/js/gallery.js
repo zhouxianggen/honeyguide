@@ -76,7 +76,7 @@
 									start: this.cards.length,
 									count: 10
 								};
-								$.post(context.waggles_server_url, data, function(data, status) {
+								$.post(context.waggles_server, data, function(data, status) {
 									debug('status: '+status+' data:'+data);
 									this.cardIndex =  this.cards.length;
 									if (status == 'success') {

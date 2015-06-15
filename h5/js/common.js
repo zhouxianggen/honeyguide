@@ -44,6 +44,4 @@ rsa_public_key = '-----BEGIN PUBLIC KEY-----' +
 'TteiCqMXgA14p8V/qwIDAQAB' +
 '-----END PUBLIC KEY-----';
 
-context = document.getElementById('context').dataset;
-
 
