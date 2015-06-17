@@ -8,6 +8,7 @@
 		this.onfinish = options.onfinish;
 		this.local_url = options.local_url;
 		this.target_url = options.target_url;
+		this.form = options.form;
 		this.uploadFile.bind(this)();
 	};
 
@@ -76,7 +77,7 @@
 				this.status = http.status;
 				this.reponseText = http.responseText;
 				this.progress.dispatchEvent(new CustomEvent('complete'));
-				this.onfinish();
+				this.onfinish(this.reponseText);
 			}.bind(this);
 			
 			http.onerror = function() {
@@ -91,11 +92,11 @@
 			var blob = new Blob( [ this.base64DecToArr(raw) ], {type: typ+'/'+fmt} );
 			
 			// stuff into a form, so servers can easily receive it as a standard file upload
-			var form = new FormData();
-			form.append( 'upload', blob, "upload." + fmt.replace(/e/, '') );
+			//var form = new FormData();
+			this.form.append( 'upload', blob, "upload." + fmt.replace(/e/, '') );
 			
 			// send data to server
-			http.send(form);
+			http.send(this.form);
 		},
     };
 

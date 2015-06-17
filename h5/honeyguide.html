@@ -11,6 +11,8 @@
 		<link rel="stylesheet" type="text/css" href="css/linker.css" />
 		<script type="text/javascript" src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.8.0.js"></script>
 		<script src="js/common.js"></script>
+		<script src="js/prompt_message.js"></script>
+		<script src="js/jsencrypt.min.js"></script>
 		<script src="js/view_group.js"></script>
 		<script src="js/image_card.js"></script>
 		<script src="js/video_card.js"></script>
@@ -25,11 +27,13 @@
 	<body onload="init()">
 		<div id="div_debug" style="display: none; position: absolute; width: 200px; height: 60px; background: #E66000; z-index: 100;"></div>
 		
-		<div id="context" data-comb_id="1" data-bee_id="" data-waggles_server="http://54.149.127.185/waggles?"></div>
+		<div id="context" data-comb_id="1" data-bee_id="" data-comb_server="http://54.149.127.185/comb?" data-waggles_server="http://54.149.127.185/waggles?" data-upload_server="http://54.149.127.185/upload?" data-enroll_server="http://54.149.127.185/enroll?"></div>
 		
 		<div id="progress" class="finished">
 			<div>22</div>
 		</div>
+		
+		<div id="prompt_message" class="out"></div>
 		
 		<div id="view_browse" class="view" data-title="comb title">
 			<div class="gallery">
@@ -105,21 +109,21 @@
 			<ul id="popup_sign" class="popup out">
 				<li id="li_title">签名</li>
 				<li id="li_sign">
-					<input type="text">
+					<input id="input_sign" type="text">
 				</li>
 				<li id="li_help">
-					<a href="#">为什么需要您的签名？</a>
-					<a href="#">登陆</a>
+					<a id="a_help" href="#">为什么需要您的签名？</a>
+					<a id="a_login" href="#">登陆</a>
 				</li>
 				<li id="li_action">
-					<button type="submit">跳过</button>
+					<button id="btn_action" type="submit">跳过</button>
 				</li>
 				<li id="li_close">
 					<i class="close_arrow"></i>
 				</li>
 			</ul>
 			
-			<ul id="popup_help_sign" class="popup out">
+			<ul id="popup_sign_help" class="popup out">
 				<li id="li_title">为什么需要您的签名</li>
 				<li id="li_info">
 					<p>我们希望告诉您，您分享的每张图片，每短视频，这些内容的版权都属于你，而且这些分享内容很有可能产生经济价值。
@@ -129,7 +133,23 @@
 					<p>为了避免每次都要签名，我们建议您进行注册，然后登陆。</p>
 				</li>
 				<li id="li_action">
-					<button type="submit">现在注册，下次自动签名</button>
+					<button id="btn_enroll" type="submit">现在注册，下次自动签名</button>
+				</li>
+				<li id="li_close">
+					<i class="close_arrow"></i>
+				</li>
+			</ul>
+			
+			<ul id="popup_enroll" class="popup out">
+				<li id="li_title">注册</li>
+				<li id="li_username">
+					<input id="input_username" type="text" placeholder="设置用户名">
+				</li>
+				<li id="li_password">
+					<input id="input_password" type="password" placeholder="设置密码">
+				</li>
+				<li id="li_action">
+					<button id="btn_finish" type="submit">完成</button>
 				</li>
 				<li id="li_close">
 					<i class="close_arrow"></i>
