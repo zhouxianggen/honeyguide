@@ -7,8 +7,10 @@ __info__ = "data provider"
 
 import os,sys
 import json
+import rsa
 CWD = os.path.dirname(os.path.abspath(__file__))
 sys.path.append(CWD)
+from define import *
 from waggle import Waggle
 from linker import Linker
 from comb import Comb
@@ -18,6 +20,31 @@ class DataProvider(object):
     def init(self, cfg):
         self.cfg = cfg
     
+    def get_bee(self, username, password):
+        columns = ['id', 'name', 'password', 'avatar']
+        where = "WHERE name='%s' and password='%s'" % (username, password)
+        rows = sql_select(self.cfg, 'hg_db', 'meta_bee', columns, where)
+        if len(rows) != 1:
+            return '用户名或密码错误', None
+        bee = {columns[i]:rows[0][i] for i in range(len(columns))}
+        return 'ok', bee
+
+    def enroll_bee(self, username, password):
+        #pubkey = rsa.PublicKey.load_pkcs1(RSA_1024_PUB_PEM)
+        #id = rsa.encrypt('%s\1%s' % (username, password), pubkey)
+        id = '%s\1%s' % (username, password)
+        columns = ['id', 'name', 'password', 'avatar']
+        where = "WHERE id='%s'" % (id)
+        rows = sql_select(self.cfg, 'hg_db', 'meta_bee', columns, where)
+        if len(rows) > 0:
+            return '此用户已经被注册，请更改名称或密码', None
+        sql = 'INSERT INTO meta_bee (id, name, password, avatar) VALUES(%s, %s, %s, %s)'
+        args = (id, username, password, '')
+        res = sql_execute(self.cfg, 'hg_db', sql, args)
+        if res != 1:
+             return '服务器错误，请稍后再试', None
+        return 'ok', id
+
     def get_account(self, username, password):
         columns = ['id', 'name', 'password', 'avatar']
         where = "WHERE name='%s' and password='%s'" % (username, password)

@@ -12,17 +12,23 @@ import tornado.ioloop
 import tornado.web
 import tornado.template
 import ConfigParser
+import base64
+import rsa
 CWD = os.path.dirname(os.path.abspath(__file__))
 sys.path.append(CWD)
+from define import *
 from data_provider import DataProvider
+from util import *
 
 class MyApplication(tornado.web.Application):
     def __init__(self):
         handlers = [
             (r"/", DefaultRequestHandler),
             (r"/visit_comb?", VisitCombRequestHandler),
+            (r"/enroll?", EnrollRequestHandler),
             (r"/comb?", CombRequestHandler),
             (r"/waggles?", WagglesRequestHandler),
+            (r"/upload?", UploadRequestHandler),
             (r"/comb_manager?", CombManagerRequestHandler),
             (r"/account_manager?", AccountManagerRequestHandler),
             (r"/linker_manager?", LinkerManagerRequestHandler)
@@ -49,23 +55,107 @@ class CombRequestHandler(tornado.web.RequestHandler):
         if not comb:
             self.render('comb_404.html')
             return
-        
-        bee_cookie = self.get_secure_cookie('bee_cookie')
-        if not bee_cookie:
-            bee = data_provider.generate_anonymous_bee()
-            self.set_secure_cookie('bee_cookie', bee.id)
-        else:
-            bee = data_provider.get_bee(bee_cookie)
-            if not bee:
+
+        # bee_id is requried in url
+        bee_id = self.get_argument('bee_id')
+        if not bee_id:
+            bee_cookie = self.get_secure_cookie('bee_cookie')
+            if not bee_cookie:
                 bee = data_provider.generate_anonymous_bee()
-                self.set_secure_cookie('bee_cookie', bee.id)
+                if not bee:
+                    self.render('server_error.html')
+                    return
+            else:
+                bee = data_provider.get_bee(bee_cookie)
+                if not bee:
+                    bee = data_provider.generate_anonymous_bee()
+                    if not bee:
+                        self.render('server_error.html')
+                        return
+            self.set_secure_cookie('bee_cookie', bee['id'])
+            url = set_url_param(self.request.full_url(), 'bee_id', bee['id'])
+            self.redirect(url)
+            return
+
+        bee = data_provider.get_bee(bee_id)
+        if not bee:
+            bee = data_provider.generate_anonymous_bee()
+            if not bee:
+                self.render('server_error.html')
+                return
+            self.set_secure_cookie('bee_cookie', bee['id'])
+            url = set_url_param(self.request.full_url(), 'bee_id', bee['id'])
+            self.redirect(url)
+            return
         
-        waggles = data_provider.get_waggles(comb_id, bee.id, 0, 10)
-        if not waggles:
-            waggles = data_provider.get_latest_waggles(comb_id)
-            
-        self.render('comb.html', comb=comb, waggles=waggles)
+        waggles = data_provider.get_waggles(comb_id, bee['id'], 0, 10)
+        self.render('comb.html', comb=comb, bee=bee, waggles=waggles)
+ 
+class EnrollRequestHandler(tornado.web.RequestHandler):
+    def set_default_headers(self):
+        self.set_header("Access-Control-Allow-Origin", "*")
         
+    def options(self):
+        self.write('ok')
+        
+    def get(self):
+        return self.post()
+     
+    def post(self):
+        print 'EnrollRequestHandler: %s' % self.request.uri
+        print 'EnrollRequestHandler body: %s' % self.request.body
+        username = self.get_body_argument('username')
+        password = self.get_body_argument('password')
+        try:
+            #pubkey = rsa.PublicKey.load_pkcs1_openssl_pem(RSA_1024_PUB_PEM)
+            privkey = rsa.PrivateKey.load_pkcs1(RSA_1024_PRIV_PEM)
+            username = rsa.decrypt(base64.b64decode(username), privkey)
+            password = rsa.decrypt(base64.b64decode(password), privkey)
+            print username, password
+        except Exception as e:
+            self.write('{"status": "数据解析错误", "id": ""}')
+        status, bee = data_provider.get_bee(username, password)
+        if status == 'ok' and bee:
+            self.write('{"status": "此用户已经被注册，请更改名称或密码", "id": ""}')
+        else:
+            status, bee_id = data_provider.enroll_bee(username, password)
+            if status == 'ok':
+                self.set_secure_cookie('bee_cookie', bee_id)
+            self.write('{"status": "%s", "id": "%s"}' % (status, bee_id))
+ 
+class UploadRequestHandler(tornado.web.RequestHandler):
+    def set_default_headers(self):
+        self.set_header("Access-Control-Allow-Origin", "*")
+        
+    def options(self):
+        self.write('ok')
+        
+    def get(self):
+        return self.post()
+     
+    def post(self):
+        print 'UploadRequestHandler: %s' % self.request.full_url()
+        print 'UploadRequestHandler: %s' % self.request.uri
+        comb_id =  self.get_body_argument('comb_id')
+        bee_id = self.get_body_argument('bee_id')
+        signature = self.get_body_argument('signature')
+        if signature and not decrypt(signature):
+            self.write('signature error')
+            return
+
+        ts = time.time()
+        waggle = {}
+        waggle['id'] = base64.urlsafe_b64encode('%s\1%s\1%s\1%s')
+        waggle['card_type'] = self.get_body_argument('card_type')
+        waggle['card_notes'] = self.get_body_argument('card_notes')
+        try:
+            waggle['content'] = self.request.files['upload'][0]['body']
+            waggle['content_type'] = self.request.files['upload'][0]['content_type']
+        except Exception as e:
+            self.write('no content')
+            return
+        status, waggle = data_provider.add_waggle(comb_id, bee_id, signature, card_type, card_notes, content, content_type)
+      
 class WagglesRequestHandler(tornado.web.RequestHandler):
     def set_default_headers(self):
         self.set_header("Access-Control-Allow-Origin", "*")
@@ -172,7 +262,7 @@ class LinkerManagerRequestHandler(tornado.web.RequestHandler):
         status, linkers = data_provider.get_linkers(bee_id)
         result = {"status": status, "linkers": linkers}
         self.write(json.dumps(result, ensure_ascii=False))
-      
+
 data_provider = DataProvider()
 
 if __name__ == "__main__":
