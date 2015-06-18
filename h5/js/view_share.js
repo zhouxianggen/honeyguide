@@ -119,9 +119,13 @@
     	
     	share: function() {
     		var form = new FormData();
+    		var signature = $(this.ePopupSign).find('#input_sign')[0].value;
+    		if (signature) {
+    			signature = encrypt.encrypt(signature);
+    		}
     		form.append('comb_id', context.comb_id);
     		form.append('bee_id', context.bee_id);
-    		form.append('signature', $(this.ePopupSign).find('#input_sign')[0].value);
+    		form.append('signature', signature);
     		form.append('card_type', this.inputer.type);
     		form.append('card_notes', '{}');
     		var uploader = new Uploader({
