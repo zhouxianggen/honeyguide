@@ -23,6 +23,12 @@ from util import *
 
 class MyApplication(tornado.web.Application):
     def __init__(self):
+        settings = dict(
+            template_path=os.path.join(os.path.dirname(__file__), "templates"),
+            static_path=os.path.join(os.path.dirname(__file__), "static"),
+            cookie_secret='__TODO:_GENERATE_YOUR_OWN_RANDOM_VALUE_HERE__',
+            debug=True,
+        )
         handlers = [
             (r"/", DefaultRequestHandler),
             (r"/visit_comb?", VisitCombRequestHandler),
@@ -30,17 +36,12 @@ class MyApplication(tornado.web.Application):
             (r"/comb?", CombRequestHandler),
             (r"/waggles?", WagglesRequestHandler),
             (r"/content?", ContentRequestHandler),
+            (r'/static/(.*)', tornado.web.StaticFileHandler, {'path': settings['static_path']}),
             (r"/upload?", UploadRequestHandler),
             (r"/comb_manager?", CombManagerRequestHandler),
             (r"/account_manager?", AccountManagerRequestHandler),
             (r"/linker_manager?", LinkerManagerRequestHandler)
         ]
-        settings = dict(
-            template_path=os.path.join(os.path.dirname(__file__), "templates"),
-            static_path=os.path.join(os.path.dirname(__file__), "static"),
-            cookie_secret='__TODO:_GENERATE_YOUR_OWN_RANDOM_VALUE_HERE__',
-            debug=True,
-        )
         tornado.web.Application.__init__(self, handlers, **settings)
 
 class DefaultRequestHandler(tornado.web.RequestHandler):
@@ -133,10 +134,12 @@ class ContentRequestHandler(tornado.web.RequestHandler):
     def post(self):
         print 'ContentRequestHandler: %s' % self.request.uri
         id = self.get_argument('id')
-        content = data_provider.get_content(id)
+        content_type, content = data_provider.get_content(id)
         if content:        
+            self.set_header("Content-Type",  content_type)
             self.write(content)
         else:
+            self.set_header("Content-Type", 'image/jpg')
             self.write(open('d.jpg', 'rb').read())
 
 class UploadRequestHandler(tornado.web.RequestHandler):
@@ -171,14 +174,17 @@ class UploadRequestHandler(tornado.web.RequestHandler):
         ts = int(time.time() * 1000)
         waggle = {}
         key = joins([comb_id, bee_id, signature, ts])
-        waggle['id'] = encrypt(key)
+        waggle['id'] = encrypt(key, urlsafe=True)
         waggle['type'] = self.get_body_argument('card_type')
         waggle['notes'] = self.get_body_argument('card_notes')
         try:
-            waggle['content'] = self.request.files['upload'][0]['body']
-            waggle['content'] = base64.b64encode(waggle['content'])
             waggle['content_type'] = self.request.files['upload'][0]['content_type']
+            waggle['content'] = self.request.files['upload'][0]['body']
             waggle['id'] += '.' +  waggle['content_type'].split('/')[1]
+            path = '%s/static/uploads/%s' % (CWD, waggle['id'])
+            print path
+            open(path, 'wb').write(waggle['content'])
+            waggle['content'] = base64.b64encode(waggle['content'])
         except Exception as e:
             self.write('no content')
             return

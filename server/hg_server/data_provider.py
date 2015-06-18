@@ -166,13 +166,13 @@ class DataProvider(object):
     def get_content(self, key):
         value = redis_server.get(key)
         if value:
-            return value
-        columns = ['content']
+            return value.split('\1', 1)
+        columns = ['content', 'content_type']
         where = "WHERE id='%s'" % key
         rows = sql_select(self.cfg, 'hg_db', 'meta_waggle', columns, where)
         if len(rows) != 1:
-            return None
-        content = rows[0][0]
-        redis_server.set(key, content)
-        return content
+            return None, None
+        content, content_type = rows[0][0]
+        redis_server.set(key, '%s\1%s' % (content_type, content))
+        return content_type, content
 
