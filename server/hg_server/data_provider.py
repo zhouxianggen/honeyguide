@@ -8,13 +8,17 @@ __info__ = "data provider"
 import os,sys
 import json
 import rsa
+import redis
 CWD = os.path.dirname(os.path.abspath(__file__))
 sys.path.append(CWD)
 from define import *
+from util import *
 from waggle import Waggle
 from linker import Linker
 from comb import Comb
 from mysql import sql_select, sql_execute
+
+redis_server = redis.StrictRedis(host='localhost', port=6379, db=0)
 
 class DataProvider(object):
     def init(self, cfg):
@@ -30,9 +34,9 @@ class DataProvider(object):
         return 'ok', bee
 
     def enroll_bee(self, username, password):
-        #pubkey = rsa.PublicKey.load_pkcs1(RSA_1024_PUB_PEM)
-        #id = rsa.encrypt('%s\1%s' % (username, password), pubkey)
-        id = '%s\1%s' % (username, password)
+        #id = encrypt('%s\1%s' % (username, password))
+        id = joins([username, password])
+        print 'enroll id is [%s]' % id
         columns = ['id', 'name', 'password', 'avatar']
         where = "WHERE id='%s'" % (id)
         rows = sql_select(self.cfg, 'hg_db', 'meta_bee', columns, where)
@@ -131,6 +135,24 @@ class DataProvider(object):
         except Exception as e:
             return 'eception', str(e)
     
+    def add_waggle(self, waggle):
+        props = ', '.join(waggle.keys())
+        values = ', '.join(['%s' for x in waggle.values()])
+        args = tuple(waggle.values())
+        sql = 'INSERT INTO meta_waggle (%s) VALUES (%s)' % (props, values)
+        res = sql_execute(self.cfg, 'hg_db', sql, args)
+        if res != 1:
+            return 'insert db error'
+        return 'ok'
+    
+    def add_action_waggle(self, comb_id, bee_id, signature, waggle_id, ts):
+        sql = 'INSERT INTO action_waggle (comb_id, bee_id, signature, waggle_id, time) VALUES (%s, %s, %s, %s, %s)'
+        args = (comb_id, bee_id, signature, waggle_id, ts)
+        res = sql_execute(self.cfg, 'hg_db', sql, args)
+        if res != 1:
+            return 'insert db error'
+        return 'ok'
+
     def get_linkers(self, bee_id):
         linkers = []
         columns = ['id', 'title', 'icon', 'url', 'description', 'price', 'click_count']
@@ -140,4 +162,17 @@ class DataProvider(object):
         if linkers:
             return 'ok', linkers
         return 'no linkers available', linkers
+
+    def get_content(self, key):
+        value = redis_server.get(key)
+        if value:
+            return value
+        columns = ['content']
+        where = "WHERE id='%s'" % key
+        rows = sql_select(self.cfg, 'hg_db', 'meta_waggle', columns, where)
+        if len(rows) != 1:
+            return None
+        content = rows[0][0]
+        redis_server.set(key, content)
+        return content
 

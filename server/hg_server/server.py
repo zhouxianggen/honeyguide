@@ -6,6 +6,7 @@ __date__ = "2015-03-27"
 __info__ = "server for hg"
 
 import os,sys
+import time, datetime
 import json
 import tornado.httpserver
 import tornado.ioloop
@@ -28,6 +29,7 @@ class MyApplication(tornado.web.Application):
             (r"/enroll?", EnrollRequestHandler),
             (r"/comb?", CombRequestHandler),
             (r"/waggles?", WagglesRequestHandler),
+            (r"/content?", ContentRequestHandler),
             (r"/upload?", UploadRequestHandler),
             (r"/comb_manager?", CombManagerRequestHandler),
             (r"/account_manager?", AccountManagerRequestHandler),
@@ -107,22 +109,36 @@ class EnrollRequestHandler(tornado.web.RequestHandler):
         username = self.get_body_argument('username')
         password = self.get_body_argument('password')
         try:
-            #pubkey = rsa.PublicKey.load_pkcs1_openssl_pem(RSA_1024_PUB_PEM)
-            privkey = rsa.PrivateKey.load_pkcs1(RSA_1024_PRIV_PEM)
-            username = rsa.decrypt(base64.b64decode(username), privkey)
-            password = rsa.decrypt(base64.b64decode(password), privkey)
+            username = decrypt(username)
+            password = decrypt(password)
             print username, password
         except Exception as e:
             self.write('{"status": "数据解析错误", "id": ""}')
-        status, bee = data_provider.get_bee(username, password)
-        if status == 'ok' and bee:
-            self.write('{"status": "此用户已经被注册，请更改名称或密码", "id": ""}')
-        else:
-            status, bee_id = data_provider.enroll_bee(username, password)
-            if status == 'ok':
-                self.set_secure_cookie('bee_cookie', bee_id)
-            self.write('{"status": "%s", "id": "%s"}' % (status, bee_id))
+        status, bee_id = data_provider.enroll_bee(username, password)
+        if status == 'ok':
+            bee_id = encrypt(bee_id)
+            self.set_secure_cookie('bee_cookie', bee_id)
+        self.write('{"status": "%s", "bee_id": "%s"}' % (status, bee_id))
  
+class ContentRequestHandler(tornado.web.RequestHandler):
+    def set_default_headers(self):
+        self.set_header("Access-Control-Allow-Origin", "*")
+        
+    def options(self):
+        self.write('ok')
+        
+    def get(self):
+        return self.post()
+     
+    def post(self):
+        print 'ContentRequestHandler: %s' % self.request.uri
+        id = self.get_argument('id')
+        content = data_provider.get_content(id)
+        if content:        
+            self.write(content)
+        else:
+            self.write(open('d.jpg', 'rb').read())
+
 class UploadRequestHandler(tornado.web.RequestHandler):
     def set_default_headers(self):
         self.set_header("Access-Control-Allow-Origin", "*")
@@ -136,25 +152,45 @@ class UploadRequestHandler(tornado.web.RequestHandler):
     def post(self):
         print 'UploadRequestHandler: %s' % self.request.full_url()
         print 'UploadRequestHandler: %s' % self.request.uri
-        comb_id =  self.get_body_argument('comb_id')
-        bee_id = self.get_body_argument('bee_id')
-        signature = self.get_body_argument('signature')
-        if signature and not decrypt(signature):
-            self.write('signature error')
+        comb_id =  decrypt(self.get_body_argument('comb_id'))
+        if comb_id == None:
+            self.write('error comb id')
             return
+        bee_id = decrypt(self.get_body_argument('bee_id'))
+        if bee_id == None:
+            self.write('error bee id')
+            return
+        signature = self.get_body_argument('signature', '')
+        if signature:
+            signature = decrypt(signature)
+            if signature == None:
+                self.write('error signature')
+                return
+        print comb_id, bee_id, signature
 
-        ts = time.time()
+        ts = int(time.time() * 1000)
         waggle = {}
-        waggle['id'] = base64.urlsafe_b64encode('%s\1%s\1%s\1%s')
-        waggle['card_type'] = self.get_body_argument('card_type')
-        waggle['card_notes'] = self.get_body_argument('card_notes')
+        key = joins([comb_id, bee_id, signature, ts])
+        waggle['id'] = encrypt(key)
+        waggle['type'] = self.get_body_argument('card_type')
+        waggle['notes'] = self.get_body_argument('card_notes')
         try:
             waggle['content'] = self.request.files['upload'][0]['body']
+            waggle['content'] = base64.b64encode(waggle['content'])
             waggle['content_type'] = self.request.files['upload'][0]['content_type']
+            waggle['id'] += '.' +  waggle['content_type'].split('/')[1]
         except Exception as e:
             self.write('no content')
             return
-        status, waggle = data_provider.add_waggle(comb_id, bee_id, signature, card_type, card_notes, content, content_type)
+
+        status = data_provider.add_waggle(waggle)
+        if status == 'ok':
+            status = data_provider.add_action_waggle(comb_id, bee_id, signature, waggle['id'], ts)
+            if status == 'ok':
+                self.write('ok')
+                return
+        self.write('database error')
+        return
       
 class WagglesRequestHandler(tornado.web.RequestHandler):
     def set_default_headers(self):

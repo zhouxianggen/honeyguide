@@ -8,6 +8,9 @@ __info__    = "mysql api"
 
 import sys, os, shutil, tempfile
 import MySQLdb
+CWD = os.path.dirname(os.path.abspath(__file__))
+sys.path.append(CWD)
+from util import *
 
 def create_sql_conn(cfg, SECTION):
     host   = cfg.get(SECTION, 'host').decode('utf-8')
