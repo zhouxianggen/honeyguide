@@ -1,0 +1,54 @@
+
+.card {
+	width: 100%;
+	height: 100%;
+}
+
+.image_card canvas {
+	position: absolute;
+	left: 0;
+	top: 0;
+}
+
+.gallery {
+	display: block;
+	position: absolute;
+	width: 100%;
+	height: 100%;
+}
+
+.gallery #card_list {
+	display: block;
+	position: absolute;
+	overflow: visible;
+	height: 100%;
+	width: 1000%;
+	top: 0px;
+	left: 0px;
+}
+
+.gallery #card_list.moving {
+	transition: ease;
+	-moz-transition: ease;
+	-webkit-transition: ease;
+}
+
+.gallery #card_list.floating {
+	transition: all 0.5s ease-out;
+	-moz-transition: all 0.5s ease-out;
+	-webkit-transition: all 0.5s ease-out;
+}
+
+.gallery #card_list .image_card {
+	display: inline-block;
+	position: relative;
+	height: 100%;
+	width: 10%;
+}
+
+.gallery #card_list .video_card {
+	display: inline-block;
+	position: relative;
+	height: 100%;
+	width: 10%;
+}
