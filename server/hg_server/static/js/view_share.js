@@ -137,10 +137,9 @@
 	    			return function(response) {
 	    				if (response == 'ok') {
 	    					var url = context.comb_server + 'comb_id=' + context.comb_id + '&bee_id=' + context.bee_id;
-	    					alert(url);
-	    					//window.location.replace(url);
+	    					window.location.replace(url);
 	    				} else {
-	    					prompt_message.prompt('远端服务出错了，稍后再试吧');
+	    					prompt_message.prompt(response);
 	    				}
 	    			};
 	    		})(this)

@@ -7,6 +7,8 @@ __info__ = "data provider"
 
 import os,sys
 import json
+import time, datetime
+import random
 import rsa
 import redis
 CWD = os.path.dirname(os.path.abspath(__file__))
@@ -23,9 +25,18 @@ redis_server = redis.StrictRedis(host='localhost', port=6379, db=0)
 class DataProvider(object):
     def init(self, cfg):
         self.cfg = cfg
-    
-    def get_bee(self, username, password):
-        columns = ['id', 'name', 'password', 'avatar']
+ 
+    def get_bee(self, id):
+        columns = ['id', 'name', 'password', 'avatar', 'type']
+        where = "WHERE id='%s'" % (id)
+        rows = sql_select(self.cfg, 'hg_db', 'meta_bee', columns, where)
+        if len(rows) != 1:
+            return '用户名或密码错误', None
+        bee = {columns[i]:rows[0][i] for i in range(len(columns))}
+        return 'ok', bee
+   
+    def get_bee2(self, username, password):
+        columns = ['id', 'name', 'password', 'avatar', 'type']
         where = "WHERE name='%s' and password='%s'" % (username, password)
         rows = sql_select(self.cfg, 'hg_db', 'meta_bee', columns, where)
         if len(rows) != 1:
@@ -33,7 +44,7 @@ class DataProvider(object):
         bee = {columns[i]:rows[0][i] for i in range(len(columns))}
         return 'ok', bee
 
-    def enroll_bee(self, username, password):
+    def enroll_bee(self, username, password, type=''):
         #id = encrypt('%s\1%s' % (username, password))
         id = joins([username, password])
         print 'enroll id is [%s]' % id
@@ -42,12 +53,17 @@ class DataProvider(object):
         rows = sql_select(self.cfg, 'hg_db', 'meta_bee', columns, where)
         if len(rows) > 0:
             return '此用户已经被注册，请更改名称或密码', None
-        sql = 'INSERT INTO meta_bee (id, name, password, avatar) VALUES(%s, %s, %s, %s)'
-        args = (id, username, password, '')
+        sql = 'INSERT INTO meta_bee (id, name, password, avatar, type) VALUES(%s, %s, %s, %s, %s)'
+        args = (id, username, password, '', type)
         res = sql_execute(self.cfg, 'hg_db', sql, args)
         if res != 1:
              return '服务器错误，请稍后再试', None
-        return 'ok', id
+        return 'ok', id 
+
+    def generate_anonymous_bee(self):
+        username = '%d' % (time.time()*1000)
+        password = '%d' % random.randint(1, 1000000)
+        return self.enroll_bee(username, password, 'anonymous')
 
     def get_account(self, username, password):
         columns = ['id', 'name', 'password', 'avatar']
@@ -69,7 +85,7 @@ class DataProvider(object):
     
     def get_comb(self, comb_id):
         # get comb meta data
-        columns = ['id', 'bee_id', 'title', 'enable_share']
+        columns = ['id', 'bee_id', 'title', 'icon', 'enable_share']
         where = "WHERE id='%s'" % comb_id
         rows = sql_select(self.cfg, 'hg_db', 'meta_comb', columns, where)
         if len(rows) != 1:
@@ -82,7 +98,7 @@ class DataProvider(object):
         where = "WHERE comb_id='%s'" % comb_id
         ids = sql_select(self.cfg, 'hg_db', 'action_link', columns, where)
         for id in ids:
-            columns = ['id', 'url', 'title', 'icon']
+            columns = ['id', 'url', 'title', 'icon', 'click_count']
             where = "WHERE id='%s'" % id
             rows = sql_select(self.cfg, 'hg_db', 'meta_linker', columns, where)
             if len(rows) == 1:
@@ -104,7 +120,7 @@ class DataProvider(object):
         actions = rows[start:start+10]
         waggles = []
         for waggle_id in actions:
-            columns = ['type', 'content_type', 'notes', 'likes', 'time']
+            columns = ['id', 'type', 'content_type', 'notes', 'likes', 'time']
             where = "WHERE id='%s'" % (waggle_id)
             rows = sql_select(self.cfg, 'hg_db', 'meta_waggle', columns, where)
             if len(rows) == 1:

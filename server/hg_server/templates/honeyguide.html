@@ -28,7 +28,7 @@
 		<body onload="init()">
 				<div id="div_debug" style="display: none; position: absolute; width: 200px; height: 60px; background: #E66000; z-index: 100;"></div>
 				
-				<div id="context" data-comb_id="{{ comb['id'] }}" data-bee_id="" data-comb_server="http://54.149.127.185/comb?" data-waggles_server="http://54.149.127.185/waggles?" data-upload_server="http://54.149.127.185/upload?" data-enroll_server="http://54.149.127.185/enroll?"></div>
+				<div id="context" data-comb_id="{{ comb['id'] }}" data-bee_id="{{ bee['id'] }}" data-comb_server="http://54.149.127.185/comb?" data-waggles_server="http://54.149.127.185/waggles?" data-upload_server="http://54.149.127.185/upload?" data-enroll_server="http://54.149.127.185/enroll?"></div>
 				
 				<div id="progress" class="finished">
 						<div></div>
@@ -97,9 +97,9 @@
 								<li class="li_linker">
 										<a href="{{ linker['url'] }}">
 												<div class="linker_icon" style="background-image: url(image/linker_icon/{{ linker['icon'] }} );"></div>
-												<div class="linker_title">linker['title']</div>
+												<div class="linker_title">{{ linker['title'] }}</div>
 												<div class="linker_popularity">
-														已服务&nbsp;<span>linker['click_count']</span>&nbsp;次
+														已服务&nbsp;<span>{{ linker['click_count'] }}</span>&nbsp;次
 												</div>
 										</a>
 								</li>
@@ -116,7 +116,7 @@
 						
 						<div class="footer in">
 								<div id="main">
-										<button id="btn_main" type="submit" style="background-image: url(img/done.png);"></button>
+										<button id="btn_main" type="submit" style="background-image: url(image/static/done.png);"></button>
 								</div>
 								<hr align="center" width="1" size="30%">
 								<div id="actions">
