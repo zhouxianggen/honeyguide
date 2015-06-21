@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html>
+		<head>
+				<title>browse comb</title>
+				<meta charset="utf-8">
+				<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+				<link rel="stylesheet" type="text/css" href="{{ static_url('css/common.css') }}" />
+				<link rel="stylesheet" type="text/css" href="{{ static_url('css/popup.css') }}" />
+				<link rel="stylesheet" type="text/css" href="{{ static_url('css/footer.css') }}" />
+				<link rel="stylesheet" type="text/css" href="{{ static_url('css/card.css') }}" />
+				<link rel="stylesheet" type="text/css" href="{{ static_url('css/gallery.css') }}" />
+				<link rel="stylesheet" type="text/css" href="{{ static_url('css/linker.css') }}" />
+				<script src="{{ static_url('js/jquery-1.8.0.js') }}"></script>
+				<script src="{{ static_url('js/common.js') }}"></script>
+				<script src="{{ static_url('js/prompt_message.js') }}"></script>
+				<script src="{{ static_url('js/jsencrypt.min.js') }}"></script>
+				<script src="{{ static_url('js/view_group.js') }}"></script>
+				<script src="{{ static_url('js/image_card.js') }}"></script>
+				<script src="{{ static_url('js/video_card.js') }}"></script>
+				<script src="{{ static_url('js/gallery.js') }}"></script>
+				<script src="{{ static_url('js/inputer.js') }}"></script>
+				<script src="{{ static_url('js/uploader.js') }}"></script>
+				<script src="{{ static_url('js/footer.js') }}"></script>
+				<script src="{{ static_url('js/view_share.js') }}"></script>
+				<script src="{{ static_url('js/view_browse.js') }}"></script>
+				<script src="{{ static_url('js/main.js') }}"></script>
+		</head>
+		<body onload="init()">
+				<div id="div_debug" style="display: none; position: absolute; width: 200px; height: 60px; background: #E66000; z-index: 100;"></div>
+				
+				<div id="context" data-comb_id="{{ comb['id'] }}" data-bee_id="" data-comb_server="http://54.149.127.185/comb?" data-waggles_server="http://54.149.127.185/waggles?" data-upload_server="http://54.149.127.185/upload?" data-enroll_server="http://54.149.127.185/enroll?"></div>
+				
+				<div id="progress" class="finished">
+						<div></div>
+				</div>
+				
+				<div id="prompt_message" class="out"></div>
+				
+				<div id="image_card_template" class="card" style="display: none;">
+						<div class="date"></div>
+						<button class="rewards" type="submit"></button>
+						<div class="likes">
+								<button id="btn_like"></button>
+								<div id="count"></div>
+						</div>
+						<div class="content">
+								<canvas></canvas>
+						</div>
+				</div>
+		
+				<div id="view_browse" class="view" data-title="comb title">
+						<div class="gallery">
+								<div id="card_list">
+										{% for w in waggles %}
+												{% if w['type'] == 'image' %}
+												<div class="card image_card" data-url="image/waggle/{{ w['id'] }}" data-date="{{ w['time'] }}" data-likes="{{ w['likes'] }}" data-rewards="{{ w['rewards'] }}"></div>
+												{% end %}
+												{% if w['type'] == 'video' %}
+												<div class="card video_card" data-url="video/waggle/{{ w['id'] }}" data-date="{{ w['time'] }}" data-likes="{{ w['likes'] }}" data-rewards="{{ w['rewards'] }}"></div>
+												{% end %}
+										{% end %}
+								</div>
+						</div>
+						
+						<div class="footer out">
+								<div id="main">
+										<button id="btn_main" type="submit" style="background-image: url(image/comb_icon/{{ comb['icon'] }});"></button>
+								</div>
+								<hr align="center" width="1" size="30%">
+								<div id="actions">
+										<ul>
+												<li><button id="btn_open_inputs" type="submit"></button></li>
+										</ul>
+								</div>
+						</div>
+						
+						<ul id="popup_input_list" class="popup out">
+								<li>
+										<a href="#" id="a_add_videos">
+												<input type="file" id="input_videos" accept="video/*"/>
+												添加视频
+										</a>
+								</li>
+								<li>
+										<a href="#" id="a_add_images">
+												<input type="file" id="input_images" accept="image/*"/>
+												添加图片
+										</a>
+								</li>
+								<li id="li_close">
+										<i class="close_arrow"></i>
+								</li>
+						</ul>
+										
+						<ul id="popup_linker_list" class="popup out">
+								{% for linker in comb['linkers'] %}
+								<li class="li_linker">
+										<a href="{{ linker['url'] }}">
+												<div class="linker_icon" style="background-image: url(image/linker_icon/{{ linker['icon'] }} );"></div>
+												<div class="linker_title">linker['title']</div>
+												<div class="linker_popularity">
+														已服务&nbsp;<span>linker['click_count']</span>&nbsp;次
+												</div>
+										</a>
+								</li>
+								{% end %}
+								<li id="li_close">
+										<i class="close_arrow"></i>
+								</li>
+						</ul>
+				
+				</div>
+						
+				<div id="view_share" class="view" data-title="share">
+						<div id="card"></div>
+						
+						<div class="footer in">
+								<div id="main">
+										<button id="btn_main" type="submit" style="background-image: url(img/done.png);"></button>
+								</div>
+								<hr align="center" width="1" size="30%">
+								<div id="actions">
+										<ul>
+												<li><button id="btn_add_text" type="submit"></button></li>
+										</ul>
+								</div>
+						</div>
+						
+						<ul id="popup_sign" class="popup out">
+								<li id="li_title">签名</li>
+								<li id="li_sign">
+										<input id="input_sign" type="text">
+								</li>
+								<li id="li_help">
+										<a id="a_help" href="#">为什么需要您的签名？</a>
+										<a id="a_login" href="#">登陆</a>
+								</li>
+								<li id="li_action">
+										<button id="btn_action" type="submit">跳过</button>
+								</li>
+								<li id="li_close">
+										<i class="close_arrow"></i>
+								</li>
+						</ul>
+						
+						<ul id="popup_sign_help" class="popup out">
+								<li id="li_title">为什么需要您的签名</li>
+								<li id="li_info">
+										<p>我们希望告诉您，您分享的每张图片，每短视频，这些内容的版权都属于你，而且这些分享内容很有可能产生经济价值。
+										例如，当您在餐馆用餐，然后将美味体验分享到朋友圈，吸引您的朋友前来体验，这样你的分享为餐馆带来了价值。</p>
+										<p>我们认为这些价值应当属于您，因此需要您提供签名。</p>
+										<p>如何签名呢？就是写一串您能记住的内容，例如你的邮箱，或姓名，或任何东西，但是不能使用已被他人使用过的签名。</p>
+										<p>为了避免每次都要签名，我们建议您进行注册，然后登陆。</p>
+								</li>
+								<li id="li_action">
+										<button id="btn_enroll" type="submit">现在注册，下次自动签名</button>
+								</li>
+								<li id="li_close">
+										<i class="close_arrow"></i>
+								</li>
+						</ul>
+						
+						<ul id="popup_enroll" class="popup out">
+								<li id="li_title">注册</li>
+								<li id="li_username">
+										<input id="input_username" type="text" placeholder="设置用户名">
+								</li>
+								<li id="li_password">
+										<input id="input_password" type="password" placeholder="设置密码">
+								</li>
+								<li id="li_action">
+										<button id="btn_finish" type="submit">完成</button>
+								</li>
+								<li id="li_close">
+										<i class="close_arrow"></i>
+								</li>
+						</ul>
+				
+				</div>
+				
+		</body>
+</html>

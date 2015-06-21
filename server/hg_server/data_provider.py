@@ -91,8 +91,29 @@ class DataProvider(object):
         
         comb['linkers'] = linkers
         return 'ok', comb
-        
-    def get_waggles(self, comb_id, bee_id, start, count):
+     
+    def get_waggles(self, comb_id, share_bee_id, bee_id, start=0):
+        actions = []
+        columns = ['waggle_id']
+        where = "WHERE comb_id='%s' and bee_id='%s'" % (comb_id, share_bee_id)
+        others = "ORDER BY time DESC"
+        rows = sql_select(self.cfg, 'hg_db', 'action_waggle', columns, where, others)
+        if len(rows) <= start:
+            where = "WHERE comb_id='%s' and bee_id!='%s'" % (comb_id, share_bee_id)
+            rows += sql_select(self.cfg, 'hg_db', 'action_waggle', columns, where, others)
+        actions = rows[start:start+10]
+        waggles = []
+        for waggle_id in actions:
+            columns = ['type', 'content_type', 'notes', 'likes', 'time']
+            where = "WHERE id='%s'" % (waggle_id)
+            rows = sql_select(self.cfg, 'hg_db', 'meta_waggle', columns, where)
+            if len(rows) == 1:
+                waggle = {columns[i]:rows[0][i] for i in range(len(columns))}
+                waggle['rewards'] = ''
+                waggles.append(waggle)
+        return 'ok', waggles
+   
+    def get_waggles2(self, comb_id, bee_id, start, count):
         columns = ['id', 'bee_id', 'title', 'enable_share']
         where = "WHERE id='%s'" % comb_id
         rows = sql_select(self.cfg, 'hg_db', 'meta_comb', columns, where)
@@ -166,13 +187,15 @@ class DataProvider(object):
     def get_content(self, key):
         value = redis_server.get(key)
         if value:
+            print '[%s] hit redis' % key
             return value.split('\1', 1)
-        columns = ['content', 'content_type']
+        columns = ['content_type', 'content']
         where = "WHERE id='%s'" % key
         rows = sql_select(self.cfg, 'hg_db', 'meta_waggle', columns, where)
         if len(rows) != 1:
+            print 'not in db', where
             return None, None
-        content, content_type = rows[0][0]
+        content_type, content = rows[0]
         redis_server.set(key, '%s\1%s' % (content_type, content))
         return content_type, content
 

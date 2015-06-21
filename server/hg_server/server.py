@@ -8,6 +8,7 @@ __info__ = "server for hg"
 import os,sys
 import time, datetime
 import json
+import re
 import tornado.httpserver
 import tornado.ioloop
 import tornado.web
@@ -36,7 +37,8 @@ class MyApplication(tornado.web.Application):
             (r"/comb?", CombRequestHandler),
             (r"/waggles?", WagglesRequestHandler),
             (r"/content?", ContentRequestHandler),
-            (r'/static/(.*)', tornado.web.StaticFileHandler, {'path': settings['static_path']}),
+            (r"/image/.*", ImageRequestHandler),
+            #(r'/static/(.*)', tornado.web.StaticFileHandler, {'path': settings['static_path']}),
             (r"/upload?", UploadRequestHandler),
             (r"/comb_manager?", CombManagerRequestHandler),
             (r"/account_manager?", AccountManagerRequestHandler),
@@ -53,45 +55,25 @@ class CombRequestHandler(tornado.web.RequestHandler):
     def get(self):
         print 'CombRequestHandler: %s' % self.request.uri
         
+        # comb_id is requried in url
         comb_id = self.get_argument('comb_id')
         comb = data_provider.get_comb(comb_id)
         if not comb:
-            self.render('comb_404.html')
+            self.render('error.html', error='comb not found')
             return
 
-        # bee_id is requried in url
-        bee_id = self.get_argument('bee_id')
-        if not bee_id:
-            bee_cookie = self.get_secure_cookie('bee_cookie')
-            if not bee_cookie:
-                bee = data_provider.generate_anonymous_bee()
-                if not bee:
-                    self.render('server_error.html')
-                    return
-            else:
-                bee = data_provider.get_bee(bee_cookie)
-                if not bee:
-                    bee = data_provider.generate_anonymous_bee()
-                    if not bee:
-                        self.render('server_error.html')
-                        return
-            self.set_secure_cookie('bee_cookie', bee['id'])
-            url = set_url_param(self.request.full_url(), 'bee_id', bee['id'])
-            self.redirect(url)
-            return
-
-        bee = data_provider.get_bee(bee_id)
-        if not bee:
+        # get bee_id in cookie, create anonymous one if not
+        bee_cookie = self.get_secure_cookie('bee_cookie')
+        if not bee_cookie:
             bee = data_provider.generate_anonymous_bee()
             if not bee:
-                self.render('server_error.html')
+                self.render('error.html', error='server error')
                 return
             self.set_secure_cookie('bee_cookie', bee['id'])
-            url = set_url_param(self.request.full_url(), 'bee_id', bee['id'])
-            self.redirect(url)
-            return
-        
-        waggles = data_provider.get_waggles(comb_id, bee['id'], 0, 10)
+
+        share_bee_id = self.get_argument('bee_id')
+        start = int(self.get_argument('bee_id', '0'))
+        waggles = data_provider.get_waggles(comb_id, share_bee_id, bee['id'], start)
         self.render('comb.html', comb=comb, bee=bee, waggles=waggles)
  
 class EnrollRequestHandler(tornado.web.RequestHandler):
@@ -129,18 +111,51 @@ class ContentRequestHandler(tornado.web.RequestHandler):
         self.write('ok')
         
     def get(self):
-        return self.post()
-     
-    def post(self):
         print 'ContentRequestHandler: %s' % self.request.uri
         id = self.get_argument('id')
         content_type, content = data_provider.get_content(id)
-        if content:        
-            self.set_header("Content-Type",  content_type)
-            self.write(content)
+        content = base64.b64decode(content)
+        if not content:
+            content_type = "image/jpeg"
+            content = open('d.jpg', 'rb').read()
+        self.set_header("Cache-Control", "max-age=2592000")
+        self.set_header("Content-Type", content_type)
+        self.set_header("Content-Length", '%d' % len(content))
+        self.write(content)
+
+class ImageRequestHandler(tornado.web.RequestHandler):
+    def set_default_headers(self):
+        self.set_header("Access-Control-Allow-Origin", "*")
+        
+    def options(self):
+        self.write('ok')
+        
+    def get(self):
+        print 'ImageRequestHandler: %s' % self.request.uri
+        m = re.match(r'/image/(\S+?)/(\S+)$', self.request.uri, re.I)
+        if not m:
+            self.render('error.html', error='resource not found')
+            return
+        g, id = m.group(1), m.group(2)
+        print g, id
+        if g == 'comb_icon':
+            content_type = "image/jpeg"
+            content = open('static/img/veromoda.png', 'rb').read()
+        elif g == 'linker_icon':
+            content_type = "image/png"
+            content = open('static/img/%s' % id, 'rb').read()
+        elif g == 'waggle':
+            content_type, content = data_provider.get_content(id)
+            content = base64.b64decode(content)
+            if not content:
+                content_type = "image/jpeg"
+                content = open('d.jpg', 'rb').read()
         else:
-            self.set_header("Content-Type", 'image/jpg')
-            self.write(open('d.jpg', 'rb').read())
+            self.render('error.html', error='resource not found')
+        self.set_header("Cache-Control", "max-age=2592000")
+        self.set_header("Content-Type", content_type)
+        self.set_header("Content-Length", '%d' % len(content))
+        self.write(content)
 
 class UploadRequestHandler(tornado.web.RequestHandler):
     def set_default_headers(self):
@@ -191,7 +206,8 @@ class UploadRequestHandler(tornado.web.RequestHandler):
 
         status = data_provider.add_waggle(waggle)
         if status == 'ok':
-            status = data_provider.add_action_waggle(comb_id, bee_id, signature, waggle['id'], ts)
+            t = datetime.datetime.fromtimestamp(ts/1000.0).strftime('%Y-%m-%d %H:%M:%S')
+            status = data_provider.add_action_waggle(comb_id, bee_id, signature, waggle['id'], t)
             if status == 'ok':
                 self.write('ok')
                 return
