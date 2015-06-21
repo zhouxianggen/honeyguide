@@ -4,8 +4,16 @@
     
 	var ImageCard = function(options) {
 		this.view = options.view;
-		this.view.innerHTML = '<canvas></canvas>';
-        this.canvas = $(this.view).find('canvas')[0];
+		this.view.innerHTML = document.getElementById('image_card_template').innerHTML;
+		this.eDate = $(this.view).find('.date')[0];
+        this.eDate.innerHTML = this.view.dataset.date;
+		this.eRewards = $(this.view).find('.rewards')[0];
+		if (this.view.dataset.rewards) {
+			$(this.eRewards).fadeIn('slow');
+		}
+		this.eLikesCount = $(this.view).find('#count')[0];
+		this.eLikesCount.innerHTML = this.view.dataset.likes;
+		this.canvas = $(this.view).find('canvas')[0];
         this.context = this.canvas.getContext('2d');
         this.width = 0;
 

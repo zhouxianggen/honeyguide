@@ -4,34 +4,34 @@
 		<title>browse comb</title>
 		<meta charset="utf-8">
 		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-		<link rel="stylesheet" type="text/css" href="css/common.css" />
-		<link rel="stylesheet" type="text/css" href="css/popup.css" />
-		<link rel="stylesheet" type="text/css" href="css/footer.css" />
-		<link rel="stylesheet" type="text/css" href="css/card.css" />
-		<link rel="stylesheet" type="text/css" href="css/gallery.css" />
-		<link rel="stylesheet" type="text/css" href="css/linker.css" />
-		<script src="js/jquery-1.8.0.js"></script>
-		<script src="js/common.js"></script>
-		<script src="js/prompt_message.js"></script>
-		<script src="js/jsencrypt.min.js"></script>
-		<script src="js/view_group.js"></script>
-		<script src="js/image_card.js"></script>
-		<script src="js/video_card.js"></script>
-		<script src="js/gallery.js"></script>
-		<script src="js/inputer.js"></script>
-		<script src="js/uploader.js"></script>
-		<script src="js/footer.js"></script>
-		<script src="js/view_share.js"></script>
-		<script src="js/view_browse.js"></script>
-		<script src="js/main.js"></script>
+		<link rel="stylesheet" type="text/css" href="{{ static_url('css/common.css') }}" />
+		<link rel="stylesheet" type="text/css" href="{{ static_url('css/popup.css') }}" />
+		<link rel="stylesheet" type="text/css" href="{{ static_url('css/footer.css') }}" />
+		<link rel="stylesheet" type="text/css" href="{{ static_url('css/card.css') }}" />
+		<link rel="stylesheet" type="text/css" href="{{ static_url('css/gallery.css') }}" />
+		<link rel="stylesheet" type="text/css" href="{{ static_url('css/linker.css') }}" />
+		<script src="{{ static_url('js/jquery-1.8.0.js') }}"></script>
+		<script src="{{ static_url('js/common.js') }}"></script>
+		<script src="{{ static_url('js/prompt_message.js') }}"></script>
+		<script src="{{ static_url('js/jsencrypt.min.js') }}"></script>
+		<script src="{{ static_url('js/view_group.js') }}"></script>
+		<script src="{{ static_url('js/image_card.js') }}"></script>
+		<script src="{{ static_url('js/video_card.js') }}"></script>
+		<script src="{{ static_url('js/gallery.js') }}"></script>
+		<script src="{{ static_url('js/inputer.js') }}"></script>
+		<script src="{{ static_url('js/uploader.js') }}"></script>
+		<script src="{{ static_url('js/footer.js') }}"></script>
+		<script src="{{ static_url('js/view_share.js') }}"></script>
+		<script src="{{ static_url('js/view_browse.js') }}"></script>
+		<script src="{{ static_url('js/main.js') }}"></script>
 	</head>
 	<body onload="init()">
 		<div id="div_debug" style="display: none; position: absolute; width: 200px; height: 60px; background: #E66000; z-index: 100;"></div>
 		
-		<div id="context" data-comb_id="bh5EmBufsLszr3Wj6f6pc+pZRRjORtupvUXEr8xNOfiTosdykOLcx4ztiNK4UbGa+lfEsIp3JWI4yzWk4fpjQTj+5RazHxPfPUHWUV5GiwWBEweH21P//hdAtIi49/nwXUF/x7ImPYLupxkNcCXU6AdpAi/T74HjBkC0sylNkno=" data-bee_id="" data-comb_server="http://54.149.127.185/comb?" data-waggles_server="http://54.149.127.185/waggles?" data-upload_server="http://54.149.127.185/upload?" data-enroll_server="http://54.149.127.185/enroll?"></div>
+		<div id="context" data-comb_id="{{ comb['id'] }}" data-bee_id="" data-comb_server="http://54.149.127.185/comb?" data-waggles_server="http://54.149.127.185/waggles?" data-upload_server="http://54.149.127.185/upload?" data-enroll_server="http://54.149.127.185/enroll?"></div>
 		
 		<div id="progress" class="finished">
-			<div>22</div>
+			<div></div>
 		</div>
 		
 		<div id="prompt_message" class="out"></div>
@@ -51,18 +51,20 @@
 		<div id="view_browse" class="view" data-title="comb title">
 			<div class="gallery">
 				<div id="card_list">
-					<div class="card image_card" data-url="img/page1.jpg" data-date="2015-06-10" data-likes="2" data-rewards="yes">
-					</div>
-					<div class="card image_card" data-url="img/page2.jpg" data-date="2015-06-10" data-likes="2" data-rewards="">
-					</div>
-					<div class="card image_card" data-url="img/page3.jpg" data-date="2015-06-10" data-likes="2" data-rewards="yes">
-					</div>
+					{% for w in waggles %}
+						{% if w['type'] == 'image' %}
+						<div class="card image_card" data-url="image/waggle/{{ w['id'] }}" data-date="{{ w['time'] }}" data-likes="{{ w['likes'] }}" data-rewards="{{ w['rewards'] }}"></div>
+						{% end %}
+						{% if w['type'] == 'video' %}
+						<div class="card video_card" data-url="video/waggle/{{ w['id'] }}" data-date="{{ w['time'] }}" data-likes="{{ w['likes'] }}" data-rewards="{{ w['rewards'] }}"></div>
+						{% end %}
+					{% end %}
 				</div>
 			</div>
 			
 			<div class="footer out">
 				<div id="main">
-					<button id="btn_main" type="submit" style="background-image: url(img/veromoda.png);"></button>
+					<button id="btn_main" type="submit" style="background-image: url(image/comb_icon/{{ comb['icon'] }});"></button>
 				</div>
 				<hr align="center" width="1" size="30%">
 				<div id="actions">
@@ -91,15 +93,17 @@
 			</ul>
 					
 			<ul id="popup_linker_list" class="popup out">
+				{% for linker in comb['linkers'] %}
 				<li class="li_linker">
-					<a href="http://www.baidu.com">
-						<div class="linker_icon" style="background-image: url(img/taobao.png);"></div>
-						<div class="linker_title">去淘宝</div>
+					<a href="{{ linker['url'] }}">
+						<div class="linker_icon" style="background-image: url(image/linker_icon/{{ linker['icon'] }} );"></div>
+						<div class="linker_title">linker['title']</div>
 						<div class="linker_popularity">
-							已服务&nbsp;<span>3876799</span>&nbsp;次
+							已服务&nbsp;<span>linker['click_count']</span>&nbsp;次
 						</div>
 					</a>
 				</li>
+				{% end %}
 				<li id="li_close">
 					<i class="close_arrow"></i>
 				</li>

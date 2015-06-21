@@ -8,7 +8,7 @@
 		this.cards = new Array();
 		var kids = $(this.eCardList).children();
 		for (var i = 0; i < kids.length; i++) {
-			if (kids[i].className == 'image_card') {
+			if (kids[i].className == 'card image_card') {
 				this.cards.push(new ImageCard({view: kids[i]}));
 			} else {
 				kids[i].style.display = 'none';

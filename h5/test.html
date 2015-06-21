@@ -4,20 +4,18 @@
     <title>browse comb</title>
 	  <meta charset="utf-8">
 	  <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-	  <link rel="stylesheet" type="text/css" href="css/browse_comb.css" />
-	  <script type="text/javascript" src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.8.0.js"></script>
-	  <script src="js/common.js"></script>
-	  <script src="js/video_input.js"></script>
-	  <script src="js/image_input.js"></script>
+	  <link rel="stylesheet" type="text/css" href="css/common.css" />
+	  <link rel="stylesheet" type="text/css" href="css/card.css" />
   </head>
   <body>
-  	<a href="#" id="a_input_image">添加图片</a>
-	<input type="file" id="input_images" multiple accept="image/*" capture="camera"/>
-	<a href="#" id="a_input_video">添加视频</a>
-	<input type="file" id="input_videos" multiple accept="video/*" capture="camcorder"/>
+  	<div class="card">
+  		<div class="date">2015-06-19 13:50:30</div>
+  		<button class="rewards" type="submit"></button>
+  		<div class="likes">
+  			<button id="btn_like"></button>
+  			<div id="count">32</div>
+  		</div>
+  		<div class="content"></div>
+  	</div>
   </body>
-	<script type="text/javascript">
-		var e1 = new ImageInput({view: document.getElementById('a_input_image'), input: document.getElementById('input_images')});
-		var e2 = new ImageInput({view: document.getElementById('a_input_video'), input: document.getElementById('input_videos')});
-	</script>
 </html>
