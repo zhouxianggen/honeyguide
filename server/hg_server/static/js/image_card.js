@@ -58,7 +58,11 @@
 	            requestAnimationFrame(this.animate.bind(this));
         	}
         },
-
+		
+		getUrl: function() {
+			return this.canvas.toDataURL('image/jpeg', 1.0);
+		},
+		
         gesturePinchZoom: function(event) {
             var zoom = false;
 
