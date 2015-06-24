@@ -1,0 +1,5 @@
+"css/(\S+)\.css"
+"{{ static_url\('css/$1.css'\) }}"
+
+"js/(\S+)\.js"
+"{{ static_url\('js/$1.js'\) }}"

@@ -130,7 +130,7 @@
     		form.append('card_notes', '{}');
     		var uploader = new Uploader({
 				progress: document.getElementById('progress'),
-				local_url: this.inputer.url,
+				local_url: this.card.url,
 				target_url: context.upload_server,
 				form: form,
 				onfinish: (function(obj) {
