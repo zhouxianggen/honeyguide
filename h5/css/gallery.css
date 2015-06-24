@@ -1,15 +1,4 @@
 
-.card {
-	width: 100%;
-	height: 100%;
-}
-
-.image_card canvas {
-	position: absolute;
-	left: 0;
-	top: 0;
-}
-
 .gallery {
 	display: block;
 	position: absolute;
@@ -24,7 +13,8 @@
 	height: 100%;
 	width: 1000%;
 	top: 0px;
-	left: 0px;
+	left: -750px;
+	font-size: 0;
 }
 
 .gallery #card_list.moving {

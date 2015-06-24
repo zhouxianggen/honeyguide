@@ -65,7 +65,7 @@
 			if (http.upload && http.upload.addEventListener) {
 				http.upload.addEventListener( 'progress', function(e) {
 					if (e.lengthComputable) {
-						//debug(e.loaded / e.total);
+						debug(e.loaded / e.total);
 						this.progress.dispatchEvent(new CustomEvent('progress', {'detail': e.loaded / e.total}));
 					}
 				}.bind(this), false );
@@ -88,8 +88,36 @@
 				alert('uploader abort');
 			}.bind(this)
 			
+			var array = this.base64DecToArr(raw);
+			var btype = typ+'/'+fmt;
+			
 			// create a blob and decode our base64 to binary
-			var blob = new Blob( [ this.base64DecToArr(raw) ], {type: typ+'/'+fmt} );
+			try{
+				var blob = new Blob( [array], {type : btype});
+			}
+			catch(e){
+			    // TypeError old chrome and FF
+			    window.BlobBuilder = window.BlobBuilder || 
+			                         window.WebKitBlobBuilder || 
+			                         window.MozBlobBuilder || 
+			                         window.MSBlobBuilder;
+			    if(e.name == 'TypeError' && window.BlobBuilder){
+			        var bb = new BlobBuilder();
+			        bb.append([array.buffer]);
+			        var blob = bb.getBlob(btype);
+			    }
+			    else if(e.name == "InvalidStateError"){
+			        // InvalidStateError (tested on FF13 WinXP)
+			        var blob = new Blob( [array.buffer], {type : btype});
+			    }
+			    else{
+			        // We're screwed, blob constructor unsupported entirely
+			        alert('damned!');
+			    }
+			}
+
+			
+			//var blob = new Blob( [ this.base64DecToArr(raw) ], {type: typ+'/'+fmt} );
 			
 			// stuff into a form, so servers can easily receive it as a standard file upload
 			//var form = new FormData();
