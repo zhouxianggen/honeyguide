@@ -2,6 +2,8 @@
 function init() {
 	checkRequestAnimationFrame();
 	context = document.getElementById('context').dataset;
+    context.width = window.innerWidth;
+    context.height = window.innerHeight;
 	prompt_message = new PromptMessage({view: document.getElementById('prompt_message')});
 	//prompt_message.prompt('hello');
 	viewGroup = new ViewGroup();

@@ -56,12 +56,9 @@
 	                this.scale * this.imgTexture.width, 
 	                this.scale * this.imgTexture.height);
 	            requestAnimationFrame(this.animate.bind(this));
+							this.init = false;
         	}
         },
-		
-		getUrl: function() {
-			return this.canvas.toDataURL('image/jpeg', 1.0);
-		},
 		
         gesturePinchZoom: function(event) {
             var zoom = false;

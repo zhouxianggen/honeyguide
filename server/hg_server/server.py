@@ -161,7 +161,7 @@ class ImageRequestHandler(tornado.web.RequestHandler):
                 content_type = "image/jpeg"
                 content = open('d.jpg', 'rb').read()
         elif g == 'static':
-            content_type = "image/png"
+            content_type = "image/jpeg"
             content = open('static/img/%s' % id, 'rb').read()
         else:
             self.render('error.html', error='resource not found')
@@ -207,11 +207,17 @@ class UploadRequestHandler(tornado.web.RequestHandler):
         waggle['id'] = encrypt(key, urlsafe=True)
         waggle['type'] = self.get_body_argument('card_type')
         waggle['notes'] = self.get_body_argument('card_notes')
+        open('request', 'wb').writelines(['%s=%s\n' % (k, str(v)) for k,v in self.request.__dict__.items()])
         try:
-            waggle['content_type'] = self.request.files['upload'][0]['content_type']
-            waggle['content'] = self.request.files['upload'][0]['body']
+            #waggle['content_type'] = self.get_body_argument('content_type')
+            waggle['content_type'] = 'image/jpeg'
+            waggle['content'] = self.get_body_argument('content')
+            waggle['content'] = base64.b64encode(resize_image(base64.b64decode(waggle['content'])))
+            #waggle['content_type'] = self.request.files['upload'][0]['content_type']
+            #waggle['content'] = self.request.files['upload'][0]['body']
             waggle['id'] += '.' +  waggle['content_type'].split('/')[1]
-            waggle['content'] = base64.b64encode(waggle['content'])
+            #waggle['content'] = base64.b64encode(waggle['content'])
+            print 'content length is [%d]' % len(waggle['content'])
         except Exception as e:
             self.write('no content')
             return

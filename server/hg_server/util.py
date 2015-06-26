@@ -6,6 +6,8 @@ import httplib, urllib, urllib2, urlparse
 import logging
 import base64
 import rsa
+import urllib, cStringIO                                                                                                              
+from PIL import Image
 CWD = os.path.dirname(os.path.abspath(__file__))
 sys.path.append(CWD)
 from define import *
@@ -47,3 +49,25 @@ def encrypt(data, urlsafe=False):
         print e
         return None
 
+def resize_image(data, MAX_WIDTH = 980):
+    try:
+        file = cStringIO.StringIO(data)
+        im = Image.open(file)
+        print im.format, im.size, im.mode
+        if im.format.lower() not in ['jpeg', 'jpg']:
+            print 'convert [%s] to jpeg' % im.format.lower()
+            output = StringIO.StringIO()
+            im.save(output, "JPEG")
+            im = Image.open(output)
+        size = im.size
+        if size[0] > MAX_WIDTH:
+            scale = MAX_WIDTH/float(size[0])
+            size = MAX_WIDTH, int(scale * size[1])
+        print size
+        im.thumbnail(size, Image.ANTIALIAS)
+        out = cStringIO.StringIO()
+        im.save(out, "JPEG")
+        im.save('static/img/x.jpg', "JPEG")
+        return out.getvalue()
+    except Exception as e:
+        return data
