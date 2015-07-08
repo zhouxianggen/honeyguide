@@ -15,13 +15,15 @@
   ],
   "dependencies": {
     "polymer-ui-elements": "Polymer/polymer-ui-elements#~0.3.0",
-	"iron-a11y-keys": "PolymerElements/iron-a11y-keys#^1.0.0",
+    "iron-a11y-keys": "PolymerElements/iron-a11y-keys#^1.0.0",
     "iron-ajax": "PolymerElements/iron-ajax#^1.0.0",
     "paper-button": "PolymerElements/paper-button#^1.0.0",
-	"paper-input": "PolymerElements/paper-input#^1.0.0",
-	"paper-input": "PolymerElements/paper-toolbar#^1.0.0",
-	"paper-input": "PolymerElements/paper-icon-item#^1.0.0",
-	"paper-input": "PolymerElements/paper-item-body#^1.0.0",
-	"paper-input": "PolymerElements/iron-icon#^1.0.0"
+    "paper-input": "PolymerElements/iron-icon#^1.0.0",
+    "polymer": "Polymer/polymer#1.0.0",
+    "paper-elements": "PolymerElements/paper-elements#~1.0.1"
+  },
+  "resolutions": {
+    "polymer": "^1.0.0",
+    "web-animations-js": "master"
   }
 }
