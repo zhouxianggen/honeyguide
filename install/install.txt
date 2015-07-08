@@ -9,3 +9,11 @@ unzip MySQL-python-1.2.5.zip
 cd MySQL-python-1.2.5
 sudo python setup.py build
 sudo python setup.py install
+
+# install polymer
+	http://stackoverflow.com/questions/22362847/polymer-installation-on-windows
+## install bower
+1. install nodejs
+	https://nodejs.org/download/
+2. git for windows
+	https://msysgit.github.io/
