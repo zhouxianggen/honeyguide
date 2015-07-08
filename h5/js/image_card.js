@@ -16,6 +16,7 @@
 		this.canvas = $(this.view).find('canvas')[0];
         this.context = this.canvas.getContext('2d');
         this.width = 0;
+        this.url = null;
 
 		this.status = 0;
 		this.position = {x: 0, y: 0};
@@ -26,6 +27,16 @@
 		this.imgTexture = new Image();
         this.imgTexture.src = this.view.dataset.url;
         this.imgTexture.onload = function() {
+        	var rec = this.view.getBoundingClientRect();
+        	var cw = rec.right - rec.left, ch = rec.bottom - rec.top;
+        	var iw = this.imgTexture.width, ih = this.imgTexture.height;
+        	this.scale = Math.min(cw/iw, ch/ih);
+        	this.canvas.width = this.scale * iw;
+        	this.canvas.height = this.scale * ih;
+			this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
+			this.context.drawImage(this.imgTexture, 0, 0, this.canvas.width, this.canvas.height);
+			this.url = this.canvas.toDataURL('image/jpeg', 0.5);
+				
         	var rec = this.view.getBoundingClientRect();
         	this.width = rec.right - rec.left;
 			this.canvas.width = rec.right - rec.left;
