@@ -9,8 +9,8 @@
 <g id="label">
 </g>
 <g id="art">
-	<rect x="49" y="53" width="2" height="18"/>
-	<path d="M188,78H37V44h151V78z M39,76h147V46H39V76z"/>
+	<circle cx="112" cy="61" r="8"/>
+	<path d="M129,78H95V44h34V78z M97,76h30V46H97V76z"/>
 	<g id="ic_x5F_add_x0D_">
 	</g>
 </g>

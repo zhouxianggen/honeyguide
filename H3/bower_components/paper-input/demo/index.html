@@ -10,87 +10,39 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 -->
 <html>
 <head>
-
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-  <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1, user-scalable=yes">
-
-  <title>paper-input demo</title>
-
+  <title>iron-icon demo</title>
   <script src="../../webcomponentsjs/webcomponents-lite.js"></script>
+  <link rel="import" href="../iron-icon.html">
+  <link rel="import" href="../../iron-iconset/iron-iconset.html">
+  <link href="../../paper-styles/demo-pages.html" rel="import">
 
-  <link rel="import" href="../paper-input.html">
-  <link rel="import" href="../paper-input-container.html">
-  <link rel="import" href="../paper-input-error.html">
-  <link rel="import" href="../paper-input-char-counter.html">
-  <link rel="import" href="../paper-textarea.html">
-  <link rel="import" href="../../iron-input/iron-input.html">
-  <link rel="import" href="ssn-input.html">
+  <style is="custom-style">
+    .vertical-section h4 {
+      border-left: 3px solid var(--paper-grey-300);
+      padding-left: 10px;
+    }
 
-  <link rel="stylesheet" href="../../paper-styles/paper-styles.html">
-  <link rel="import" href="../../paper-styles/demo-pages.html">
-
-  <style>
-    body {
-      padding: 40px;
+    .vertical-section h4:hover {
+      border-left-color: var(--google-blue-700);
     }
   </style>
-
 </head>
-<body unresolved>
+<body>
+  <div class="vertical-section-container centered">
+    <h4>This demo is for a single &lt;iron-icon&gt;. If you're looking for the
+      whole set of available icons, check out the &lt;iron-icons&gt; demo.</h4>
 
-  <div class="vertical center-justified layout">
-    <h4>Text input</h4>
     <div class="vertical-section">
-      <paper-input label="label"></paper-input>
+      <!-- iron-icon using a iron-iconset as its icon source -->
+      <iron-iconset name="example" icons="location" src="location.png" size="24" width="24"></iron-iconset>
 
-      <paper-input label="password" type="password"></paper-input>
+      <h4>&lt;iron-icon icon="example:location"&gt;</h4>
+      <iron-icon icon="example:location"></iron-icon>
 
-      <paper-input no-label-float label="label (no-label-float)"></paper-input>
-
-      <paper-input label="disabled" disabled></paper-input>
-    </div>
-
-    <h4>Text area</h4>
-    <div class="vertical-section">
-      <paper-textarea label="textarea label"></paper-textarea>
-    </div>
-
-    <h4>Validation</h4>
-    <div class="vertical-section">
-      <paper-input label="only type letters (auto-validate)" auto-validate pattern="[a-zA-Z]*" error-message="letters only!"></paper-input>
-
-      <paper-input id="inputForValidation" required label="only type letters (no auto validate)" pattern="[a-zA-Z]*" error-message="letters only, required input!"></paper-input>
-      <br>
-      <button onclick="validate()">Validate!</button>
-    </div>
-
-    <h4>Character counter</h4>
-    <div class="vertical-section">
-      <paper-input label="label" char-counter></paper-input>
-
-      <paper-input label="at most 10 letters" char-counter auto-validate pattern="[a-zA-Z]*" maxlength="10" error-message="letters only!"></paper-input>
-
-      <paper-textarea label="textarea" char-counter></paper-textarea>
-
-      <paper-textarea label="textarea with maxlength" char-counter maxlength="10"></paper-textarea>
-    </div>
-
-    <h4>Complex inputs</h4>
-    <div class="vertical-section">
-      <template is="dom-bind">
-        <paper-input-container always-float-label auto-validate attr-for-value="value">
-          <label>Social Security Number</label>
-          <ssn-input class="paper-input-input"></ssn-input>
-          <paper-input-error>SSN invalid!</paper-input-error>
-        </paper-input-container>
-      </template>
+      <!-- iron-icon using an image url as its icon source -->
+      <h4>&lt;iron-icon src="location.png"&gt;</h4>
+      <iron-icon src="location.png"></iron-icon>
     </div>
   </div>
-  <script>
-    function validate() {
-      document.getElementById('inputForValidation').validate();
-    }
-  </script>
 </body>
 </html>

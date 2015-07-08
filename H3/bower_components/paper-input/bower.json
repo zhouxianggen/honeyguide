@@ -1,44 +1,32 @@
 {
-  "name": "paper-input",
-  "version": "1.0.5",
-  "description": "Material design text fields",
-  "authors": [
+  "name": "iron-icon",
+  "private": true,
+  "version": "1.0.2",
+  "license": "http://polymer.github.io/LICENSE.txt",
+  "description": "An element that supports displaying an icon",
+  "main": "iron-icon.html",
+  "author": [
     "The Polymer Authors"
   ],
   "keywords": [
     "web-components",
     "polymer",
-    "input"
+    "icon"
   ],
-  "main": [
-    "paper-input.html",
-    "paper-textarea.html",
-    "paper-input-behavior.html",
-    "paper-input-container.html",
-    "paper-input-error.html",
-    "paper-input-char-counter.html"
-  ],
-  "private": true,
   "repository": {
     "type": "git",
-    "url": "git://github.com/PolymerElements/paper-input.git"
+    "url": "git://github.com/PolymerElements/iron-icon.git"
   },
-  "license": "http://polymer.github.io/LICENSE.txt",
-  "homepage": "https://github.com/PolymerElements/paper-input",
-  "ignore": [],
   "dependencies": {
-    "polymer": "Polymer/polymer#^1.0.0",
-    "iron-autogrow-textarea": "PolymerElements/iron-autogrow-textarea#^1.0.0",
-    "iron-behaviors": "PolymerElements/iron-behaviors#^1.0.0",
-    "iron-form-element-behavior": "PolymerElements/iron-form-element-behavior#^1.0.0",
-    "iron-input": "PolymerElements/iron-input#^1.0.0",
-    "paper-styles": "PolymerElements/paper-styles#^1.0.0"
+    "iron-flex-layout": "polymerelements/iron-flex-layout#^1.0.0",
+    "iron-meta": "polymerelements/iron-meta#^1.0.0",
+    "polymer": "Polymer/polymer#^1.0.0"
   },
   "devDependencies": {
-    "iron-component-page": "PolymerElements/iron-component-page#^1.0.0",
-    "iron-test-helpers": "PolymerElements/iron-test-helpers#^1.0.0",
-    "iron-validator-behavior": "PolymerElements/iron-validator-behavior#^1.0.0",
-    "test-fixture": "PolymerElements/test-fixture#^1.0.0",
+    "test-fixture": "polymerelements/test-fixture#^1.0.0",
+    "iron-iconset": "polymerelements/iron-iconset#^1.0.0",
+    "iron-icons": "polymerelements/iron-icons#^1.0.0",
+    "iron-component-page": "polymerelements/iron-component-page#^1.0.0",
     "web-component-tester": "*",
     "webcomponentsjs": "webcomponents/webcomponentsjs#^0.7.0"
   }
