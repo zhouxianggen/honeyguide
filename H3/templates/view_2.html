@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+  <head>
+	
+    <!-- 1. Load webcomponents-lite.min.js for polyfill support. -->
+    <script src="bower_components/webcomponentsjs/webcomponents-lite.min.js">
+    </script>
+
+    <!-- 2. Use an HTML Import to bring in some elements. -->
+    <link rel="import" href="bower_components/paper-fab/paper-fab.html">
+	<link rel="import" href="bower_components/paper-ripple/paper-ripple.html">
+	<link rel="import" href="bower_components/paper-material/paper-material.html">
+	<link rel="import" href="bower_components/iron-icon/iron-icon.html">
+	<link rel="import" href="bower_components/iron-meta/iron-meta.html">
+	
+	<link rel="stylesheet" type="text/css" href="{{ static_url('css/common.css') }}" />
+	<link rel="stylesheet" type="text/css" href="{{ static_url('css/list.css') }}" />
+	
+  </head>
+  <body>
+    <!-- 3. Declare the element. Configure using its attributes. -->
+	<paper-fab icon="favorite" title="heart" tabindex="0" class="orange x-scope paper-fab-3" role="button" aria-disabled="false">
+    <paper-ripple class="style-scope paper-fab">
+    <div id="background" class="style-scope paper-ripple" style="opacity: 0.0075463999994099;"></div>
+    <div id="waves" class="style-scope paper-ripple"></div>
+  </paper-ripple>
+    <paper-material animated="" class="content style-scope paper-fab x-scope paper-material-0" elevation="1">
+    
+      <iron-icon id="icon" class="style-scope paper-fab x-scope iron-icon-0"><svg viewBox="0 0 24 24" preserveAspectRatio="xMidYMid meet" class="style-scope iron-icon" style="pointer-events: none; display: block; width: 100%; height: 100%;"><g class="style-scope iron-icon"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" class="style-scope iron-icon"></path></g></svg>
+    <iron-meta id="meta" type="iconset" class="style-scope iron-icon"></iron-meta>
+  </iron-icon>
+    
+  </paper-material>
+  </paper-fab>
+    
+
+    <script>
+      // To ensure that elements are ready on polyfilled browsers, 
+      // wait for WebComponentsReady. 
+      document.addEventListener('WebComponentsReady', function() {
+        var input = document.querySelector('paper-input');
+        var button = document.querySelector('paper-button');
+        var greeting = document.getElementById("greeting");
+        button.addEventListener('click', function() {
+          greeting.textContent = 'Hello, ' + input.value;
+        });
+      });
+    </script>
+  </body>
+</html>
