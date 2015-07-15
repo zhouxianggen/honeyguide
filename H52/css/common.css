@@ -137,3 +137,87 @@ a {
 	width: 100%;
 	height: 200px;
 }
+
+
+article {
+  max-width: 1024px;
+  margin-left: auto;
+  margin-right: auto; }
+
+  article .login {
+    float: left;
+    display: block;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.3);
+    margin-top: 5em;
+    background: white; 
+    border-radius: 2px;
+}
+    
+    article .login form {
+      padding: 2em; }
+
+
+
+      article .login form input {
+        width: 100%; }
+      
+      article .login form fieldset.styled-input {
+        position: relative;
+        }
+      article .login form fieldset.styled-input label {
+        color: #999;
+        position: absolute;
+        top: 0;
+        left: 0;
+        font-size: 1.2em;
+        font-weight: 500;
+        -webkit-transition: all 0.15s ease-in-out;
+        -moz-transition: all 0.15s ease-in-out;
+        transition: all 0.15s ease-in-out;
+        pointer-events: none; }
+      article .login form fieldset.styled-input input[type="text"]:focus ~ label,
+      article .login form fieldset.styled-input input[type="text"]:valid ~ label {
+        top: -1.6rem;
+         position: absolute;
+        font-size: 1em;
+        -webkit-transition: all 0.15s ease-in-out;
+        -moz-transition: all 0.15s ease-in-out;
+        transition: all 0.15s ease-in-out; }
+
+
+  form fieldset {
+    border: none;
+     }
+    form fieldset label {
+      color: #999;
+      line-height: 1.8em;
+      font-size: 1em;
+      width: 80%;
+      display: block;
+      padding-left: 0.6em;
+      font-weight: 500; }
+    form fieldset input[type="text"] {
+      margin-right: 0;
+      -webkit-appearance: none;
+      -moz-appearance: none;
+      -ms-appearance: none;
+      -o-appearance: none;
+      appearance: none;
+      -webkit-transition: all 0.2s ease-in-out;
+      -moz-transition: all 0.2s ease-in-out;
+      transition: all 0.2s ease-in-out;
+      border: none;
+      border-bottom: 1px solid #CDCDCD;
+      padding: 0.3em 0.5em 0.2em 0.5em;
+      text-decoration: none;
+      outline: 0;
+      line-height: 1em;
+      margin: 0;
+      width: 80%;
+      font-size: 1.4em;
+      font-weight: 400;
+      color: black; }
+
+      form fieldset input[type="text"]:focus {
+        border-bottom: #00b192 2px solid;
+      }

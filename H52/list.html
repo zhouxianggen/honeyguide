@@ -6,20 +6,74 @@
 		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
 		<link rel="stylesheet" type="text/css" href="css/common.css" />
 		<link rel="stylesheet" type="text/css" href="css/list.css" />
+		<link rel="stylesheet" type="text/css" href="css/card.css" />
 		<script src="js/jquery-1.8.0.js"></script>
 		<script src="js/common.js"></script>
 		<script src="js/main.js"></script>
 	</head>
 	<body onload="init()">
 		
-		<ul class="vertical_list">
-			<li class="item">
-				<div class="avatar"></div>
-				<div class="primary_text"></div>
-				<div class="secondary_text"></div>
-				<div class="action"></div>
-			</li>
-		</ul>
+		<div id="container">
+		
+			<div id="timestamp">
+			</div>
+			
+			<ul id="card_list">
+				<li class="card image_card">
+					<img src="img/page1.jpg"/>
+					<div class="likes">
+						<button id="btn_like" class="before"></button>
+		  				<div id="count"></div>
+					</div>
+				</li>
+				<li class="card image_card">
+					<img src="img/page2.jpg"/>
+					<div class="likes">
+						<button id="btn_like" class="before"></button>
+		  				<div id="count"></div>
+					</div>
+				</li>
+				<li class="card image_card">
+					<img src="img/page3.jpg"/>
+					<div class="likes"></div>
+				</li>
+				<li class="card image_card">
+					<img src="img/page4.jpg"/>
+					<div class="likes"></div>
+				</li>
+				<li class="card image_card">
+					<img src="img/page5.jpg"/>
+					<div class="likes"></div>
+				</li>
+				<li class="card image_card">
+					<img src="img/page1.jpg"/>
+					<div class="likes">
+						<button id="btn_like" class="before"></button>
+		  				<div id="count"></div>
+					</div>
+				</li>
+				<li class="card image_card">
+					<img src="img/page2.jpg"/>
+					<div class="likes">
+						<button id="btn_like" class="before"></button>
+		  				<div id="count"></div>
+					</div>
+				</li>
+				<li class="card image_card">
+					<img src="img/page3.jpg"/>
+					<div class="likes"></div>
+				</li>
+				<li class="card image_card">
+					<img src="img/page4.jpg"/>
+					<div class="likes"></div>
+				</li>
+				<li class="card image_card">
+					<img src="img/page5.jpg"/>
+					<div class="likes"></div>
+				</li>
+			</ul>
+			
+		</div>
 
 	</body>
 </html>
