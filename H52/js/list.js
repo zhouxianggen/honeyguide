@@ -12,10 +12,18 @@
         this.startY = null;
         this.startTop = 0;
         
+        this.listOffsetY = 0;
+        this.timestampOffsetY = 0;
+        
 		this.setEventListeners();
 	};
 
     List.prototype = {
+    	reset: function() {
+    		var containerHeight = $(this.view).height();
+    		var listHeight = $(this.listView).height();
+    	},
+    	
     	setEventListeners: function() {
     		this.listView.addEventListener('touchstart', function(e) {
                 e.preventDefault();

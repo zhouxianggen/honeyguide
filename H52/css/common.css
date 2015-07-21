@@ -41,9 +41,9 @@ a {
 	width: 50px;
 	height: 50px;
 	z-index: 0;
-	right: 5%;
+	left: 5%;
 	bottom: 5%;
-	background-image: url(../img/plus.png);
+	background-image: url(../img/go.png);
 	background-color: transparent;
 	background-size: cover;
 	border-radius: 50%;
