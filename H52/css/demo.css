@@ -1,0 +1,36 @@
+
+* {
+	-webkit-tap-highlight-color: transparent;
+}
+
+body, div, form, h1, h2, h3, h4, h5, h6, html, input, li, ol, p, ul {
+	margin: 0;
+	padding: 0;
+}
+
+body {
+	background-color: #f4f4f4;
+	font-family: "Lantinghei SC","Microsoft Yahei","Hiragino Sans GB","Helvetica Neue",Helvetica,Arial,sans-serif;
+	font-size: 16px;
+}
+
+ol, ul {
+	list-style: none;
+}
+
+a {
+	text-decoration: none;
+	color: #2f7c2f;
+	-webkit-transition: color .3s ease-out;
+}
+
+.clearfix:after, .clearfix:before {
+	content: "\0020";
+	display: block;
+	height: 0;
+	overflow: hidden;
+}
+
+.clearfix:after {
+	clear: both;
+}
