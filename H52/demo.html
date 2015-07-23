@@ -6,23 +6,35 @@
 		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
 		<link rel="stylesheet" type="text/css" href="css/demo.css" />
 		<link rel="stylesheet" type="text/css" href="css/fab_button.css" />
+		<link rel="stylesheet" type="text/css" href="css/gallery.css" />
 		<script src="js/jquery-1.8.0.js"></script>
 		<script src="js/common.js"></script>
 		<script src="js/fab_button.js"></script>
+		<script src="js/gallery.js"></script>
 		<script src="js/demo.js"></script>
 	</head>
 	<body onload="init()">
+		<div id="div_debug" style="display: none; position: absolute; width: 200px; height: 60px; background: #E66000; z-index: 100;"></div>
 		
 		<div id="open_linkers" class="fab_button"></div>
 		
-		<div id="gallery" class="vertical_list_view">
+		<div id="gallery">
+			<div id="timestamp"></div>
+			<ul id="list" class="vertical_list">
+				<li class="item">1<li>
+				<li class="item">2<li>
+				<li class="item">3<li>
+				<li class="item">4<li>
+				<li class="item">5<li>
+				<li class="item">6<li>
+			</ul>
 		</div>
 		
-		<div id="menu" class="footer_menu">
-			<div id="action_open_linkers" class="main_action"></div>
+		<div id="footer_menu" class="footer_menu">
+			<div id="action_open_linkers" class="main_action">体验</div>
 			<div id="sub_actions">
 				<div id="action_sign" class="sub_action">签名</div>
-				<div id="action_share" class="sub_action"></div>
+				<div id="action_share" class="sub_action">分享</div>
 			</div>
 		</div>
 

@@ -4,6 +4,7 @@
 
 	var MainActivity = function() {
 		this.btnOpenLinkers = new FabButton({view: document.getElementById('open_linkers')});
+		this.gallery = new Gallery({view: document.getElementById('gallery')});
 		this.setEventListeners();
 	};
 

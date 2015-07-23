@@ -1,0 +1,36 @@
+
+#gallery {
+	display: block;
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	overflow: hidden;
+}
+
+#gallery #timestamp {
+	display: block;
+	position: absolute;
+	width: 100px;
+	height: 40px;
+	right: 0px;
+	background: #000000;
+	z-index: 1;
+}
+
+.vertical_list {
+	display: block;
+	position: absolute;
+	width: 100%;
+	height: auto;
+	list-style: none;
+}
+
+.vertical_list .item {
+	position: relative;
+	width: 100%;
+	height: 450px;
+	padding: 4px 6px;
+	border-top: 1px solid #fff;
+	border-bottom: 1px solid #ccc;
+	background: #999999;
+}
