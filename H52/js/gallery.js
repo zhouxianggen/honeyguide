@@ -26,7 +26,7 @@
             			var deltaY = t.pageY - this.lastY;
             			this.lastY = t.pageY;
             			this.doMove(deltaY);
-            			debug(deltaY);
+            			//debug(deltaY);
             		}
             	}
             }.bind(this), false);
@@ -46,6 +46,16 @@
     		var tsTop = -listPos.top * coef;
     		$(this.list).css({top: listPos.top + deltaY});
     		$(this.timestamp).css({top: tsTop});
+    		
+    		var cards = $(this.list).find('.item');
+    		var pos = $(this.timestamp).position().top + $(this.timestamp).height()/2 - $(this.list).position().top;
+    		debug(pos);
+    		for (var i = 0, c; c = cards[i]; i++) {
+    			if ($(c).position().top < pos && $(c).position().top + $(c).height() > pos) {
+    				this.timestamp.innerHTML = c.innerHTML;
+    				break;
+    			}
+    		}
     	}
     };
 
