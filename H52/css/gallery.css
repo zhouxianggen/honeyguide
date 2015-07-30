@@ -16,6 +16,17 @@
 	background: #000000;
 	color: #ffffff;
 	z-index: 1;
+	transition: opacity 0.2s ease-out;
+	-moz-transition: opacity 0.2s ease-out;
+	-webkit-transition: opacity 0.2s ease-out;
+}
+
+#gallery #timestamp.popin {
+	opacity: 1;
+}
+
+#gallery #timestamp.popout {
+	opacity: 0;
 }
 
 .vertical_list {
@@ -26,6 +37,12 @@
 	list-style: none;
 }
 
+.vertical_list.floating {
+	transition: top 0.3s ease-out;
+	-moz-transition: top 0.3s ease-out;
+	-webkit-transition: top 0.3s ease-out;
+}
+
 .vertical_list .item {
 	position: relative;
 	width: 100%;
@@ -34,4 +51,22 @@
 	border-top: 1px solid #fff;
 	border-bottom: 1px solid #ccc;
 	background: #999999;
+}
+
+#spinner1 {
+	display: block;
+	position: absolute;
+	height: 40px;
+	width: 100%;
+	background: transparent;
+	top: 0;
+}
+
+#spinner2 {
+	display: block;
+	position: absolute;
+	height: 40px;
+	width: 100%;
+	background: transparent;
+	bottom: 0;
 }
