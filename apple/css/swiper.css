@@ -1,0 +1,88 @@
+
+.full-swiper {
+    display: none;
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    background-color: #26252c;
+    z-index: 999;
+}
+
+.full-swiper .container-wrap {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    overflow: hidden;
+}
+
+.full-swiper .container-wrap .swiper-container {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    left: 0;
+    top: 0;
+}
+.full-swiper .container-wrap .swiper-container .item {
+    position: relative;
+    float: left;
+    width: 100%;
+    height: 100%;
+    margin-right: 20px;
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+.full-swiper .container-wrap .swiper-container .item .loading {
+    position: absolute;
+    width: 50px;
+    height: 50px;
+    top: 50%;
+    left: 50%;
+    -webkit-transform: translate(-50%,-50%);
+    transform: translate(-50%,-50%);
+    background-image: url("../img/loading.gif");
+    background-position: center;
+    background-size: contain;
+    background-repeat: no-repeat;
+}
+.full-swiper .container-wrap .swiper-container .item .img-par {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    -webkit-transform: translate(-50%,-50%);
+    transform: translate(-50%,-50%);
+    max-width: 100%;
+    max-height: 100%;
+}
+.full-swiper .container-wrap .swiper-container .item .img-par .bg {
+    vertical-align: top;
+}
+.full-swiper .footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    left: 0;
+    background-color: rgba(75,71,85,0.2);
+    text-align: center;
+    color: #fff;
+    font-size: 16px;
+    padding: 10px 0;
+}
+.full-swiper .footer .hide-tag {
+    display: none;
+    position: absolute;
+    left: 10px;
+    top: 50%;
+    -webkit-transform: translate(0,-50%);
+    transform: translate(0,-50%);
+    background-color: #404047;
+    padding: 5px 15px;
+    font-size: 12px;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 100px;
+}

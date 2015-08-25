@@ -1,0 +1,146 @@
+.public-popups {
+    display: none;
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    left: 0;
+    top: 0;
+    background-color: rgba(0,0,0,0.8);
+    z-index: 99;
+}
+
+.public-popups .popups-content {
+    position: absolute;
+    padding: 30px 0;
+    width: 85%;
+    left: 7.5%;
+    top: 50%;
+    -webkit-transform: translate(0,-50%);
+    transform: translate(0,-50%);
+    background-color: #fff;
+    border-radius: 5px;
+}
+
+.public-popups .popups-content .popups-header {
+    display: none;
+}
+
+.public-popups .popups-content .popups-header .popups-title {
+    font-size: 20px;
+    text-align: center;
+}
+
+.public-popups .popups-content .popups-header .popups-title span {
+    padding-left: 26px;
+    background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACwAAAAsCAMAAAApWqozAAAAllBMVEUAAABmxXZmxHZmxHZlxHZlxHZlxXZlxHZlxXZlxXZlxXZlxHZlxXZmxXZlxHZmxXZlxHZmxXZlxXZmxXZlxXZmxXZmxXZmxXZlxHZlxHZmxHZlxHZmxXb///9sx3tnxXj4/fn5/frb8t+O1JvX8NtvyH7H6c3e8+LD6MmL0pfL69HA58e047yM05im3bB9zYzp9+yc2aZ6spuJAAAAG3RSTlMAhkj38te7slIj+tFYC+2qqIRH7piUDNFbWkliDU9PAAACGElEQVQ4y32ViULCMAxA27EDNpmItyvOC29F///nbO5SkLKNHq9pmqSpy8p86ZvqdNL2VeOLuTtUiuPJEAYtk+PiX3TahYiGSMOEgL9uuhed1crRlxv1bJc9KgfCCIwfmVUe5ezJkEK2AlZPttlz7o40Y+mccJayntUkVlUw3Cf66rL6n0tXvWcl6aDGUHWtVopNausLJl12wB01+2J70UQjarEY8k5n21LKLDd+f96ihh2wS5lKgjLLje+r1Se1IE4W5A2SJxNlUmQBRjmLGJMTWzewQfQdnyP7dMsxOI9a6LokmR94mQ0sa+m8hiNVTAWTy+K8a3IfgJyU1a7QuEo0hC6zbS4XRivXi9j19wZQGRpfiQ3mn961Un1Z3b0NujlkH0gH+bSulbV/VpGmqrKpVwHupfV1DzQrTOx2ZIfeVRr0j0iHWMYPZPNjVrnGggjpr9hgFkfUcGA6z22jSe5arQAPO6XQLYgmEDsva5aWxnURA4lB/AGNcrNTAHuKgeQW6TmKNMqVdvq/gGQYNIxQ7ztkreiOblwsl7IOabL5VR/Dq5XODqw5Ot2SFTmwrs6Us7mJ8FqTjKZAHDRebRfKmaUvNR/N2c1JSdr1IVNVMKn6rZSr42IUfCQ9nGXJXEimzXqWzK1clzzMk2wb5dW+CyggoxaAxy6g3astcpk/uumhSzPNofmlmZeLAq7jtj2F6/giG/wDl/eh/uKLu88AAAAASUVORK5CYII=");
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: 0 center;
+}
+
+.public-popups .popups-content .popups-header .popups-desc {
+    width: 70%;
+    margin: 10px auto;
+    text-align: center;
+    font-size: 12px;
+}
+
+.public-popups .popups-content .popups-footer {
+    display: none;
+}
+
+.public-popups .popups-content .verify-container {
+    width: 80%;
+    margin: auto;
+}
+
+.public-popups .popups-content .verify-container .phone-number,.public-popups .popups-content .verify-container .phone-password {
+    display: block;
+    width: 100%;
+    border: 1px solid #dbdbdb;
+    -webkit-appearance: none;
+    outline: none;
+    padding: 10px 5%;
+    border-radius: 100px;
+    font-size: 14px;
+    box-sizing: border-box;
+}
+
+.public-popups .popups-content .verify-container .phone-password {
+    margin-top: 10px;
+}
+
+.public-popups .popups-content .verify-container .verify-par {
+    width: 100%;
+    margin-top: 10px;
+    overflow: hidden;
+}
+
+.public-popups .popups-content .verify-container .verify-par .verify-number {
+    float: left;
+    display: block;
+    width: 45%;
+    border: 1px solid #dbdbdb;
+    -webkit-appearance: none;
+    outline: none;
+    padding: 10px 5%;
+    border-radius: 100px;
+    font-size: 14px;
+    box-sizing: border-box;
+}
+
+.public-popups .popups-content .verify-container .verify-par .get-validate-num {
+    float: right;
+    width: 50%;
+    -webkit-appearance: none;
+    outline: none;
+    padding: 11px 5%;
+    border-radius: 100px;
+    font-size: 14px;
+    line-height: 16px;
+    box-sizing: border-box;
+    color: white;
+    background-color: #21bf46;
+    text-decoration: none;
+    text-align: center;
+}
+
+.public-popups .popups-content .verify-container .verify-par .get-validate-num.disabled {
+    background-color: #d1d1d1;
+}
+
+.public-popups .popups-content .verify-container .btn-verify {
+    margin-top: 15px;
+    display: block;
+    text-align: center;
+    width: 100%;
+    background-color: #ec584d;
+    color: #fff;
+    font-size: 16px;
+    border-radius: 100px;
+    padding: 10px 0;
+    text-decoration: none;
+}
+
+.public-popups .popups-content .download-in {
+    text-align: center;
+}
+
+.public-popups .popups-content .download-in .btn-download {
+    display: block;
+    margin: 15px auto;
+    text-align: center;
+    width: 60%;
+    background-color: #ee5748;
+    color: #fff;
+    font-size: 16px;
+    border-radius: 100px;
+    padding: 10px 0;
+    text-decoration: none;
+}
+
+.public-popups .popups-content .download-in .spec {
+    margin-top: 15px;
+    font-size: 12px;
+    color: #888;
+}
