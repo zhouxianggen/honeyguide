@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="8dip">
+
+    <EditText
+        android:id="@+id/title"
+        android:layout_width="fill_parent"
+        android:layout_height="60dip"
+        android:layout_marginTop="5dip"
+        android:singleLine="true"
+        android:hint="@string/hint_goods_title"/>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="60dip">
+
+        <EditText
+            android:id="@+id/price"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.65"
+            android:singleLine="true"
+            android:inputType="number"
+            android:hint="@string/hint_goods_price" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.1"
+            android:textSize="45sp"
+            android:gravity="center"
+            android:text="/" />
+
+        <Spinner
+            android:id="@+id/units"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.25" />
+
+        </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/images"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <Button
+            android:id="@+id/btn_add_image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/btn_add_image" />
+
+    </LinearLayout>
+
+    <CheckBox android:id="@+id/returnable"
+        android:layout_width="match_parent"
+        android:layout_height="50dip"
+        android:textSize="24sp"
+        android:text="@string/set_returnable" />
+
+</LinearLayout>

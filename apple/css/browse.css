@@ -1,0 +1,42 @@
+
+#gallery {
+	display: block;
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	overflow: hidden;
+}
+
+#gallery #card_list {
+	display: block;
+	position: absolute;
+	width: 100%;
+	height: auto;
+	list-style: none;
+}
+
+#gallery #card_list.floating {
+	transition: top 0.3s ease-out;
+	-moz-transition: top 0.3s ease-out;
+	-webkit-transition: top 0.3s ease-out;
+}
+
+#spinner1 {
+	display: block;
+	position: absolute;
+	height: 40px;
+	width: 100%;
+	background: transparent;
+	top: 0;
+	z-index: 100;
+}
+
+#spinner2 {
+	display: block;
+	position: absolute;
+	height: 40px;
+	width: 100%;
+	background: transparent;
+	bottom: 0;
+	z-index: 100;
+}

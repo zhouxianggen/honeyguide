@@ -1,4 +1,9 @@
 
+mysqldump -urw_yulin -pxakX7VmPk7Ef8 -h10.99.48.85 -P3308 app_vertical op_zhuanti > ~/backup/db/op_zhuanti.sql.151016
 mysqldump -uroot -pshenma123 -h10.99.20.92 -P3306 hg > hg.sql
 mysql -uzhouxg -pjustaguest -hhg2.c7dsdrfy4wfo.us-west-2.rds.amazonaws.com -P3306 hg2 <honeyguide/server/hg_server/data/hg.sql
 mysql -uzhouxg -pjustaguest -hhg2.c7dsdrfy4wfo.us-west-2.rds.amazonaws.com -P3306
+
+awk 'NR==FNR{a[$1];next}$1 in a{print $1}' file1 file2
+
+select count(*) from ods_sm_vertical_search_logdata_hour where day='20151025' and product='vt_appsite' and sc_type='main_item' and sc_pos=4;

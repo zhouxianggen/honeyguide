@@ -42,4 +42,15 @@
 
     <string name="toast_save_screen_shoot">已保存到：</string>
 
+    <string-array name="units">
+        <item>件</item>
+        <item>斤</item>
+        <item>两</item>
+    </string-array>
+
+    <string name="hint_goods_title">商品名称</string>
+    <string name="hint_goods_price">价格</string>
+    <string name="set_returnable">是否支持退货</string>
+    <string name="btn_add_image">添加图片</string>
+
 </resources>
